@@ -15,13 +15,13 @@ public struct AuthEditorView: View {
 
     public var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Picker("Authentication Type", selection: $auth.type) {
+            Picker("", selection: $auth.type) {
                 ForEach(AuthType.allCases, id: \.self) { type in
                     Text(type.rawValue).tag(type)
                 }
             }
             .pickerStyle(.segmented)
-            .frame(maxWidth: 400)
+            .labelsHidden()
 
             Divider()
 

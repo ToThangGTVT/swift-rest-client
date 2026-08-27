@@ -138,7 +138,7 @@ public struct ResponseViewerView: View {
             }
 
             // Response Tabs (Body, Headers, Sent Headers)
-            HStack {
+            HStack(spacing: 12) {
                 Picker("", selection: $tabVM.selectedResponseTab) {
                     ForEach(ResponseViewerTab.allCases) { tab in
                         if tab == .headers, let count = tabVM.response?.headers.count {
@@ -149,21 +149,21 @@ public struct ResponseViewerView: View {
                     }
                 }
                 .pickerStyle(.segmented)
-                .frame(maxWidth: 280)
+                .labelsHidden()
 
                 Spacer()
 
                 if tabVM.selectedResponseTab == .body && tabVM.response != nil {
-                    Picker("Mode", selection: $tabVM.responseViewMode) {
+                    Picker("", selection: $tabVM.responseViewMode) {
                         ForEach(ResponseViewMode.allCases) { mode in
                             Text(mode.rawValue).tag(mode)
                         }
                     }
                     .pickerStyle(.segmented)
-                    .frame(maxWidth: 200)
+                    .labelsHidden()
                 }
             }
-            .padding(.horizontal, 10)
+            .padding(.horizontal, 12)
             .padding(.vertical, 6)
 
             Divider()
