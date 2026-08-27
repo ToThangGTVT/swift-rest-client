@@ -196,7 +196,7 @@ public struct RequestDetailView: View {
         switch tab {
         case .params:
             let count = tabVM.request.urlParams.count
-            return count > 0 ? "Query Params (\(count))" : "Query Params"
+            return count > 0 ? "Params (\(count))" : "Params"
         case .headers:
             let count = tabVM.request.headers.count
             return count > 0 ? "Headers (\(count))" : "Headers"
@@ -223,11 +223,12 @@ public struct RequestDetailView: View {
                         }
                     }
                     .pickerStyle(.segmented)
-                    .frame(maxWidth: 520)
+                    .labelsHidden()
+                    .frame(maxWidth: 380)
 
                     Spacer()
                 }
-                .padding(.horizontal, 10)
+                .padding(.horizontal, 12)
                 .padding(.vertical, 4)
 
                 Divider()
@@ -238,18 +239,13 @@ public struct RequestDetailView: View {
                     RequestBodyEditorView(tabVM: tabVM)
                 case .params:
                     ParamsTableView(request: $tabVM.request)
+                        .padding(.horizontal, 8)
                 case .headers:
                     HeadersTableView(headers: $tabVM.request.headers)
+                        .padding(.horizontal, 8)
                 case .auth:
                     AuthEditorView(auth: $tabVM.request.auth)
-                case .formFields:
-                    KeyValueEditorTable(
-                        items: $tabVM.request.params,
-                        keyPlaceholder: "Field Name",
-                        valuePlaceholder: "Field Value"
-                    )
-                case .files:
-                    FilesTableView(files: $tabVM.request.files)
+                        .padding(.horizontal, 8)
                 }
             }
             .frame(minHeight: 220)
@@ -267,7 +263,7 @@ private struct WorkspaceTabBar: View {
     var body: some View {
         HStack(spacing: 0) {
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 2) {
+                HStack(spacing: 4) {
                     ForEach(workspaceVM.tabs) { tab in
                         TabButton(
                             tab: tab,
@@ -281,14 +277,14 @@ private struct WorkspaceTabBar: View {
                         )
                     }
                 }
-                .padding(.horizontal, 4)
-                .padding(.vertical, 3)
+                .padding(.horizontal, 8)
+                .padding(.vertical, 4)
             }
 
             Button(action: { workspaceVM.createNewTab() }) {
                 Image(systemName: "plus")
                     .font(.caption)
-                    .padding(5)
+                    .padding(6)
             }
             .buttonStyle(.plain)
             .help("New Tab (Cmd+T)")
@@ -315,7 +311,7 @@ private struct TabButton: View {
             Text(tab.tabTitle)
                 .font(.caption)
                 .lineLimit(1)
-                .frame(maxWidth: 140)
+                .frame(maxWidth: 160)
 
             if isHovering || isSelected {
                 Button(action: onClose) {
@@ -328,8 +324,8 @@ private struct TabButton: View {
                 Spacer().frame(width: 10)
             }
         }
-        .padding(.horizontal, 8)
-        .padding(.vertical, 4)
+        .padding(.horizontal, 10)
+        .padding(.vertical, 5)
         .background(isSelected ? Color(NSColor.controlBackgroundColor) : Color.clear)
         .cornerRadius(6)
         .overlay(

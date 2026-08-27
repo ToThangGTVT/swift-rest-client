@@ -42,8 +42,9 @@ public struct SavedRequestsSidebarView: View {
                 }
             }
             .pickerStyle(.segmented)
-            .padding(.horizontal, 10)
-            .padding(.vertical, 6)
+            .labelsHidden()
+            .padding(.horizontal, 12)
+            .padding(.vertical, 8)
 
             Divider()
 

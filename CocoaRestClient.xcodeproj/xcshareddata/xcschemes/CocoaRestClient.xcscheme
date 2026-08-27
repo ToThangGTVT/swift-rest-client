@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4E89D18406124FE5AC3F8A18"
+               BlueprintIdentifier = "2D3D228A86A64FCAA94745E8"
                BuildableName = "CocoaRestClient.app"
                BlueprintName = "CocoaRestClient"
                ReferencedContainer = "container:CocoaRestClient.xcodeproj">
@@ -32,7 +32,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "84DAD826A4B642A48990A897"
+               BlueprintIdentifier = "3653D349F5D54A6282F76AC9"
                BuildableName = "CocoaRestClientTests.xctest"
                BlueprintName = "CocoaRestClientTests"
                ReferencedContainer = "container:CocoaRestClient.xcodeproj">
@@ -54,7 +54,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4E89D18406124FE5AC3F8A18"
+            BlueprintIdentifier = "2D3D228A86A64FCAA94745E8"
             BuildableName = "CocoaRestClient.app"
             BlueprintName = "CocoaRestClient"
             ReferencedContainer = "container:CocoaRestClient.xcodeproj">
@@ -71,7 +71,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4E89D18406124FE5AC3F8A18"
+            BlueprintIdentifier = "2D3D228A86A64FCAA94745E8"
             BuildableName = "CocoaRestClient.app"
             BlueprintName = "CocoaRestClient"
             ReferencedContainer = "container:CocoaRestClient.xcodeproj">

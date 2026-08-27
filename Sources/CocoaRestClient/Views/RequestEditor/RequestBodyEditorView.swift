@@ -1,6 +1,6 @@
 //
 //  RequestBodyEditorView.swift
-//  CocoaRestClientApp
+//  CocoaRestClient
 //
 
 import SwiftUI
@@ -25,26 +25,33 @@ public struct RequestBodyEditorView: View {
     ]
 
     public var body: some View {
-        VStack(spacing: 8) {
+        VStack(spacing: 6) {
             // Body type picker & Actions bar
-            HStack {
-                Picker("Body Type", selection: $tabVM.request.bodyType) {
+            HStack(spacing: 12) {
+                Picker("", selection: $tabVM.request.bodyType) {
                     ForEach(RequestBodyType.allCases, id: \.self) { type in
                         Text(type.rawValue).tag(type)
                     }
                 }
                 .pickerStyle(.segmented)
-                .frame(maxWidth: 360)
+                .labelsHidden()
 
                 Spacer()
 
                 if tabVM.request.bodyType == .raw {
-                    Picker("Content-Type", selection: $tabVM.request.rawBodyContentType) {
-                        ForEach(commonContentTypes, id: \.self) { ct in
-                            Text(ct).tag(ct)
+                    HStack(spacing: 6) {
+                        Text("Content-Type:")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+
+                        Picker("", selection: $tabVM.request.rawBodyContentType) {
+                            ForEach(commonContentTypes, id: \.self) { ct in
+                                Text(ct).tag(ct)
+                            }
                         }
+                        .labelsHidden()
+                        .frame(width: 170)
                     }
-                    .frame(width: 180)
 
                     if tabVM.request.rawBodyContentType.contains("json") {
                         Button(action: { tabVM.formatRawBody() }) {
@@ -52,11 +59,11 @@ public struct RequestBodyEditorView: View {
                         }
                         .buttonStyle(.bordered)
                         .controlSize(.small)
-                        .help("Pretty Print JSON Body")
+                        .help("Pretty Print JSON Body (Cmd+Shift+F)")
                     }
                 }
             }
-            .padding(.horizontal, 10)
+            .padding(.horizontal, 12)
             .padding(.top, 6)
 
             Divider()
@@ -71,7 +78,7 @@ public struct RequestBodyEditorView: View {
                 )
                 .background(Color(NSColor.textBackgroundColor))
                 .cornerRadius(4)
-                .padding(.horizontal, 8)
+                .padding(.horizontal, 10)
                 .padding(.bottom, 6)
 
             case .formUrlEncoded:
@@ -80,6 +87,7 @@ public struct RequestBodyEditorView: View {
                     keyPlaceholder: "Parameter Key",
                     valuePlaceholder: "Parameter Value"
                 )
+                .padding(.horizontal, 10)
 
             case .multipart:
                 VStack(spacing: 8) {
@@ -87,7 +95,7 @@ public struct RequestBodyEditorView: View {
                         .font(.subheadline)
                         .fontWeight(.semibold)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal, 8)
+                        .padding(.horizontal, 12)
 
                     KeyValueEditorTable(
                         items: $tabVM.request.params,
@@ -95,6 +103,7 @@ public struct RequestBodyEditorView: View {
                         valuePlaceholder: "Field Value"
                     )
                     .frame(maxHeight: 180)
+                    .padding(.horizontal, 10)
 
                     Divider()
 
@@ -102,9 +111,10 @@ public struct RequestBodyEditorView: View {
                         .font(.subheadline)
                         .fontWeight(.semibold)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal, 8)
+                        .padding(.horizontal, 12)
 
                     FilesTableView(files: $tabVM.request.files)
+                        .padding(.horizontal, 10)
                 }
 
             case .binaryFile:
@@ -154,6 +164,7 @@ public struct RequestBodyEditorView: View {
                     variables: $tabVM.request.graphqlVariables,
                     fontSize: tabVM.fontSize
                 )
+                .padding(.horizontal, 10)
             }
         }
     }

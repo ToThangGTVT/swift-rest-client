@@ -9,12 +9,10 @@ import CocoaRestClientCore
 import AppKit
 
 public enum RequestEditorTab: String, CaseIterable, Identifiable {
-    case body = "Body"
     case params = "Query Params"
     case headers = "Headers"
+    case body = "Body"
     case auth = "Auth"
-    case formFields = "Form Data"
-    case files = "Files"
 
     public var id: String { rawValue }
 }
