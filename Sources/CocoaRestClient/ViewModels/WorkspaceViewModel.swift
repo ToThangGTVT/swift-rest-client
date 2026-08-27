@@ -1,6 +1,6 @@
 //
 //  WorkspaceViewModel.swift
-//  CocoaRestClientApp
+//  CocoaRestClient
 //
 
 import Foundation
@@ -12,8 +12,14 @@ public final class WorkspaceViewModel: ObservableObject {
     @Published public var selectedTabId: UUID?
     @Published public var showingFastSearch: Bool = false
     @Published public var showingDiffView: Bool = false
+    @Published public var showingCurlImport: Bool = false
+    @Published public var showingCodeGenerator: Bool = false
+    @Published public var showingEnvironmentManager: Bool = false
     @Published public var showingTimeoutSettings: Bool = false
     @Published public var isSidebarVisible: Bool = true
+
+    public let environmentVM = EnvironmentViewModel.shared
+    public let historyVM = HistoryViewModel.shared
 
     public init() {
         let initialTab = RequestTabViewModel()
@@ -39,7 +45,6 @@ public final class WorkspaceViewModel: ObservableObject {
 
     public func closeTab(withId id: UUID) {
         guard tabs.count > 1 else {
-            // Keep at least one tab open
             tabs = [RequestTabViewModel()]
             selectedTabId = tabs[0].id
             return

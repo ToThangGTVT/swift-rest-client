@@ -147,6 +147,13 @@ public struct RequestBodyEditorView: View {
                     }
                 }
                 .padding()
+
+            case .graphql:
+                GraphQLBodyEditorView(
+                    query: $tabVM.request.graphqlQuery,
+                    variables: $tabVM.request.graphqlVariables,
+                    fontSize: tabVM.fontSize
+                )
             }
         }
     }

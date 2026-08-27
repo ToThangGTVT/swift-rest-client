@@ -1,6 +1,6 @@
 //
 //  RequestTabViewModel.swift
-//  CocoaRestClientApp
+//  CocoaRestClient
 //
 
 import Foundation
@@ -45,6 +45,10 @@ public final class RequestTabViewModel: ObservableObject, Identifiable {
     @Published public var responseViewMode: ResponseViewMode = .pretty
     @Published public var fontSize: CGFloat = 13.0
     
+    // Response Search
+    @Published public var isResponseSearchPresented: Bool = false
+    @Published public var responseSearchText: String = ""
+
     private var lastExecutedRequest: RestRequest?
 
     public init(id: UUID = UUID(), request: RestRequest = RestRequest()) {
@@ -63,22 +67,34 @@ public final class RequestTabViewModel: ObservableObject, Identifiable {
     }
 
     @MainActor
-    public func sendRequest(options: NetworkOptions = PreferencesViewModel.shared.networkOptions) {
+    public func sendRequest(options: NetworkOptions? = nil) {
         guard !isLoading else { return }
         isLoading = true
         lastExecutedRequest = request
 
+        var netOptions = options ?? PreferencesViewModel.shared.networkOptions
+        netOptions.environment = EnvironmentViewModel.shared.activeVariables
+
         Task {
-            let res = await NetworkEngine.shared.execute(request: request, options: options)
+            let res = await NetworkEngine.shared.execute(request: request, options: netOptions)
             await MainActor.run {
                 self.response = res
                 self.isLoading = false
+
+                // Record into History
+                HistoryStore.shared.addEntry(
+                    request: self.request,
+                    statusCode: res.statusCode,
+                    latencyMs: res.latencyMs,
+                    responseSize: res.bodySize
+                )
+                HistoryViewModel.shared.refresh()
             }
         }
     }
 
     @MainActor
-    public func reloadLastRequest(options: NetworkOptions = PreferencesViewModel.shared.networkOptions) {
+    public func reloadLastRequest(options: NetworkOptions? = nil) {
         if let last = lastExecutedRequest {
             self.request = last
         }
@@ -86,10 +102,16 @@ public final class RequestTabViewModel: ObservableObject, Identifiable {
     }
 
     public func copyCurlCommand() {
-        let curl = CurlCommandGenerator.generate(from: request)
+        let env = EnvironmentViewModel.shared.activeVariables
+        let curl = CurlCommandGenerator.generate(from: request, environment: env)
         let pasteboard = NSPasteboard.general
         pasteboard.clearContents()
         pasteboard.setString(curl, forType: .string)
+    }
+
+    public func generateCode(language: CodeLanguage) -> String {
+        let env = EnvironmentViewModel.shared.activeVariables
+        return CodeGenerator.generate(language: language, request: request, environment: env)
     }
 
     public func formatRawBody() {
@@ -103,7 +125,7 @@ public final class RequestTabViewModel: ObservableObject, Identifiable {
     public func exportResponseToTempFile() -> URL? {
         guard let res = response, !res.bodyData.isEmpty else { return nil }
         let tempDir = FileManager.default.temporaryDirectory
-        let ext = res.contentType?.contains("json") == true ? "json" : (res.contentType?.contains("xml") == true ? "xml" : "txt")
+        let ext = res.contentType?.contains("json") == true ? "json" : (res.contentType?.contains("xml") == true ? "xml" : (res.isHtml ? "html" : "txt"))
         let fileUrl = tempDir.appendingPathComponent("response-\(Date().timeIntervalSince1970).\(ext)")
         try? res.bodyData.write(to: fileUrl)
         return fileUrl

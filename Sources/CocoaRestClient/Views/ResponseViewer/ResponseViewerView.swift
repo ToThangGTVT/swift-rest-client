@@ -1,6 +1,6 @@
 //
 //  ResponseViewerView.swift
-//  CocoaRestClientApp
+//  CocoaRestClient
 //
 
 import SwiftUI
@@ -26,7 +26,7 @@ public struct ResponseViewerView: View {
                     )
 
                     if !res.bodyData.isEmpty {
-                        Text(ResponseFormatter.formatBytes(res.bodyData.count))
+                        Text(res.bodySizeString)
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
@@ -53,9 +53,17 @@ public struct ResponseViewerView: View {
 
                 Spacer()
 
-                // Actions: Zoom, Export, Browser
+                // Actions: Search, Zoom, Export, Browser
                 if tabVM.response != nil {
                     HStack(spacing: 6) {
+                        Button(action: {
+                            tabVM.isResponseSearchPresented.toggle()
+                        }) {
+                            Image(systemName: "magnifyingglass")
+                        }
+                        .buttonStyle(.plain)
+                        .help("Find in Response (Cmd+F)")
+
                         Button(action: { tabVM.fontSize = max(9.0, tabVM.fontSize - 1.0) }) {
                             Image(systemName: "minus.magnifyingglass")
                         }
@@ -88,6 +96,47 @@ public struct ResponseViewerView: View {
 
             Divider()
 
+            // Response Search Bar (if activated)
+            if tabVM.isResponseSearchPresented {
+                HStack(spacing: 6) {
+                    Image(systemName: "magnifyingglass")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+
+                    TextField("Find in response...", text: $tabVM.responseSearchText)
+                        .textFieldStyle(.plain)
+                        .font(.caption)
+
+                    if !tabVM.responseSearchText.isEmpty {
+                        let matchesCount = countMatches(in: responseText(for: tabVM.response), query: tabVM.responseSearchText)
+                        Text("\(matchesCount) matches")
+                            .font(.caption2)
+                            .foregroundColor(.secondary)
+
+                        Button(action: { tabVM.responseSearchText = "" }) {
+                            Image(systemName: "xmark.circle.fill")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
+                        .buttonStyle(.plain)
+                    }
+
+                    Spacer()
+
+                    Button("Done") {
+                        tabVM.isResponseSearchPresented = false
+                    }
+                    .font(.caption)
+                    .buttonStyle(.bordered)
+                    .controlSize(.small)
+                }
+                .padding(.horizontal, 10)
+                .padding(.vertical, 4)
+                .background(Color(NSColor.controlBackgroundColor))
+
+                Divider()
+            }
+
             // Response Tabs (Body, Headers, Sent Headers)
             HStack {
                 Picker("", selection: $tabVM.selectedResponseTab) {
@@ -111,7 +160,7 @@ public struct ResponseViewerView: View {
                         }
                     }
                     .pickerStyle(.segmented)
-                    .frame(maxWidth: 160)
+                    .frame(maxWidth: 200)
                 }
             }
             .padding(.horizontal, 10)
@@ -138,20 +187,20 @@ public struct ResponseViewerView: View {
                 } else {
                     switch tabVM.selectedResponseTab {
                     case .body:
-                        let textBinding = Binding<String>(
-                            get: {
-                                if tabVM.responseViewMode == .raw {
-                                    return ResponseFormatter.decodePlainText(data: res.bodyData)
-                                }
-                                return res.formattedBody
-                            },
-                            set: { _ in }
-                        )
-                        SyntaxTextEditorView(
-                            text: textBinding,
-                            isEditable: false,
-                            fontSize: tabVM.fontSize
-                        )
+                        if tabVM.responseViewMode == .preview {
+                            if res.isImage {
+                                ImageViewerView(data: res.bodyData)
+                            } else if res.isHtml {
+                                HTMLPreviewView(
+                                    htmlString: ResponseFormatter.decodePlainText(data: res.bodyData),
+                                    baseURL: res.url
+                                )
+                            } else {
+                                textBodyEditor(res)
+                            }
+                        } else {
+                            textBodyEditor(res)
+                        }
 
                     case .headers:
                         ResponseHeadersView(headers: res.headers)
@@ -174,6 +223,43 @@ public struct ResponseViewerView: View {
         }
     }
 
+    @ViewBuilder
+    private func textBodyEditor(_ res: NetworkResponse) -> some View {
+        let textBinding = Binding<String>(
+            get: {
+                if tabVM.responseViewMode == .raw {
+                    return ResponseFormatter.decodePlainText(data: res.bodyData)
+                }
+                return res.formattedBody
+            },
+            set: { _ in }
+        )
+        SyntaxTextEditorView(
+            text: textBinding,
+            isEditable: false,
+            fontSize: tabVM.fontSize
+        )
+    }
+
+    private func responseText(for res: NetworkResponse?) -> String {
+        guard let res = res else { return "" }
+        if tabVM.responseViewMode == .raw {
+            return ResponseFormatter.decodePlainText(data: res.bodyData)
+        }
+        return res.formattedBody
+    }
+
+    private func countMatches(in text: String, query: String) -> Int {
+        guard !query.isEmpty else { return 0 }
+        var count = 0
+        var searchRange = text.startIndex..<text.endIndex
+        while let range = text.range(of: query, options: .caseInsensitive, range: searchRange) {
+            count += 1
+            searchRange = range.upperBound..<text.endIndex
+        }
+        return count
+    }
+
     private func openResponseInBrowser() {
         if let tempFile = tabVM.exportResponseToTempFile() {
             NSWorkspace.shared.open(tempFile)
@@ -184,7 +270,7 @@ public struct ResponseViewerView: View {
         guard let res = tabVM.response, !res.bodyData.isEmpty else { return }
         let panel = NSSavePanel()
         panel.canCreateDirectories = true
-        let ext = res.contentType?.contains("json") == true ? "json" : (res.contentType?.contains("xml") == true ? "xml" : "txt")
+        let ext = res.contentType?.contains("json") == true ? "json" : (res.contentType?.contains("xml") == true ? "xml" : (res.isHtml ? "html" : "txt"))
         panel.nameFieldStringValue = "response.\(ext)"
         if panel.runModal() == .OK, let url = panel.url {
             try? res.bodyData.write(to: url)

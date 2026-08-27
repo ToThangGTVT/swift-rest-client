@@ -1,6 +1,6 @@
 //
 //  RequestHeaderBar.swift
-//  CocoaRestClientApp
+//  CocoaRestClient
 //
 
 import SwiftUI
@@ -9,10 +9,16 @@ import CocoaRestClientCore
 public struct RequestHeaderBar: View {
     @ObservedObject public var tabVM: RequestTabViewModel
     public var onSave: () -> Void
+    public var onOpenCodeGenerator: () -> Void
 
-    public init(tabVM: RequestTabViewModel, onSave: @escaping () -> Void) {
+    public init(
+        tabVM: RequestTabViewModel,
+        onSave: @escaping () -> Void,
+        onOpenCodeGenerator: @escaping () -> Void = {}
+    ) {
         self.tabVM = tabVM
         self.onSave = onSave
+        self.onOpenCodeGenerator = onOpenCodeGenerator
     }
 
     private var methodColor: Color {
@@ -44,6 +50,15 @@ public struct RequestHeaderBar: View {
                 TextField("https://api.example.com/resource", text: $tabVM.request.url)
                     .textFieldStyle(.plain)
                     .font(.system(.body, design: .monospaced))
+                    .onChange(of: tabVM.request.url) { newUrl in
+                        // Auto-detect pasted cURL command in URL bar
+                        let trimmed = newUrl.trimmingCharacters(in: .whitespacesAndNewlines)
+                        if trimmed.lowercased().hasPrefix("curl ") {
+                            if let parsed = try? CurlParser.parse(trimmed) {
+                                tabVM.request = parsed
+                            }
+                        }
+                    }
                     .onSubmit {
                         tabVM.sendRequest()
                     }
@@ -83,6 +98,13 @@ public struct RequestHeaderBar: View {
             .tint(.accentColor)
             .keyboardShortcut(.return, modifiers: [.command])
             .disabled(tabVM.isLoading || tabVM.request.url.isEmpty)
+
+            // Code Snippets Button
+            Button(action: onOpenCodeGenerator) {
+                Image(systemName: "curlybraces")
+            }
+            .buttonStyle(.bordered)
+            .help("Generate Code Snippets (Cmd+Shift+G)")
 
             // Copy cURL Button
             Button(action: { tabVM.copyCurlCommand() }) {

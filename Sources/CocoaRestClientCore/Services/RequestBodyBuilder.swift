@@ -104,6 +104,19 @@ public struct RequestBodyBuilder: Sendable {
             let fileUrl = URL(fileURLWithPath: request.binaryFilePath)
             let data = try? Data(contentsOf: fileUrl)
             return RequestBodyResult(data: data, contentType: "application/octet-stream")
+
+        case .graphql:
+            let resolvedQuery = EnvironmentVariableResolver.resolve(request.graphqlQuery, environment: environment)
+            let resolvedVars = EnvironmentVariableResolver.resolve(request.graphqlVariables, environment: environment)
+            
+            var payload: [String: Any] = ["query": resolvedQuery]
+            if let varsData = resolvedVars.data(using: .utf8),
+               let jsonVars = try? JSONSerialization.jsonObject(with: varsData) {
+                payload["variables"] = jsonVars
+            }
+            
+            let jsonData = try? JSONSerialization.data(withJSONObject: payload, options: [.prettyPrinted])
+            return RequestBodyResult(data: jsonData, contentType: "application/json")
         }
     }
 

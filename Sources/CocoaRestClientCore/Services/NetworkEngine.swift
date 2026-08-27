@@ -70,6 +70,38 @@ public struct NetworkResponse: Identifiable, Sendable {
     public var isSuccess: Bool {
         statusCode >= 200 && statusCode < 300
     }
+
+    public var bodySize: Int {
+        bodyData.count
+    }
+
+    public var bodySizeString: String {
+        let size = bodyData.count
+        if size == 0 { return "0 B" }
+        if size < 1024 { return "\(size) B" }
+        if size < 1024 * 1024 { return String(format: "%.1f KB", Double(size) / 1024.0) }
+        return String(format: "%.1f MB", Double(size) / (1024.0 * 1024.0))
+    }
+
+    public var isImage: Bool {
+        guard let ct = contentType?.lowercased() else { return false }
+        return ct.contains("image/")
+    }
+
+    public var isHtml: Bool {
+        guard let ct = contentType?.lowercased() else { return false }
+        return ct.contains("text/html") || ct.contains("application/xhtml")
+    }
+
+    public var isJson: Bool {
+        guard let ct = contentType?.lowercased() else { return false }
+        return ct.contains("json")
+    }
+
+    public var isXml: Bool {
+        guard let ct = contentType?.lowercased() else { return false }
+        return ct.contains("xml")
+    }
 }
 
 public final class NetworkEngine: NSObject, Sendable, URLSessionTaskDelegate, URLSessionDataDelegate {

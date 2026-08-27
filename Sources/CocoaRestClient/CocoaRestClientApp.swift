@@ -1,6 +1,6 @@
 //
 //  CocoaRestClientApp.swift
-//  CocoaRestClientApp
+//  CocoaRestClient
 //
 
 import SwiftUI
@@ -11,7 +11,7 @@ struct CocoaRestClientApp: App {
     var body: some Scene {
         WindowGroup {
             MainView()
-                .frame(minWidth: 850, minHeight: 600)
+                .frame(minWidth: 880, minHeight: 620)
         }
         .commands {
             SidebarCommands()
@@ -38,6 +38,13 @@ struct CocoaRestClientApp: App {
                     NotificationCenter.default.post(name: .quickOpenNotification, object: nil)
                 }
                 .keyboardShortcut("o", modifiers: [.command])
+
+                Divider()
+
+                Button("Import from cURL...") {
+                    NotificationCenter.default.post(name: .importCurlNotification, object: nil)
+                }
+                .keyboardShortcut("i", modifiers: [.command, .shift])
             }
 
             CommandMenu("Request") {
@@ -58,6 +65,11 @@ struct CocoaRestClientApp: App {
                 }
                 .keyboardShortcut("c", modifiers: [.command, .shift])
 
+                Button("Generate Code Snippets...") {
+                    NotificationCenter.default.post(name: .codeGeneratorNotification, object: nil)
+                }
+                .keyboardShortcut("g", modifiers: [.command, .shift])
+
                 Button("Format JSON Body") {
                     NotificationCenter.default.post(name: .formatBodyNotification, object: nil)
                 }
@@ -69,6 +81,13 @@ struct CocoaRestClientApp: App {
                     NotificationCenter.default.post(name: .diffResponsesNotification, object: nil)
                 }
                 .keyboardShortcut("d", modifiers: [.command])
+
+                Divider()
+
+                Button("Manage Environments...") {
+                    NotificationCenter.default.post(name: .environmentManagerNotification, object: nil)
+                }
+                .keyboardShortcut("e", modifiers: [.command, .shift])
             }
         }
 
@@ -88,4 +107,7 @@ public extension Notification.Name {
     static let copyCurlNotification = Notification.Name("CRC.copyCurl")
     static let formatBodyNotification = Notification.Name("CRC.formatBody")
     static let diffResponsesNotification = Notification.Name("CRC.diffResponses")
+    static let importCurlNotification = Notification.Name("CRC.importCurl")
+    static let codeGeneratorNotification = Notification.Name("CRC.codeGenerator")
+    static let environmentManagerNotification = Notification.Name("CRC.environmentManager")
 }

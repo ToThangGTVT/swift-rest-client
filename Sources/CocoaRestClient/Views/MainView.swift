@@ -1,6 +1,6 @@
 //
 //  MainView.swift
-//  CocoaRestClientApp
+//  CocoaRestClient
 //
 
 import SwiftUI
@@ -10,6 +10,7 @@ public struct MainView: View {
     @StateObject public var workspaceVM = WorkspaceViewModel()
     @StateObject public var savedVM = SavedRequestsViewModel()
     @ObservedObject public var prefVM = PreferencesViewModel.shared
+    @ObservedObject public var envVM = EnvironmentViewModel.shared
 
     public init() {}
 
@@ -22,7 +23,7 @@ public struct MainView: View {
                     workspaceVM.openSavedRequest(req)
                 }
             )
-            .navigationSplitViewColumnWidth(min: 200, ideal: 260, max: 380)
+            .navigationSplitViewColumnWidth(min: 220, ideal: 270, max: 380)
         } detail: {
             VStack(spacing: 0) {
                 // Tab Bar
@@ -35,6 +36,9 @@ public struct MainView: View {
                         tabVM: currentTab,
                         onSave: {
                             savedVM.showingSaveSheet = true
+                        },
+                        onOpenCodeGenerator: {
+                            workspaceVM.showingCodeGenerator = true
                         }
                     )
                 } else {
@@ -53,6 +57,19 @@ public struct MainView: View {
         .sheet(isPresented: $workspaceVM.showingDiffView) {
             DiffSheetView(workspaceVM: workspaceVM)
         }
+        .sheet(isPresented: $workspaceVM.showingCurlImport) {
+            CurlImportSheetView { importedReq in
+                workspaceVM.createNewTab(with: importedReq)
+            }
+        }
+        .sheet(isPresented: $workspaceVM.showingCodeGenerator) {
+            if let tab = workspaceVM.selectedTab {
+                CodeGeneratorSheetView(request: tab.request)
+            }
+        }
+        .sheet(isPresented: $envVM.showingEnvironmentSheet) {
+            EnvironmentManagerSheetView(envVM: envVM)
+        }
         .sheet(isPresented: $savedVM.showingExportImportSheet) {
             ExportImportSheetView(savedVM: savedVM)
         }
@@ -63,16 +80,56 @@ public struct MainView: View {
         }
         .toolbar {
             ToolbarItemGroup(placement: .automatic) {
+                // Environment Selector
+                Menu {
+                    ForEach(envVM.environments) { env in
+                        Button(action: { envVM.selectedEnvironmentId = env.id }) {
+                            HStack {
+                                Text(env.name)
+                                if env.id == envVM.selectedEnvironmentId {
+                                    Image(systemName: "checkmark")
+                                }
+                            }
+                        }
+                    }
+                    Divider()
+                    Button("Manage Environments...") {
+                        envVM.showingEnvironmentSheet = true
+                    }
+                } label: {
+                    HStack(spacing: 4) {
+                        Image(systemName: "globe")
+                        Text(envVM.activeEnvironment?.name ?? "No Environment")
+                            .font(.caption)
+                    }
+                }
+                .help("Select Active Environment")
+
+                // Import cURL
+                Button(action: { workspaceVM.showingCurlImport = true }) {
+                    Label("Import cURL", systemImage: "square.and.arrow.down")
+                }
+                .help("Import from cURL Command (Cmd+Shift+I)")
+
+                // Code Snippets
+                Button(action: { workspaceVM.showingCodeGenerator = true }) {
+                    Label("Code Snippets", systemImage: "curlybraces")
+                }
+                .help("Generate Code Snippets (Cmd+Shift+G)")
+
+                // Quick Open
                 Button(action: { workspaceVM.showingFastSearch = true }) {
                     Label("Quick Open", systemImage: "magnifyingglass")
                 }
                 .help("Quick Open Saved Request (Cmd+O)")
 
+                // Diff Responses
                 Button(action: { workspaceVM.showingDiffView = true }) {
                     Label("Diff Responses", systemImage: "square.split.2x1")
                 }
                 .help("Compare Two Responses (Cmd+D)")
 
+                // New Tab
                 Button(action: { workspaceVM.createNewTab() }) {
                     Label("New Tab", systemImage: "plus")
                 }
@@ -108,16 +165,31 @@ public struct MainView: View {
         .onReceive(NotificationCenter.default.publisher(for: .diffResponsesNotification)) { _ in
             workspaceVM.showingDiffView = true
         }
+        .onReceive(NotificationCenter.default.publisher(for: .importCurlNotification)) { _ in
+            workspaceVM.showingCurlImport = true
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .codeGeneratorNotification)) { _ in
+            workspaceVM.showingCodeGenerator = true
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .environmentManagerNotification)) { _ in
+            envVM.showingEnvironmentSheet = true
+        }
     }
 }
 
 public struct RequestDetailView: View {
     @ObservedObject public var tabVM: RequestTabViewModel
     public var onSave: () -> Void
+    public var onOpenCodeGenerator: () -> Void
 
-    public init(tabVM: RequestTabViewModel, onSave: @escaping () -> Void) {
+    public init(
+        tabVM: RequestTabViewModel,
+        onSave: @escaping () -> Void,
+        onOpenCodeGenerator: @escaping () -> Void = {}
+    ) {
         self.tabVM = tabVM
         self.onSave = onSave
+        self.onOpenCodeGenerator = onOpenCodeGenerator
     }
 
     private func tabTitle(for tab: RequestEditorTab) -> String {
@@ -137,7 +209,11 @@ public struct RequestDetailView: View {
         VSplitView {
             // Top Pane: Request Editor
             VStack(spacing: 0) {
-                RequestHeaderBar(tabVM: tabVM, onSave: onSave)
+                RequestHeaderBar(
+                    tabVM: tabVM,
+                    onSave: onSave,
+                    onOpenCodeGenerator: onOpenCodeGenerator
+                )
 
                 // Request Tabs Segmented Control
                 HStack {
@@ -147,7 +223,7 @@ public struct RequestDetailView: View {
                         }
                     }
                     .pickerStyle(.segmented)
-                    .frame(maxWidth: 480)
+                    .frame(maxWidth: 520)
 
                     Spacer()
                 }

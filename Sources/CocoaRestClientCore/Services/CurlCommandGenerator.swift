@@ -85,6 +85,19 @@ public struct CurlCommandGenerator: Sendable {
             if !request.binaryFilePath.isEmpty {
                 parts.append("--data-binary '@\(request.binaryFilePath)'")
             }
+        case .graphql:
+            let resolvedQuery = EnvironmentVariableResolver.resolve(request.graphqlQuery, environment: environment)
+            let resolvedVars = EnvironmentVariableResolver.resolve(request.graphqlVariables, environment: environment)
+            var payload: [String: Any] = ["query": resolvedQuery]
+            if let varsData = resolvedVars.data(using: .utf8),
+               let jsonVars = try? JSONSerialization.jsonObject(with: varsData) {
+                payload["variables"] = jsonVars
+            }
+            if let jsonData = try? JSONSerialization.data(withJSONObject: payload, options: []),
+               let jsonStr = String(data: jsonData, encoding: .utf8) {
+                let escaped = jsonStr.replacingOccurrences(of: "'", with: "'\\''")
+                parts.append("-d '\(escaped)'")
+            }
         }
         
         let resolvedUrl = EnvironmentVariableResolver.resolve(request.url, environment: environment)

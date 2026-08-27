@@ -10,6 +10,7 @@ public enum RequestBodyType: String, Codable, CaseIterable, Sendable {
     case formUrlEncoded = "Form URL Encoded"
     case multipart = "Multipart"
     case binaryFile = "Binary File"
+    case graphql = "GraphQL"
 }
 
 public struct RestRequest: Identifiable, Codable, Hashable, Sendable {
@@ -26,6 +27,8 @@ public struct RestRequest: Identifiable, Codable, Hashable, Sendable {
     public var rawBody: String
     public var rawBodyContentType: String
     public var binaryFilePath: String
+    public var graphqlQuery: String
+    public var graphqlVariables: String
 
     public init(
         id: UUID = UUID(),
@@ -43,7 +46,9 @@ public struct RestRequest: Identifiable, Codable, Hashable, Sendable {
         bodyType: RequestBodyType = .raw,
         rawBody: String = "",
         rawBodyContentType: String = "application/json",
-        binaryFilePath: String = ""
+        binaryFilePath: String = "",
+        graphqlQuery: String = "",
+        graphqlVariables: String = "{}"
     ) {
         self.id = id
         self.name = name
@@ -58,6 +63,8 @@ public struct RestRequest: Identifiable, Codable, Hashable, Sendable {
         self.rawBody = rawBody
         self.rawBodyContentType = rawBodyContentType
         self.binaryFilePath = binaryFilePath
+        self.graphqlQuery = graphqlQuery
+        self.graphqlVariables = graphqlVariables
     }
 
     public func duplicate(withName newName: String? = nil) -> RestRequest {
@@ -170,6 +177,8 @@ public struct RestRequest: Identifiable, Codable, Hashable, Sendable {
             return rawBodyContentType
         case .binaryFile:
             return "application/octet-stream"
+        case .graphql:
+            return "application/json"
         }
     }
 }

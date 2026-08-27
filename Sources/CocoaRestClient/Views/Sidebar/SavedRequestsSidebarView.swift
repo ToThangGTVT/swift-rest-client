@@ -1,16 +1,24 @@
 //
 //  SavedRequestsSidebarView.swift
-//  CocoaRestClientApp
+//  CocoaRestClient
 //
 
 import SwiftUI
 import CocoaRestClientCore
+
+public enum SidebarTab: String, CaseIterable, Identifiable {
+    case saved = "Saved"
+    case history = "History"
+
+    public var id: String { rawValue }
+}
 
 public struct SavedRequestsSidebarView: View {
     @ObservedObject public var savedVM: SavedRequestsViewModel
     public var onSelectRequest: (RestRequest) -> Void
     public var currentRequest: RestRequest
 
+    @State private var selectedSidebarTab: SidebarTab = .saved
     @State private var showingNewFolderAlert: Bool = false
     @State private var newFolderName: String = "New Folder"
     @State private var targetFolderIdForNewFolder: UUID? = nil
@@ -27,7 +35,40 @@ public struct SavedRequestsSidebarView: View {
 
     public var body: some View {
         VStack(spacing: 0) {
-            // Search & Action Header
+            // Mode Switcher (Saved vs History)
+            Picker("", selection: $selectedSidebarTab) {
+                ForEach(SidebarTab.allCases) { tab in
+                    Text(tab.rawValue).tag(tab)
+                }
+            }
+            .pickerStyle(.segmented)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 6)
+
+            Divider()
+
+            if selectedSidebarTab == .history {
+                HistorySidebarView(onSelectHistoryItem: onSelectRequest)
+            } else {
+                savedRequestsContent
+            }
+        }
+        .alert("Create New Folder", isPresented: $showingNewFolderAlert) {
+            TextField("Folder Name", text: $newFolderName)
+            Button("Create") {
+                savedVM.createFolder(name: newFolderName, intoFolderId: targetFolderIdForNewFolder)
+                newFolderName = "New Folder"
+            }
+            Button("Cancel", role: .cancel) {
+                newFolderName = "New Folder"
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var savedRequestsContent: some View {
+        VStack(spacing: 0) {
+            // Search Bar
             HStack(spacing: 6) {
                 Image(systemName: "magnifyingglass")
                     .foregroundColor(.secondary)
@@ -121,16 +162,6 @@ public struct SavedRequestsSidebarView: View {
             }
             .padding(8)
             .background(Color(NSColor.windowBackgroundColor))
-        }
-        .alert("Create New Folder", isPresented: $showingNewFolderAlert) {
-            TextField("Folder Name", text: $newFolderName)
-            Button("Create") {
-                savedVM.createFolder(name: newFolderName, intoFolderId: targetFolderIdForNewFolder)
-                newFolderName = "New Folder"
-            }
-            Button("Cancel", role: .cancel) {
-                newFolderName = "New Folder"
-            }
         }
     }
 
