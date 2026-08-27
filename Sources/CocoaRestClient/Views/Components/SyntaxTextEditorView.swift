@@ -161,13 +161,13 @@ public final class LineNumberRulerView: NSRulerView {
         bgColor.setFill()
         bounds.fill()
 
-        // Right divider line
-        let separatorColor = NSColor.separatorColor.withAlphaComponent(0.4)
+        // Right divider line (very soft and subtle)
+        let separatorColor = NSColor.separatorColor.withAlphaComponent(0.12)
         separatorColor.setStroke()
         let path = NSBezierPath()
         path.move(to: NSPoint(x: bounds.maxX - 0.5, y: bounds.minY))
         path.line(to: NSPoint(x: bounds.maxX - 0.5, y: bounds.maxY))
-        path.lineWidth = 1.0
+        path.lineWidth = 0.5
         path.stroke()
 
         let visibleRect = scrollView?.contentView.bounds ?? textView.visibleRect
@@ -179,7 +179,7 @@ public final class LineNumberRulerView: NSRulerView {
 
         let numAttrs: [NSAttributedString.Key: Any] = [
             .font: rulerFont,
-            .foregroundColor: NSColor.secondaryLabelColor.withAlphaComponent(0.8)
+            .foregroundColor: NSColor.secondaryLabelColor.withAlphaComponent(0.5)
         ]
 
         guard textLength > 0 else {
@@ -246,7 +246,7 @@ private struct ColorSchemeHelper {
             if appearance.bestMatch(from: [.darkAqua, .aqua]) == .darkAqua {
                 return NSColor(calibratedRed: 0.12, green: 0.12, blue: 0.13, alpha: 1.0)
             } else {
-                return NSColor(calibratedRed: 0.96, green: 0.96, blue: 0.97, alpha: 1.0)
+                return NSColor(calibratedRed: 0.97, green: 0.97, blue: 0.98, alpha: 1.0)
             }
         }
     }
