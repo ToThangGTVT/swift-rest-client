@@ -32,7 +32,7 @@ public struct SyntaxTextEditorView: NSViewRepresentable {
     public func makeNSView(context: Context) -> NSScrollView {
         let scrollView = NSScrollView()
         scrollView.hasVerticalScroller = true
-        scrollView.hasHorizontalScroller = true
+        scrollView.hasHorizontalScroller = false
         scrollView.autohidesScrollers = true
         scrollView.borderType = .noBorder
 
@@ -47,13 +47,21 @@ public struct SyntaxTextEditorView: NSViewRepresentable {
         textView.isAutomaticTextReplacementEnabled = false
         textView.isAutomaticSpellingCorrectionEnabled = false
         
+        // Enforce word wrapping always
+        textView.isHorizontallyResizable = false
+        textView.isVerticallyResizable = true
+        textView.autoresizingMask = [.width]
+        
         let font = NSFont.monospacedSystemFont(ofSize: fontSize, weight: .regular)
         textView.font = font
         textView.delegate = context.coordinator
-        textView.autoresizingMask = [.width]
-        textView.textContainer?.containerSize = NSSize(width: scrollView.contentSize.width, height: CGFloat.greatestFiniteMagnitude)
-        textView.textContainer?.widthTracksTextView = true
-        textView.textContainerInset = NSSize(width: 6, height: 6)
+        
+        if let container = textView.textContainer {
+            container.containerSize = NSSize(width: scrollView.contentSize.width, height: CGFloat.greatestFiniteMagnitude)
+            container.widthTracksTextView = true
+            container.lineFragmentPadding = 4
+        }
+        textView.textContainerInset = NSSize(width: 12, height: 8)
         
         scrollView.documentView = textView
         context.coordinator.textView = textView
@@ -119,7 +127,7 @@ public final class LineNumberRulerView: NSRulerView {
         self.rulerFont = NSFont.monospacedDigitSystemFont(ofSize: max(9.0, fontSize - 2.0), weight: .regular)
         super.init(scrollView: textView.enclosingScrollView, orientation: .verticalRuler)
         self.clientView = textView
-        self.ruleThickness = 38.0
+        self.ruleThickness = 42.0
         
         NotificationCenter.default.addObserver(self, selector: #selector(redrawRuler), name: NSText.didChangeNotification, object: textView)
         NotificationCenter.default.addObserver(self, selector: #selector(redrawRuler), name: NSView.frameDidChangeNotification, object: textView)
@@ -194,7 +202,7 @@ public final class LineNumberRulerView: NSRulerView {
 
         // Estimate total lines to size thickness
         let totalLinesEstimate = max(lineNumber + 50, (textString.components(separatedBy: "\n").count))
-        let requiredWidth = max(38.0, CGFloat("\(totalLinesEstimate)".count) * 8.5 + 16.0)
+        let requiredWidth = max(42.0, CGFloat("\(totalLinesEstimate)".count) * 8.5 + 18.0)
         if abs(self.ruleThickness - requiredWidth) > 2.0 {
             DispatchQueue.main.async {
                 self.ruleThickness = requiredWidth
