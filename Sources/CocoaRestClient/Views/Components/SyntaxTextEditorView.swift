@@ -147,6 +147,11 @@ public final class LineNumberRulerView: NSRulerView {
         super.init(scrollView: textView.enclosingScrollView, orientation: .verticalRuler)
         self.clientView = textView
         self.ruleThickness = 42.0
+        if #available(macOS 14.0, *) {
+            // Defaults to false on macOS 14+. Nothing up the hierarchy clips either,
+            // so without this any stray drawing lands on neighbouring views.
+            self.clipsToBounds = true
+        }
 
         NotificationCenter.default.addObserver(self, selector: #selector(textChanged), name: NSText.didChangeNotification, object: textView)
         NotificationCenter.default.addObserver(self, selector: #selector(redrawRuler), name: NSView.frameDidChangeNotification, object: textView)
@@ -229,17 +234,21 @@ public final class LineNumberRulerView: NSRulerView {
               let layoutManager = textView.layoutManager,
               let textContainer = textView.textContainer else { return }
 
-        // Background
+        // Background. Clamped to the ruler's own bounds: the dirty rect AppKit hands
+        // us covers the whole window (nothing in the hierarchy clips), and
+        // `visibleRect` resolves to the window too, so either one paints far outside
+        // the gutter.
+        let paintRect = rect.isEmpty ? bounds : bounds.intersection(rect)
         let bgColor = ColorSchemeHelper.rulerBackgroundColor
         bgColor.setFill()
-        bounds.fill()
+        paintRect.fill()
 
         // Right divider line (very soft and subtle)
         let separatorColor = NSColor.separatorColor.withAlphaComponent(0.12)
         separatorColor.setStroke()
         let path = NSBezierPath()
-        path.move(to: NSPoint(x: bounds.maxX - 0.5, y: bounds.minY))
-        path.line(to: NSPoint(x: bounds.maxX - 0.5, y: bounds.maxY))
+        path.move(to: NSPoint(x: bounds.maxX - 0.5, y: paintRect.minY))
+        path.line(to: NSPoint(x: bounds.maxX - 0.5, y: paintRect.maxY))
         path.lineWidth = 0.5
         path.stroke()
 
@@ -251,7 +260,11 @@ public final class LineNumberRulerView: NSRulerView {
             .foregroundColor: NSColor.secondaryLabelColor.withAlphaComponent(0.5)
         ]
 
-        let inset = textView.textContainerInset.height
+        // Ruler drawing happens in this view's coordinates while the layout manager
+        // reports line rects in the text view's. Without this offset the numbers only
+        // line up while the document is scrolled to the top.
+        let textOrigin = convert(NSPoint.zero, from: textView)
+        let inset = textOrigin.y + textView.textContainerInset.height
 
         guard textLength > 0 else {
             let str = "1" as NSString
