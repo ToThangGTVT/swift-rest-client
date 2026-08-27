@@ -35,6 +35,11 @@ public struct SavedRequestsSidebarView: View {
 
     public var body: some View {
         VStack(spacing: 0) {
+            // Workspace Switcher & Git Sync Header
+            WorkspaceSwitcherHeaderView()
+
+            Divider()
+
             // Mode Switcher (Saved vs History)
             Picker("", selection: $selectedSidebarTab) {
                 ForEach(SidebarTab.allCases) { tab in

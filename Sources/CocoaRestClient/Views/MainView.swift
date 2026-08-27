@@ -8,7 +8,8 @@ import CocoaRestClientCore
 
 public struct MainView: View {
     @StateObject public var workspaceVM = WorkspaceViewModel()
-    @StateObject public var savedVM = SavedRequestsViewModel()
+    @ObservedObject public var savedVM = SavedRequestsViewModel.shared
+    @ObservedObject public var wsManagerVM = WorkspaceManagerViewModel.shared
     @ObservedObject public var prefVM = PreferencesViewModel.shared
     @ObservedObject public var envVM = EnvironmentViewModel.shared
 
@@ -87,6 +88,12 @@ public struct MainView: View {
         }
         .sheet(isPresented: $showingCookieManager) {
             CookieManagerSheetView()
+        }
+        .sheet(isPresented: $wsManagerVM.showingWorkspaceManagerSheet) {
+            WorkspaceManagerSheetView()
+        }
+        .sheet(isPresented: $wsManagerVM.showingCloneWorkspaceSheet) {
+            CloneWorkspaceSheetView()
         }
         .sheet(isPresented: $showingRealtimeConsole) {
             VStack(spacing: 0) {

@@ -8,7 +8,10 @@ import SwiftUI
 import CocoaRestClientCore
 import UniformTypeIdentifiers
 
+@MainActor
 public final class SavedRequestsViewModel: ObservableObject {
+    public static let shared = SavedRequestsViewModel()
+
     @Published public var rootFolder: RequestFolder
     @Published public var searchQuery: String = ""
     @Published public var selectedItemId: UUID?
@@ -17,11 +20,20 @@ public final class SavedRequestsViewModel: ObservableObject {
     @Published public var saveSheetRequestName: String = ""
 
     public init() {
-        self.rootFolder = SavedRequestsStore.shared.loadRootFolder()
+        let activeWsId = WorkspaceStore.shared.getActiveWorkspaceId()
+        let workspaces = WorkspaceStore.shared.loadWorkspaces()
+        let activeWs = workspaces.first(where: { $0.id == activeWsId }) ?? workspaces.first ?? WorkspaceModel()
+        self.rootFolder = WorkspaceStore.shared.loadCollections(for: activeWs)
     }
 
     public func persist() {
+        let activeWsId = WorkspaceStore.shared.getActiveWorkspaceId()
+        let workspaces = WorkspaceStore.shared.loadWorkspaces()
+        if let activeWs = workspaces.first(where: { $0.id == activeWsId }) {
+            WorkspaceStore.shared.saveCollections(rootFolder, for: activeWs)
+        }
         SavedRequestsStore.shared.saveRootFolder(rootFolder)
+        WorkspaceManagerViewModel.shared.refreshGitStatus()
     }
 
     public func addRequest(_ request: RestRequest, intoFolderId targetFolderId: UUID? = nil) {
