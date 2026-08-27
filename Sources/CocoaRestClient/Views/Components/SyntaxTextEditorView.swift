@@ -5,6 +5,7 @@
 
 import SwiftUI
 import AppKit
+import CocoaRestClientCore
 
 public struct SyntaxTextEditorView: NSViewRepresentable {
     @Binding public var text: String
@@ -65,23 +66,33 @@ public struct SyntaxTextEditorView: NSViewRepresentable {
             context.coordinator.rulerView = rulerView
         }
         
-        textView.string = text
+        let attributed = SyntaxHighlighter.highlight(
+            text: text,
+            fontSize: fontSize,
+            appearance: textView.effectiveAppearance
+        )
+        textView.textStorage?.setAttributedString(attributed)
         return scrollView
     }
 
     public func updateNSView(_ nsView: NSScrollView, context: Context) {
         guard let textView = nsView.documentView as? NSTextView else { return }
-        if textView.string != text {
-            textView.string = text
+        let currentFont = textView.font ?? NSFont.monospacedSystemFont(ofSize: fontSize, weight: .regular)
+        let fontChanged = currentFont.pointSize != fontSize
+
+        if textView.string != text || fontChanged {
+            let attributed = SyntaxHighlighter.highlight(
+                text: text,
+                fontSize: fontSize,
+                appearance: textView.effectiveAppearance
+            )
+            textView.textStorage?.setAttributedString(attributed)
             context.coordinator.rulerView?.needsDisplay = true
+            if fontChanged {
+                context.coordinator.rulerView?.updateFont(size: max(9.0, fontSize - 2.0))
+            }
         }
         textView.isEditable = isEditable
-        let currentFont = textView.font ?? NSFont.monospacedSystemFont(ofSize: fontSize, weight: .regular)
-        if currentFont.pointSize != fontSize {
-            let newFont = NSFont.monospacedSystemFont(ofSize: fontSize, weight: .regular)
-            textView.font = newFont
-            context.coordinator.rulerView?.updateFont(size: max(9.0, fontSize - 2.0))
-        }
     }
 
     public class Coordinator: NSObject, NSTextViewDelegate {
