@@ -139,6 +139,7 @@ public struct SavedRequestsSidebarView: View {
                     }
                 }
                 .listStyle(.sidebar)
+                .environment(\.defaultMinListRowHeight, 20)
             }
 
             Divider()
@@ -162,7 +163,8 @@ public struct SavedRequestsSidebarView: View {
                 .buttonStyle(.plain)
                 .font(.caption)
             }
-            .padding(8)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 8)
             .background(Color(NSColor.windowBackgroundColor))
         }
     }
@@ -198,21 +200,23 @@ private struct RequestTreeItemView: View {
 
         case .request(let req):
             Button(action: { onSelectRequest(req) }) {
-                HStack(spacing: 6) {
+                HStack(spacing: 5) {
                     Text(req.method.rawValue)
                         .font(.system(size: 9, weight: .bold, design: .monospaced))
-                        .padding(.horizontal, 4)
+                        .padding(.horizontal, 3)
                         .padding(.vertical, 1)
                         .background(methodColor(req.method).opacity(0.18))
                         .foregroundColor(methodColor(req.method))
                         .cornerRadius(3)
 
                     Text(req.name)
-                        .font(.subheadline)
+                        .font(.system(size: 12))
                         .lineLimit(1)
                 }
+                .padding(.vertical, 1)
             }
             .buttonStyle(.plain)
+            .listRowInsets(EdgeInsets(top: 1, leading: 4, bottom: 1, trailing: 6))
             .contextMenu {
                 Button("Open Request") {
                     onSelectRequest(req)
@@ -281,16 +285,19 @@ private struct RequestTreeFolderView: View {
                 }
             },
             label: {
-                HStack(spacing: 6) {
+                HStack(spacing: 5) {
                     Image(systemName: isExpanded ? "folder.fill" : "folder")
                         .foregroundColor(.accentColor)
+                        .font(.system(size: 11))
                     Text(folder.name)
                         .fontWeight(.medium)
+                        .font(.system(size: 12))
                     Spacer()
                     Text("\(folder.totalRequestCount)")
-                        .font(.caption2)
+                        .font(.system(size: 10))
                         .foregroundColor(.secondary)
                 }
+                .padding(.vertical, 1)
                 .contentShape(Rectangle())
                 .contextMenu {
                     Button("Add Request Here") {
@@ -306,6 +313,7 @@ private struct RequestTreeFolderView: View {
                 }
             }
         )
+        .listRowInsets(EdgeInsets(top: 1, leading: 2, bottom: 1, trailing: 6))
         .onChange(of: isExpanded) { newValue in
             savedVM.setFolderExpanded(id: folder.id, isExpanded: newValue)
         }

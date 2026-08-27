@@ -105,12 +105,14 @@ public struct HistorySidebarView: View {
                                 .font(.system(size: 9))
                                 .foregroundColor(.secondary)
                             }
-                            .padding(.vertical, 2)
+                            .padding(.vertical, 1)
                         }
                         .buttonStyle(.plain)
+                        .listRowInsets(EdgeInsets(top: 2, leading: 6, bottom: 2, trailing: 6))
                     }
                 }
                 .listStyle(.sidebar)
+                .environment(\.defaultMinListRowHeight, 22)
             }
         }
         .frame(minWidth: 200)
