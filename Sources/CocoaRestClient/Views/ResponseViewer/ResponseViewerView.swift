@@ -133,13 +133,42 @@ public struct ResponseViewerView: View {
 
             // Response Tabs (Body, Headers, Sent Headers, Cookies, Tests)
             HStack(spacing: 12) {
-                Picker("", selection: $tabVM.selectedResponseTab) {
-                    ForEach(ResponseViewerTab.allCases) { tab in
-                        Text(responseTabTitle(tab)).tag(tab)
+                ViewThatFits(in: .horizontal) {
+                    Picker("", selection: $tabVM.selectedResponseTab) {
+                        ForEach(ResponseViewerTab.allCases) { tab in
+                            Text(responseTabTitle(tab)).tag(tab)
+                        }
                     }
+                    .pickerStyle(.segmented)
+                    .labelsHidden()
+                    .frame(width: 440)
+
+                    Menu {
+                        ForEach(ResponseViewerTab.allCases) { tab in
+                            Button(action: { tabVM.selectedResponseTab = tab }) {
+                                HStack {
+                                    Text(responseTabTitle(tab))
+                                    if tabVM.selectedResponseTab == tab {
+                                        Image(systemName: "checkmark")
+                                    }
+                                }
+                            }
+                        }
+                    } label: {
+                        HStack(spacing: 4) {
+                            Text(responseTabTitle(tabVM.selectedResponseTab))
+                                .fontWeight(.medium)
+                            Image(systemName: "chevron.up.chevron.down")
+                                .font(.caption2)
+                                .foregroundColor(.secondary)
+                        }
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 3)
+                        .background(Color(NSColor.controlBackgroundColor))
+                        .cornerRadius(6)
+                    }
+                    .menuStyle(.borderlessButton)
                 }
-                .pickerStyle(.segmented)
-                .labelsHidden()
 
                 Spacer()
 

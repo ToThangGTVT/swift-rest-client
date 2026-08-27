@@ -257,16 +257,44 @@ public struct RequestDetailView: View {
                     onOpenCodeGenerator: onOpenCodeGenerator
                 )
 
-                // Request Tabs Segmented Control
+                // Request Tabs Segmented Control (switches to Dropdown Menu if narrow)
                 HStack {
-                    Picker("", selection: $tabVM.selectedRequestTab) {
-                        ForEach(RequestEditorTab.allCases) { tab in
-                            Text(tabTitle(for: tab)).tag(tab)
+                    ViewThatFits(in: .horizontal) {
+                        Picker("", selection: $tabVM.selectedRequestTab) {
+                            ForEach(RequestEditorTab.allCases) { tab in
+                                Text(tabTitle(for: tab)).tag(tab)
+                            }
                         }
+                        .pickerStyle(.segmented)
+                        .labelsHidden()
+                        .frame(width: 440)
+
+                        Menu {
+                            ForEach(RequestEditorTab.allCases) { tab in
+                                Button(action: { tabVM.selectedRequestTab = tab }) {
+                                    HStack {
+                                        Text(tabTitle(for: tab))
+                                        if tabVM.selectedRequestTab == tab {
+                                            Image(systemName: "checkmark")
+                                        }
+                                    }
+                                }
+                            }
+                        } label: {
+                            HStack(spacing: 4) {
+                                Text(tabTitle(for: tabVM.selectedRequestTab))
+                                    .fontWeight(.medium)
+                                Image(systemName: "chevron.up.chevron.down")
+                                    .font(.caption2)
+                                    .foregroundColor(.secondary)
+                            }
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 3)
+                            .background(Color(NSColor.controlBackgroundColor))
+                            .cornerRadius(6)
+                        }
+                        .menuStyle(.borderlessButton)
                     }
-                    .pickerStyle(.segmented)
-                    .labelsHidden()
-                    .frame(maxWidth: 440)
 
                     Spacer()
                 }

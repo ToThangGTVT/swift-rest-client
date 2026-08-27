@@ -28,13 +28,42 @@ public struct RequestBodyEditorView: View {
         VStack(spacing: 6) {
             // Body type picker & Actions bar
             HStack(spacing: 12) {
-                Picker("", selection: $tabVM.request.bodyType) {
-                    ForEach(RequestBodyType.allCases, id: \.self) { type in
-                        Text(type.rawValue).tag(type)
+                ViewThatFits(in: .horizontal) {
+                    Picker("", selection: $tabVM.request.bodyType) {
+                        ForEach(RequestBodyType.allCases, id: \.self) { type in
+                            Text(type.rawValue).tag(type)
+                        }
                     }
+                    .pickerStyle(.segmented)
+                    .labelsHidden()
+                    .frame(width: 440)
+
+                    Menu {
+                        ForEach(RequestBodyType.allCases, id: \.self) { type in
+                            Button(action: { tabVM.request.bodyType = type }) {
+                                HStack {
+                                    Text(type.rawValue)
+                                    if tabVM.request.bodyType == type {
+                                        Image(systemName: "checkmark")
+                                    }
+                                }
+                            }
+                        }
+                    } label: {
+                        HStack(spacing: 4) {
+                            Text(tabVM.request.bodyType.rawValue)
+                                .fontWeight(.medium)
+                            Image(systemName: "chevron.up.chevron.down")
+                                .font(.caption2)
+                                .foregroundColor(.secondary)
+                        }
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 3)
+                        .background(Color(NSColor.controlBackgroundColor))
+                        .cornerRadius(6)
+                    }
+                    .menuStyle(.borderlessButton)
                 }
-                .pickerStyle(.segmented)
-                .labelsHidden()
 
                 Spacer()
 
