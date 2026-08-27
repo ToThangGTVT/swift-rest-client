@@ -54,6 +54,7 @@ public struct SavedRequestsSidebarView: View {
                 savedRequestsContent
             }
         }
+        .frame(minWidth: 200)
         .alert("Create New Folder", isPresented: $showingNewFolderAlert) {
             TextField("Folder Name", text: $newFolderName)
             Button("Create") {

@@ -113,6 +113,7 @@ public struct HistorySidebarView: View {
                 .listStyle(.sidebar)
             }
         }
+        .frame(minWidth: 200)
     }
 
     private func methodColor(_ method: HTTPMethod) -> Color {

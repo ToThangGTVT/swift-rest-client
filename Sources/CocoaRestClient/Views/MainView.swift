@@ -14,11 +14,12 @@ public struct MainView: View {
 
     @State private var showingCookieManager: Bool = false
     @State private var showingRealtimeConsole: Bool = false
+    @State private var columnVisibility: NavigationSplitViewVisibility = .all
 
     public init() {}
 
     public var body: some View {
-        NavigationSplitView {
+        NavigationSplitView(columnVisibility: $columnVisibility) {
             SavedRequestsSidebarView(
                 savedVM: savedVM,
                 currentRequest: workspaceVM.selectedTab?.request ?? RestRequest(),
@@ -26,7 +27,8 @@ public struct MainView: View {
                     workspaceVM.openSavedRequest(req)
                 }
             )
-            .navigationSplitViewColumnWidth(min: 220, ideal: 270, max: 380)
+            .navigationSplitViewColumnWidth(min: 220, ideal: 260, max: 360)
+            .frame(minWidth: 200)
         } detail: {
             VStack(spacing: 0) {
                 // Tab Bar
@@ -51,7 +53,9 @@ public struct MainView: View {
                     }
                 }
             }
+            .frame(minWidth: 620)
         }
+        .navigationSplitViewStyle(.balanced)
         .sheet(isPresented: $workspaceVM.showingFastSearch) {
             FastSearchSheetView(savedVM: savedVM) { selectedReq in
                 workspaceVM.openSavedRequest(selectedReq)
