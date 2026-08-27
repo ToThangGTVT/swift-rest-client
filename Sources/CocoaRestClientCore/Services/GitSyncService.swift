@@ -53,8 +53,7 @@ public struct GitSyncService: Sendable {
     }
 
     public static func getStatus(inDirectory dirPath: String) -> GitSyncStatus {
-        let gitDir = URL(fileURLWithPath: dirPath).appendingPathComponent(".git")
-        guard FileManager.default.fileExists(atPath: gitDir.path) else {
+        guard isRepository(atDirectory: dirPath) else {
             return GitSyncStatus(isGitRepo: false)
         }
 
@@ -95,9 +94,22 @@ public struct GitSyncService: Sendable {
         return res
     }
 
+    public static func isRepository(atDirectory dirPath: String) -> Bool {
+        guard !dirPath.isEmpty else { return false }
+        let gitDir = URL(fileURLWithPath: dirPath).appendingPathComponent(".git")
+        return FileManager.default.fileExists(atPath: gitDir.path)
+    }
+
     public static func setRemote(url: String, inDirectory dirPath: String, remoteName: String = "origin") -> GitCommandResult {
         _ = runGit(args: ["remote", "remove", remoteName], inDirectory: dirPath)
         return runGit(args: ["remote", "add", remoteName, url], inDirectory: dirPath)
+    }
+
+    /// Removing a remote that was never added is not an error worth surfacing,
+    /// so the result is only useful for diagnostics.
+    @discardableResult
+    public static func removeRemote(inDirectory dirPath: String, remoteName: String = "origin") -> GitCommandResult {
+        runGit(args: ["remote", "remove", remoteName], inDirectory: dirPath)
     }
 
     public static func commitAll(

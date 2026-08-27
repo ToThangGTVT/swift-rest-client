@@ -54,7 +54,7 @@ public struct MainView: View {
                     }
                 }
             }
-            .frame(minWidth: 620)
+            .frame(minWidth: 520)
         }
         .navigationSplitViewStyle(.balanced)
         .sheet(isPresented: $workspaceVM.showingFastSearch) {
@@ -255,7 +255,7 @@ public struct RequestDetailView: View {
     }
 
     public var body: some View {
-        VSplitView {
+        VerticalSplitView(minTopHeight: 220, minBottomHeight: 200) {
             // Top Pane: Request Editor
             VStack(spacing: 0) {
                 RequestHeaderBar(
@@ -264,44 +264,16 @@ public struct RequestDetailView: View {
                     onOpenCodeGenerator: onOpenCodeGenerator
                 )
 
-                // Request Tabs Segmented Control (switches to Dropdown Menu if narrow)
+                // Request Tabs Segmented Control
                 HStack {
-                    ViewThatFits(in: .horizontal) {
-                        Picker("", selection: $tabVM.selectedRequestTab) {
-                            ForEach(RequestEditorTab.allCases) { tab in
-                                Text(tabTitle(for: tab)).tag(tab)
-                            }
+                    Picker("", selection: $tabVM.selectedRequestTab) {
+                        ForEach(RequestEditorTab.allCases) { tab in
+                            Text(tabTitle(for: tab)).tag(tab)
                         }
-                        .pickerStyle(.segmented)
-                        .labelsHidden()
-                        .frame(width: 440)
-
-                        Menu {
-                            ForEach(RequestEditorTab.allCases) { tab in
-                                Button(action: { tabVM.selectedRequestTab = tab }) {
-                                    HStack {
-                                        Text(tabTitle(for: tab))
-                                        if tabVM.selectedRequestTab == tab {
-                                            Image(systemName: "checkmark")
-                                        }
-                                    }
-                                }
-                            }
-                        } label: {
-                            HStack(spacing: 4) {
-                                Text(tabTitle(for: tabVM.selectedRequestTab))
-                                    .fontWeight(.medium)
-                                Image(systemName: "chevron.up.chevron.down")
-                                    .font(.caption2)
-                                    .foregroundColor(.secondary)
-                            }
-                            .padding(.horizontal, 8)
-                            .padding(.vertical, 3)
-                            .background(Color(NSColor.controlBackgroundColor))
-                            .cornerRadius(6)
-                        }
-                        .menuStyle(.borderlessButton)
                     }
+                    .pickerStyle(.segmented)
+                    .labelsHidden()
+                    .frame(width: 440)
 
                     Spacer()
                 }
@@ -329,11 +301,9 @@ public struct RequestDetailView: View {
                     )
                 }
             }
-            .frame(minHeight: 220)
-
+        } bottom: {
             // Bottom Pane: Response Viewer
             ResponseViewerView(tabVM: tabVM)
-                .frame(minHeight: 200)
         }
     }
 }

@@ -53,9 +53,55 @@ public final class RequestTabViewModel: ObservableObject, Identifiable {
 
     private var lastExecutedRequest: RestRequest?
 
+    // Decoding/searching the response body is O(body size); these caches keep it off
+    // the view-update path, which runs on every layout pass (e.g. window resizing).
+    private var cachedRawTextResponseId: UUID?
+    private var cachedRawText: String = ""
+    private var cachedMatchKey: String?
+    private var cachedMatchCount: Int = 0
+
     public init(id: UUID = UUID(), request: RestRequest = RestRequest()) {
         self.id = id
         self.request = request
+    }
+
+    /// Raw (undecorated) response body, decoded once per response.
+    public var rawResponseText: String {
+        guard let res = response else { return "" }
+        if cachedRawTextResponseId == res.id {
+            return cachedRawText
+        }
+        let decoded = ResponseFormatter.decodePlainText(data: res.bodyData)
+        cachedRawTextResponseId = res.id
+        cachedRawText = decoded
+        return decoded
+    }
+
+    /// Body text currently shown in the response viewer. Returns the same String
+    /// instance across calls so downstream equality checks stay O(1).
+    public var displayedResponseText: String {
+        guard let res = response else { return "" }
+        return responseViewMode == .raw ? rawResponseText : res.formattedBody
+    }
+
+    /// Number of case-insensitive matches for `responseSearchText` in the shown body.
+    public var responseSearchMatchCount: Int {
+        let query = responseSearchText
+        guard !query.isEmpty, let res = response else { return 0 }
+        let key = "\(res.id.uuidString)|\(responseViewMode.rawValue)|\(query)"
+        if cachedMatchKey == key {
+            return cachedMatchCount
+        }
+        let text = displayedResponseText
+        var count = 0
+        var searchRange = text.startIndex..<text.endIndex
+        while let range = text.range(of: query, options: .caseInsensitive, range: searchRange) {
+            count += 1
+            searchRange = range.upperBound..<text.endIndex
+        }
+        cachedMatchKey = key
+        cachedMatchCount = count
+        return count
     }
 
     public var tabTitle: String {

@@ -10,8 +10,23 @@ import UniformTypeIdentifiers
 public struct RequestBodyEditorView: View {
     @ObservedObject public var tabVM: RequestTabViewModel
 
+    @State private var isTypeRowCompact: Bool = false
+
     public init(tabVM: RequestTabViewModel) {
         self.tabVM = tabVM
+    }
+
+    /// Width this row needs to show the segmented body-type picker at full size
+    /// next to the trailing Content-Type / Beautify controls.
+    private var typeRowThreshold: CGFloat {
+        var needed: CGFloat = 440 + 24 // picker + horizontal padding
+        if tabVM.request.bodyType == .raw {
+            needed += 12 + 92 + 6 + 170 // spacing + "Content-Type:" + popup
+            if tabVM.request.rawBodyContentType.contains("json") {
+                needed += 12 + 96 // spacing + Beautify button
+            }
+        }
+        return needed
     }
 
     private let commonContentTypes = [
@@ -28,7 +43,13 @@ public struct RequestBodyEditorView: View {
         VStack(spacing: 6) {
             // Body type picker & Actions bar
             HStack(spacing: 12) {
-                ViewThatFits(in: .horizontal) {
+                if isTypeRowCompact {
+                    CompactOptionMenu(
+                        options: RequestBodyType.allCases,
+                        title: { $0.rawValue },
+                        selection: $tabVM.request.bodyType
+                    )
+                } else {
                     Picker("", selection: $tabVM.request.bodyType) {
                         ForEach(RequestBodyType.allCases, id: \.self) { type in
                             Text(type.rawValue).tag(type)
@@ -37,32 +58,6 @@ public struct RequestBodyEditorView: View {
                     .pickerStyle(.segmented)
                     .labelsHidden()
                     .frame(width: 440)
-
-                    Menu {
-                        ForEach(RequestBodyType.allCases, id: \.self) { type in
-                            Button(action: { tabVM.request.bodyType = type }) {
-                                HStack {
-                                    Text(type.rawValue)
-                                    if tabVM.request.bodyType == type {
-                                        Image(systemName: "checkmark")
-                                    }
-                                }
-                            }
-                        }
-                    } label: {
-                        HStack(spacing: 4) {
-                            Text(tabVM.request.bodyType.rawValue)
-                                .fontWeight(.medium)
-                            Image(systemName: "chevron.up.chevron.down")
-                                .font(.caption2)
-                                .foregroundColor(.secondary)
-                        }
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 3)
-                        .background(Color(NSColor.controlBackgroundColor))
-                        .cornerRadius(6)
-                    }
-                    .menuStyle(.borderlessButton)
                 }
 
                 Spacer()
@@ -94,6 +89,7 @@ public struct RequestBodyEditorView: View {
             }
             .padding(.horizontal, 12)
             .padding(.top, 6)
+            .widthBreakpoint(typeRowThreshold, isCompact: $isTypeRowCompact)
 
             Divider()
 

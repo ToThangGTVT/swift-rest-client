@@ -44,29 +44,14 @@ public final class WorkspaceStore: @unchecked Sendable {
         lock.lock()
         defer { lock.unlock() }
 
-        if fileManager.fileExists(atPath: workspacesConfigFile.path),
-           let data = try? Data(contentsOf: workspacesConfigFile) {
-            let decoder = JSONDecoder()
-            if let workspaces = try? decoder.decode([WorkspaceModel].self, from: data), !workspaces.isEmpty {
-                return workspaces
-            }
-        }
-
-        // Default: Create Default Workspace
-        let defaultWorkspace = createDefaultWorkspace()
-        saveWorkspaces([defaultWorkspace])
-        return [defaultWorkspace]
+        return loadWorkspacesLocked()
     }
 
     public func saveWorkspaces(_ workspaces: [WorkspaceModel]) {
         lock.lock()
         defer { lock.unlock() }
 
-        let encoder = JSONEncoder()
-        encoder.outputFormatting = [.prettyPrinted]
-        if let data = try? encoder.encode(workspaces) {
-            try? data.write(to: workspacesConfigFile, options: .atomic)
-        }
+        saveWorkspacesLocked(workspaces)
     }
 
     public func getActiveWorkspaceId() -> UUID {
@@ -77,10 +62,36 @@ public final class WorkspaceStore: @unchecked Sendable {
            let id = UUID(uuidString: idStr.trimmingCharacters(in: .whitespacesAndNewlines)) {
             return id
         }
-        let list = loadWorkspaces()
+        let list = loadWorkspacesLocked()
         let id = list.first?.id ?? UUID()
         try? id.uuidString.write(to: activeWorkspaceFile, atomically: true, encoding: .utf8)
         return id
+    }
+
+    /// Caller must already hold `lock`. NSLock is not reentrant, so the public
+    /// entry points funnel through these helpers instead of calling each other.
+    private func loadWorkspacesLocked() -> [WorkspaceModel] {
+        if fileManager.fileExists(atPath: workspacesConfigFile.path),
+           let data = try? Data(contentsOf: workspacesConfigFile) {
+            let decoder = JSONDecoder()
+            if let workspaces = try? decoder.decode([WorkspaceModel].self, from: data), !workspaces.isEmpty {
+                return workspaces
+            }
+        }
+
+        // Default: Create Default Workspace
+        let defaultWorkspace = createDefaultWorkspace()
+        saveWorkspacesLocked([defaultWorkspace])
+        return [defaultWorkspace]
+    }
+
+    /// Caller must already hold `lock`.
+    private func saveWorkspacesLocked(_ workspaces: [WorkspaceModel]) {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.prettyPrinted]
+        if let data = try? encoder.encode(workspaces) {
+            try? data.write(to: workspacesConfigFile, options: .atomic)
+        }
     }
 
     public func setActiveWorkspaceId(_ id: UUID) {
@@ -168,7 +179,7 @@ public final class WorkspaceStore: @unchecked Sendable {
         let dir = defaultWorkspacesRootDirectory.appendingPathComponent("Default Workspace", isDirectory: true)
         ensureDirectoryExists(dir.path)
 
-        var workspace = WorkspaceModel(
+        let workspace = WorkspaceModel(
             name: "Default Workspace",
             description: "Personal API testing and request collections",
             directoryPath: dir.path

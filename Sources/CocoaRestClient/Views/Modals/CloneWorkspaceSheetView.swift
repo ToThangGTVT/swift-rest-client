@@ -25,9 +25,9 @@ public struct CloneWorkspaceSheetView: View {
                     .font(.title2)
                 VStack(alignment: .leading, spacing: 2) {
                     Text("Clone Git Repository as Workspace")
-                        .font(.headline)
+                        .font(.system(size: 16, weight: .semibold))
                     Text("Download and link an existing REST Client / API workspace from GitHub, GitLab, etc.")
-                        .font(.caption)
+                        .font(.system(size: 12))
                         .foregroundColor(.secondary)
                 }
                 Spacer()
@@ -38,30 +38,32 @@ public struct CloneWorkspaceSheetView: View {
             VStack(alignment: .leading, spacing: 12) {
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Repository URL *")
-                        .font(.caption).foregroundColor(.secondary)
+                        .font(.system(size: 12)).foregroundColor(.secondary)
                     TextField("https://github.com/organization/api-workspace.git", text: $repoUrl)
                         .textFieldStyle(.roundedBorder)
+                        .font(.system(size: 13))
                 }
 
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Branch (Optional, defaults to main)")
-                        .font(.caption).foregroundColor(.secondary)
+                        .font(.system(size: 12)).foregroundColor(.secondary)
                     TextField("main", text: $branch)
                         .textFieldStyle(.roundedBorder)
+                        .font(.system(size: 13))
                 }
             }
 
             if let msg = wsManagerVM.syncStatusMessage {
                 HStack {
-                    Image(systemName: wsManagerVM.syncIsError ? "exclamationmark.circle.fill" : "checkmark.circle.fill")
-                        .foregroundColor(wsManagerVM.syncIsError ? .red : .green)
+                    Image(systemName: wsManagerVM.syncSeverity == .success ? "checkmark.circle.fill" : "exclamationmark.circle.fill")
+                        .foregroundColor(wsManagerVM.syncSeverity == .success ? .green : .red)
                     Text(msg)
-                        .font(.caption)
-                        .foregroundColor(wsManagerVM.syncIsError ? .red : .primary)
+                        .font(.system(size: 12))
+                        .foregroundColor(wsManagerVM.syncSeverity == .error ? .red : .primary)
                     Spacer()
                 }
                 .padding(8)
-                .background(wsManagerVM.syncIsError ? Color.red.opacity(0.1) : Color.green.opacity(0.08))
+                .background(wsManagerVM.syncSeverity == .success ? Color.green.opacity(0.08) : Color.red.opacity(0.1))
                 .cornerRadius(6)
             }
 
@@ -91,6 +93,6 @@ public struct CloneWorkspaceSheetView: View {
             }
         }
         .padding(20)
-        .frame(width: 480)
+        .frame(width: 560)
     }
 }

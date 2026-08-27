@@ -10,8 +10,20 @@ import AppKit
 public struct ResponseViewerView: View {
     @ObservedObject public var tabVM: RequestTabViewModel
 
+    @State private var isTabRowCompact: Bool = false
+
     public init(tabVM: RequestTabViewModel) {
         self.tabVM = tabVM
+    }
+
+    /// Width this row needs to show the segmented tab picker at full size next to
+    /// the Pretty/Raw/Preview picker.
+    private var tabRowThreshold: CGFloat {
+        var needed: CGFloat = 440 + 24 // picker + horizontal padding
+        if tabVM.selectedResponseTab == .body && tabVM.response != nil {
+            needed += 12 + 200 // spacing + Pretty/Raw/Preview picker
+        }
+        return needed
     }
 
     public var body: some View {
@@ -106,7 +118,7 @@ public struct ResponseViewerView: View {
                         .textFieldStyle(.plain)
 
                     if !tabVM.responseSearchText.isEmpty {
-                        let count = countMatches(in: responseText(for: tabVM.response), query: tabVM.responseSearchText)
+                        let count = tabVM.responseSearchMatchCount
                         Text("\(count) match\(count == 1 ? "" : "es")")
                             .font(.caption)
                             .foregroundColor(.secondary)
@@ -133,7 +145,13 @@ public struct ResponseViewerView: View {
 
             // Response Tabs (Body, Headers, Sent Headers, Cookies, Tests)
             HStack(spacing: 12) {
-                ViewThatFits(in: .horizontal) {
+                if isTabRowCompact {
+                    CompactOptionMenu(
+                        options: ResponseViewerTab.allCases,
+                        title: { responseTabTitle($0) },
+                        selection: $tabVM.selectedResponseTab
+                    )
+                } else {
                     Picker("", selection: $tabVM.selectedResponseTab) {
                         ForEach(ResponseViewerTab.allCases) { tab in
                             Text(responseTabTitle(tab)).tag(tab)
@@ -142,32 +160,6 @@ public struct ResponseViewerView: View {
                     .pickerStyle(.segmented)
                     .labelsHidden()
                     .frame(width: 440)
-
-                    Menu {
-                        ForEach(ResponseViewerTab.allCases) { tab in
-                            Button(action: { tabVM.selectedResponseTab = tab }) {
-                                HStack {
-                                    Text(responseTabTitle(tab))
-                                    if tabVM.selectedResponseTab == tab {
-                                        Image(systemName: "checkmark")
-                                    }
-                                }
-                            }
-                        }
-                    } label: {
-                        HStack(spacing: 4) {
-                            Text(responseTabTitle(tabVM.selectedResponseTab))
-                                .fontWeight(.medium)
-                            Image(systemName: "chevron.up.chevron.down")
-                                .font(.caption2)
-                                .foregroundColor(.secondary)
-                        }
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 3)
-                        .background(Color(NSColor.controlBackgroundColor))
-                        .cornerRadius(6)
-                    }
-                    .menuStyle(.borderlessButton)
                 }
 
                 Spacer()
@@ -184,6 +176,7 @@ public struct ResponseViewerView: View {
             }
             .padding(.horizontal, 12)
             .padding(.vertical, 6)
+            .widthBreakpoint(tabRowThreshold, isCompact: $isTabRowCompact)
 
             Divider()
 
@@ -211,14 +204,14 @@ public struct ResponseViewerView: View {
                                 ImageViewerView(data: res.bodyData)
                             } else if res.isHtml {
                                 HTMLPreviewView(
-                                    htmlString: ResponseFormatter.decodePlainText(data: res.bodyData),
+                                    htmlString: tabVM.rawResponseText,
                                     baseURL: res.url
                                 )
                             } else {
-                                textBodyEditor(res)
+                                textBodyEditor()
                             }
                         } else {
-                            textBodyEditor(res)
+                            textBodyEditor()
                         }
 
                     case .headers:
@@ -362,14 +355,10 @@ public struct ResponseViewerView: View {
     }
 
     @ViewBuilder
-    private func textBodyEditor(_ res: NetworkResponse) -> some View {
+    private func textBodyEditor() -> some View {
+        let tabVM = tabVM
         let textBinding = Binding<String>(
-            get: {
-                if tabVM.responseViewMode == .raw {
-                    return ResponseFormatter.decodePlainText(data: res.bodyData)
-                }
-                return res.formattedBody
-            },
+            get: { tabVM.displayedResponseText },
             set: { _ in }
         )
         SyntaxTextEditorView(
@@ -377,25 +366,6 @@ public struct ResponseViewerView: View {
             isEditable: false,
             fontSize: tabVM.fontSize
         )
-    }
-
-    private func responseText(for res: NetworkResponse?) -> String {
-        guard let res = res else { return "" }
-        if tabVM.responseViewMode == .raw {
-            return ResponseFormatter.decodePlainText(data: res.bodyData)
-        }
-        return res.formattedBody
-    }
-
-    private func countMatches(in text: String, query: String) -> Int {
-        guard !query.isEmpty else { return 0 }
-        var count = 0
-        var searchRange = text.startIndex..<text.endIndex
-        while let range = text.range(of: query, options: .caseInsensitive, range: searchRange) {
-            count += 1
-            searchRange = range.upperBound..<text.endIndex
-        }
-        return count
     }
 
     private func openResponseInBrowser() {

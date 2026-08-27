@@ -8,6 +8,12 @@ import SwiftUI
 import CocoaRestClientCore
 import AppKit
 
+public enum SyncSeverity: Sendable {
+    case success
+    case warning
+    case error
+}
+
 @MainActor
 public final class WorkspaceManagerViewModel: ObservableObject {
     public static let shared = WorkspaceManagerViewModel()
@@ -17,7 +23,11 @@ public final class WorkspaceManagerViewModel: ObservableObject {
     @Published public var gitStatus: GitSyncStatus = GitSyncStatus()
     @Published public var isSyncing: Bool = false
     @Published public var syncStatusMessage: String?
-    @Published public var syncIsError: Bool = false
+    @Published public var syncSeverity: SyncSeverity = .success
+
+    /// Git status per workspace, so the manager can describe every workspace's
+    /// repository — not only the one currently open.
+    @Published public var statusByWorkspace: [UUID: GitSyncStatus] = [:]
 
     @Published public var showingWorkspaceManagerSheet: Bool = false
     @Published public var showingCloneWorkspaceSheet: Bool = false
@@ -30,7 +40,7 @@ public final class WorkspaceManagerViewModel: ObservableObject {
         let activeId = store.getActiveWorkspaceId()
         let active = list.first(where: { $0.id == activeId }) ?? list.first ?? WorkspaceModel()
         self.activeWorkspace = active
-        refreshGitStatus()
+        refreshAllStatuses()
     }
 
     public func refreshWorkspaces() {
@@ -62,6 +72,93 @@ public final class WorkspaceManagerViewModel: ObservableObject {
         guard !activeWorkspace.directoryPath.isEmpty else { return }
         let status = GitSyncService.getStatus(inDirectory: activeWorkspace.directoryPath)
         self.gitStatus = status
+        self.statusByWorkspace[activeWorkspace.id] = status
+    }
+
+    public func status(for workspace: WorkspaceModel) -> GitSyncStatus {
+        statusByWorkspace[workspace.id] ?? GitSyncStatus()
+    }
+
+    public func refreshStatus(for workspace: WorkspaceModel) {
+        guard !workspace.directoryPath.isEmpty else { return }
+        let status = GitSyncService.getStatus(inDirectory: workspace.directoryPath)
+        statusByWorkspace[workspace.id] = status
+        if workspace.id == activeWorkspace.id {
+            gitStatus = status
+        }
+    }
+
+    public func refreshAllStatuses() {
+        for ws in workspaces {
+            refreshStatus(for: ws)
+        }
+    }
+
+    private func report(_ message: String, _ severity: SyncSeverity) {
+        syncStatusMessage = message
+        syncSeverity = severity
+    }
+
+    // MARK: - Repository Settings
+
+    /// Single entry point for "this workspace syncs to this repository".
+    /// Creates the local repo on demand so the user never has to run an
+    /// explicit init step first. An empty `remoteUrl` unlinks the workspace.
+    @discardableResult
+    public func saveRepositorySettings(
+        for workspaceId: UUID,
+        remoteUrl: String,
+        branch: String,
+        authorName: String,
+        authorEmail: String
+    ) -> Bool {
+        guard let idx = workspaces.firstIndex(where: { $0.id == workspaceId }) else { return false }
+
+        let url = remoteUrl.trimmingCharacters(in: .whitespacesAndNewlines)
+        let trimmedBranch = branch.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        var ws = workspaces[idx]
+        ws.gitRemoteUrl = url
+        ws.gitBranch = trimmedBranch.isEmpty ? "main" : trimmedBranch
+        ws.gitAuthorName = authorName.trimmingCharacters(in: .whitespacesAndNewlines)
+        ws.gitAuthorEmail = authorEmail.trimmingCharacters(in: .whitespacesAndNewlines)
+        ws.updatedAt = Date()
+
+        workspaces[idx] = ws
+        if activeWorkspace.id == ws.id {
+            activeWorkspace = ws
+        }
+        store.saveWorkspaces(workspaces)
+        store.saveWorkspaceManifest(ws)
+
+        guard !url.isEmpty else {
+            GitSyncService.removeRemote(inDirectory: ws.directoryPath)
+            refreshStatus(for: ws)
+            report("\(ws.name) no longer syncs anywhere — it stays on this Mac.", .warning)
+            return true
+        }
+
+        // A workspace that syncs needs a local repository to push from.
+        if !GitSyncService.isRepository(atDirectory: ws.directoryPath) {
+            _ = GitSyncService.initRepository(inDirectory: ws.directoryPath, defaultBranch: ws.gitBranch)
+            _ = GitSyncService.commitAll(
+                message: "Initial workspace setup for \(ws.name)",
+                inDirectory: ws.directoryPath,
+                authorName: ws.gitAuthorName,
+                authorEmail: ws.gitAuthorEmail
+            )
+        }
+
+        let res = GitSyncService.setRemote(url: url, inDirectory: ws.directoryPath)
+        refreshStatus(for: ws)
+
+        guard res.isSuccess else {
+            report("Could not link the repository: \(res.error.isEmpty ? res.output : res.error)", .error)
+            return false
+        }
+
+        report("\(ws.name) now syncs to \(url)", .success)
+        return true
     }
 
     public func saveActiveWorkspaceData() {
@@ -131,7 +228,7 @@ public final class WorkspaceManagerViewModel: ObservableObject {
     ) async -> Bool {
         isSyncing = true
         syncStatusMessage = "Cloning repository..."
-        syncIsError = false
+        syncSeverity = .success
 
         let repoName = URL(string: repoUrl)?.deletingPathExtension().lastPathComponent ?? "Cloned Workspace"
         let destPath = targetDirectory ?? store.defaultWorkspacesRootDirectory.appendingPathComponent(repoName, isDirectory: true).path
@@ -153,12 +250,11 @@ public final class WorkspaceManagerViewModel: ObservableObject {
             store.saveWorkspaces(workspaces)
             switchWorkspace(to: workspace)
 
-            syncStatusMessage = "Successfully cloned \(repoName)!"
-            syncIsError = false
+            refreshStatus(for: workspace)
+            report("Cloned \(repoName) — it now syncs to \(repoUrl)", .success)
             return true
         } else {
-            syncStatusMessage = "Clone failed: \(cloneRes.error)"
-            syncIsError = true
+            report("Clone failed: \(cloneRes.error)", .error)
             return false
         }
     }
@@ -179,8 +275,8 @@ public final class WorkspaceManagerViewModel: ObservableObject {
     public func commitAndPush(message: String) {
         guard !activeWorkspace.directoryPath.isEmpty else { return }
         isSyncing = true
-        syncStatusMessage = "Committing and pushing changes..."
-        syncIsError = false
+        syncStatusMessage = "Saving and pushing changes..."
+        syncSeverity = .success
 
         // 1. Save all active workspace files first
         saveActiveWorkspaceData()
@@ -195,8 +291,7 @@ public final class WorkspaceManagerViewModel: ObservableObject {
 
         guard commitRes.isSuccess || commitRes.output.contains("nothing to commit") else {
             isSyncing = false
-            syncStatusMessage = "Commit error: \(commitRes.error)"
-            syncIsError = true
+            report("Could not save changes: \(commitRes.error)", .error)
             return
         }
 
@@ -208,16 +303,13 @@ public final class WorkspaceManagerViewModel: ObservableObject {
             )
             isSyncing = false
             if pushRes.isSuccess {
-                syncStatusMessage = "Successfully synced and pushed to remote!"
-                syncIsError = false
+                report("Pushed to \(activeWorkspace.gitRemoteUrl)", .success)
             } else {
-                syncStatusMessage = "Push warning: \(pushRes.error.isEmpty ? pushRes.output : pushRes.error)"
-                syncIsError = true
+                report("Push failed: \(pushRes.error.isEmpty ? pushRes.output : pushRes.error)", .error)
             }
         } else {
             isSyncing = false
-            syncStatusMessage = "Committed locally (no Git remote configured)."
-            syncIsError = false
+            report("Saved on this Mac only — no repository is linked to \(activeWorkspace.name) yet.", .warning)
         }
 
         refreshGitStatus()
@@ -226,8 +318,8 @@ public final class WorkspaceManagerViewModel: ObservableObject {
     public func pullRemote() {
         guard !activeWorkspace.directoryPath.isEmpty && activeWorkspace.isGitConfigured else { return }
         isSyncing = true
-        syncStatusMessage = "Pulling latest changes from remote..."
-        syncIsError = false
+        syncStatusMessage = "Pulling latest changes..."
+        syncSeverity = .success
 
         let pullRes = GitSyncService.pull(
             inDirectory: activeWorkspace.directoryPath,
@@ -243,11 +335,9 @@ public final class WorkspaceManagerViewModel: ObservableObject {
             let envs = store.loadEnvironments(for: activeWorkspace)
             EnvironmentViewModel.shared.environments = envs
 
-            syncStatusMessage = "Successfully pulled latest changes!"
-            syncIsError = false
+            report("Pulled the latest changes from the repository.", .success)
         } else {
-            syncStatusMessage = "Pull error: \(pullRes.error.isEmpty ? pullRes.output : pullRes.error)"
-            syncIsError = true
+            report("Pull failed: \(pullRes.error.isEmpty ? pullRes.output : pullRes.error)", .error)
         }
 
         refreshGitStatus()
