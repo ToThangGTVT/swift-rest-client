@@ -4,6 +4,7 @@
 //
 
 import Foundation
+import Security
 
 public struct NetworkOptions: Sendable {
     public var timeoutSeconds: TimeInterval
@@ -18,7 +19,7 @@ public struct NetworkOptions: Sendable {
         followRedirects: Bool = true,
         applyHttpMethodOnRedirect: Bool = false,
         allowSelfSignedCerts: Bool = true,
-        disableCookies: Bool = true,
+        disableCookies: Bool = false,
         environment: [String: String] = ProcessInfo.processInfo.environment
     ) {
         self.timeoutSeconds = timeoutSeconds
@@ -42,6 +43,7 @@ public struct NetworkResponse: Identifiable, Sendable {
     public var contentType: String?
     public var errorDescription: String?
     public var url: URL?
+    public var duration: Double
 
     public init(
         statusCode: Int = 0,
@@ -53,7 +55,8 @@ public struct NetworkResponse: Identifiable, Sendable {
         latencyMs: Double = 0,
         contentType: String? = nil,
         errorDescription: String? = nil,
-        url: URL? = nil
+        url: URL? = nil,
+        duration: Double = 0
     ) {
         self.statusCode = statusCode
         self.statusDescription = statusDescription
@@ -65,6 +68,7 @@ public struct NetworkResponse: Identifiable, Sendable {
         self.contentType = contentType
         self.errorDescription = errorDescription
         self.url = url
+        self.duration = duration > 0 ? duration : (latencyMs / 1000.0)
     }
 
     public var isSuccess: Bool {
@@ -102,6 +106,10 @@ public struct NetworkResponse: Identifiable, Sendable {
         guard let ct = contentType?.lowercased() else { return false }
         return ct.contains("xml")
     }
+
+    public var body: String {
+        ResponseFormatter.decodePlainText(data: bodyData)
+    }
 }
 
 public final class NetworkEngine: NSObject, Sendable, URLSessionTaskDelegate, URLSessionDataDelegate {
@@ -115,7 +123,15 @@ public final class NetworkEngine: NSObject, Sendable, URLSessionTaskDelegate, UR
         if !rawUrlString.lowercased().hasPrefix("http://") && !rawUrlString.lowercased().hasPrefix("https://") {
             rawUrlString = "http://" + rawUrlString
         }
-        let resolvedUrlString = EnvironmentVariableResolver.resolve(rawUrlString, environment: options.environment)
+        var resolvedUrlString = EnvironmentVariableResolver.resolve(rawUrlString, environment: options.environment)
+
+        // If API Key is in query parameters, append to URL
+        if request.auth.type == .apiKey, request.auth.apiKeyLocation == .query, !request.auth.apiKeyName.isEmpty {
+            let separator = resolvedUrlString.contains("?") ? "&" : "?"
+            let k = request.auth.apiKeyName.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? request.auth.apiKeyName
+            let v = request.auth.apiKeyValue.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? request.auth.apiKeyValue
+            resolvedUrlString += "\(separator)\(k)=\(v)"
+        }
 
         guard let encodedUrlString = resolvedUrlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed),
               let url = URL(string: encodedUrlString) else {
@@ -151,11 +167,35 @@ public final class NetworkEngine: NSObject, Sendable, URLSessionTaskDelegate, UR
             urlRequest.setValue(ct, forHTTPHeaderField: "Content-Type")
         }
 
-        // Authorization
-        if request.auth.type == .basic, request.auth.isPreemptive, let authVal = request.auth.basicAuthHeaderValue() {
-            urlRequest.setValue(authVal, forHTTPHeaderField: "Authorization")
-        } else if request.auth.type == .bearer, let bearerVal = request.auth.bearerHeaderValue() {
-            urlRequest.setValue(bearerVal, forHTTPHeaderField: "Authorization")
+        // Authentication Header Injection
+        switch request.auth.type {
+        case .basic:
+            if request.auth.isPreemptive, let authVal = request.auth.basicAuthHeaderValue() {
+                urlRequest.setValue(authVal, forHTTPHeaderField: "Authorization")
+            }
+        case .bearer:
+            if let bearerVal = request.auth.bearerHeaderValue() {
+                urlRequest.setValue(bearerVal, forHTTPHeaderField: "Authorization")
+            }
+        case .apiKey:
+            if request.auth.apiKeyLocation == .header, !request.auth.apiKeyName.isEmpty {
+                urlRequest.setValue(request.auth.apiKeyValue, forHTTPHeaderField: request.auth.apiKeyName)
+            }
+        case .oauth2:
+            if !request.auth.oauth2AccessToken.isEmpty {
+                urlRequest.setValue("Bearer \(request.auth.oauth2AccessToken)", forHTTPHeaderField: "Authorization")
+            }
+        default:
+            break
+        }
+
+        // Automatic Cookie Jar Injection
+        if !options.disableCookies {
+            if let cookieHeader = CookieJarStore.shared.cookieHeaderValue(for: url) {
+                let existing = urlRequest.value(forHTTPHeaderField: "Cookie")
+                let combined = existing != nil ? "\(existing!); \(cookieHeader)" : cookieHeader
+                urlRequest.setValue(combined, forHTTPHeaderField: "Cookie")
+            }
         }
 
         // Capture sent headers
@@ -163,7 +203,12 @@ public final class NetworkEngine: NSObject, Sendable, URLSessionTaskDelegate, UR
             KeyValuePair(key: $0.key, value: $0.value, isEnabled: true)
         }.sorted(by: { $0.key < $1.key })
 
-        let delegate = CustomSessionDelegate(options: options, auth: request.auth)
+        let delegate = CustomSessionDelegate(
+            options: options,
+            auth: request.auth,
+            clientCertPath: request.clientCertificatePath,
+            clientCertPassword: request.clientCertificatePassword
+        )
         let config = URLSessionConfiguration.ephemeral
         config.timeoutIntervalForRequest = options.timeoutSeconds
         config.timeoutIntervalForResource = options.timeoutSeconds
@@ -183,14 +228,22 @@ public final class NetworkEngine: NSObject, Sendable, URLSessionTaskDelegate, UR
                     bodyData: data,
                     formattedBody: ResponseFormatter.format(data: data, contentType: nil),
                     latencyMs: latency,
-                    url: url
+                    url: url,
+                    duration: latency / 1000.0
                 )
             }
 
+            var responseHeadersDict: [String: String] = [:]
             let responseHeaders: [KeyValuePair] = httpResponse.allHeaderFields.compactMap { (k, v) in
                 guard let keyStr = k as? String, let valStr = v as? String else { return nil }
+                responseHeadersDict[keyStr] = valStr
                 return KeyValuePair(key: keyStr, value: valStr, isEnabled: true)
             }.sorted(by: { $0.key < $1.key })
+
+            // Store cookies into CookieJarStore
+            if !options.disableCookies {
+                CookieJarStore.shared.storeCookies(from: responseHeadersDict, for: url)
+            }
 
             let contentType = httpResponse.value(forHTTPHeaderField: "Content-Type")
             let formatted = ResponseFormatter.format(data: data, contentType: contentType)
@@ -205,7 +258,8 @@ public final class NetworkEngine: NSObject, Sendable, URLSessionTaskDelegate, UR
                 formattedBody: formatted,
                 latencyMs: latency,
                 contentType: contentType,
-                url: httpResponse.url
+                url: httpResponse.url,
+                duration: latency / 1000.0
             )
         } catch {
             let latency = (CFAbsoluteTimeGetCurrent() - startTime) * 1000.0
@@ -215,7 +269,8 @@ public final class NetworkEngine: NSObject, Sendable, URLSessionTaskDelegate, UR
                 sentHeaders: sentHeaders,
                 latencyMs: latency,
                 errorDescription: error.localizedDescription,
-                url: url
+                url: url,
+                duration: latency / 1000.0
             )
         }
     }
@@ -224,10 +279,14 @@ public final class NetworkEngine: NSObject, Sendable, URLSessionTaskDelegate, UR
 private final class CustomSessionDelegate: NSObject, URLSessionTaskDelegate, URLSessionDelegate, Sendable {
     let options: NetworkOptions
     let auth: Authentication
+    let clientCertPath: String
+    let clientCertPassword: String
 
-    init(options: NetworkOptions, auth: Authentication) {
+    init(options: NetworkOptions, auth: Authentication, clientCertPath: String = "", clientCertPassword: String = "") {
         self.options = options
         self.auth = auth
+        self.clientCertPath = clientCertPath
+        self.clientCertPassword = clientCertPassword
     }
 
     func urlSession(
@@ -253,6 +312,7 @@ private final class CustomSessionDelegate: NSObject, URLSessionTaskDelegate, URL
         didReceive challenge: URLAuthenticationChallenge,
         completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void
     ) {
+        // 1. SSL Server Trust (Self-signed certs)
         if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust {
             if options.allowSelfSignedCerts, let serverTrust = challenge.protectionSpace.serverTrust {
                 completionHandler(.useCredential, URLCredential(trust: serverTrust))
@@ -262,6 +322,25 @@ private final class CustomSessionDelegate: NSObject, URLSessionTaskDelegate, URL
             return
         }
 
+        // 2. Client Certificate (mTLS / PKCS#12)
+        if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodClientCertificate {
+            if !clientCertPath.isEmpty,
+               let certData = try? Data(contentsOf: URL(fileURLWithPath: clientCertPath)) {
+                let options: [String: Any] = [kSecImportExportPassphrase as String: clientCertPassword]
+                var items: CFArray?
+                let status = SecPKCS12Import(certData as CFData, options as CFDictionary, &items)
+                if status == errSecSuccess, let array = items as? [[String: Any]], let first = array.first {
+                    if let secIdentity = first[kSecImportItemIdentity as String] {
+                        let identity = secIdentity as! SecIdentity
+                        let credential = URLCredential(identity: identity, certificates: nil, persistence: .forSession)
+                        completionHandler(.useCredential, credential)
+                        return
+                    }
+                }
+            }
+        }
+
+        // 3. HTTP Basic / Digest
         if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodHTTPBasic ||
            challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodHTTPDigest {
             if auth.hasCredentials && challenge.previousFailureCount == 0 {

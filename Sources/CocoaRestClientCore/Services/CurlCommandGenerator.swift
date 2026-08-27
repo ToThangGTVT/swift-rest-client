@@ -48,6 +48,19 @@ public struct CurlCommandGenerator: Sendable {
                 let token = EnvironmentVariableResolver.resolve(request.auth.token, environment: environment)
                 parts.append("-H 'Authorization: Bearer \(token)'")
             }
+        case .apiKey:
+            if !request.auth.apiKeyName.isEmpty {
+                let key = EnvironmentVariableResolver.resolve(request.auth.apiKeyName, environment: environment)
+                let val = EnvironmentVariableResolver.resolve(request.auth.apiKeyValue, environment: environment)
+                if request.auth.apiKeyLocation == .header {
+                    parts.append("-H '\(key): \(val)'")
+                }
+            }
+        case .oauth2:
+            if !request.auth.oauth2AccessToken.isEmpty {
+                let token = EnvironmentVariableResolver.resolve(request.auth.oauth2AccessToken, environment: environment)
+                parts.append("-H 'Authorization: Bearer \(token)'")
+            }
         case .none:
             break
         }

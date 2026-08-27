@@ -98,35 +98,29 @@ public struct ResponseViewerView: View {
 
             // Response Search Bar (if activated)
             if tabVM.isResponseSearchPresented {
-                HStack(spacing: 6) {
+                HStack(spacing: 8) {
                     Image(systemName: "magnifyingglass")
-                        .font(.caption)
                         .foregroundColor(.secondary)
 
                     TextField("Find in response...", text: $tabVM.responseSearchText)
                         .textFieldStyle(.plain)
-                        .font(.caption)
 
                     if !tabVM.responseSearchText.isEmpty {
-                        let matchesCount = countMatches(in: responseText(for: tabVM.response), query: tabVM.responseSearchText)
-                        Text("\(matchesCount) matches")
-                            .font(.caption2)
+                        let count = countMatches(in: responseText(for: tabVM.response), query: tabVM.responseSearchText)
+                        Text("\(count) match\(count == 1 ? "" : "es")")
+                            .font(.caption)
                             .foregroundColor(.secondary)
 
                         Button(action: { tabVM.responseSearchText = "" }) {
                             Image(systemName: "xmark.circle.fill")
-                                .font(.caption)
                                 .foregroundColor(.secondary)
                         }
                         .buttonStyle(.plain)
                     }
 
-                    Spacer()
-
                     Button("Done") {
                         tabVM.isResponseSearchPresented = false
                     }
-                    .font(.caption)
                     .buttonStyle(.bordered)
                     .controlSize(.small)
                 }
@@ -137,15 +131,11 @@ public struct ResponseViewerView: View {
                 Divider()
             }
 
-            // Response Tabs (Body, Headers, Sent Headers)
+            // Response Tabs (Body, Headers, Sent Headers, Cookies, Tests)
             HStack(spacing: 12) {
                 Picker("", selection: $tabVM.selectedResponseTab) {
                     ForEach(ResponseViewerTab.allCases) { tab in
-                        if tab == .headers, let count = tabVM.response?.headers.count {
-                            Text("Headers (\(count))").tag(tab)
-                        } else {
-                            Text(tab.rawValue).tag(tab)
-                        }
+                        Text(responseTabTitle(tab)).tag(tab)
                     }
                 }
                 .pickerStyle(.segmented)
@@ -207,6 +197,12 @@ public struct ResponseViewerView: View {
 
                     case .sentHeaders:
                         SentHeadersView(headers: res.sentHeaders)
+
+                    case .cookies:
+                        cookiesView(for: res)
+
+                    case .tests:
+                        testsResultsView
                     }
                 }
             } else {
@@ -219,6 +215,119 @@ public struct ResponseViewerView: View {
                         .foregroundColor(.secondary)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
+        }
+    }
+
+    private func responseTabTitle(_ tab: ResponseViewerTab) -> String {
+        switch tab {
+        case .body:
+            return "Body"
+        case .headers:
+            let count = tabVM.response?.headers.count ?? 0
+            return count > 0 ? "Headers (\(count))" : "Headers"
+        case .sentHeaders:
+            return "Sent Headers"
+        case .cookies:
+            if let url = tabVM.response?.url {
+                let count = CookieJarStore.shared.cookies(for: url).count
+                return count > 0 ? "Cookies (\(count))" : "Cookies"
+            }
+            return "Cookies"
+        case .tests:
+            if !tabVM.testResults.isEmpty {
+                let passed = tabVM.testResults.filter { $0.passed }.count
+                return "Tests (\(passed)/\(tabVM.testResults.count))"
+            }
+            return "Tests"
+        }
+    }
+
+    @ViewBuilder
+    private func cookiesView(for res: NetworkResponse) -> some View {
+        let cookies = res.url != nil ? CookieJarStore.shared.cookies(for: res.url!) : []
+        if cookies.isEmpty {
+            VStack(spacing: 8) {
+                Image(systemName: "circle.hexagongrid")
+                    .font(.system(size: 28))
+                    .foregroundColor(.secondary)
+                Text("No cookies associated with this request/response")
+                    .foregroundColor(.secondary)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        } else {
+            List {
+                ForEach(cookies) { cookie in
+                    HStack {
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(cookie.name)
+                                .font(.system(size: 12, weight: .bold, design: .monospaced))
+                            Text(cookie.value)
+                                .font(.system(size: 12, design: .monospaced))
+                                .foregroundColor(.secondary)
+                        }
+                        Spacer()
+                        VStack(alignment: .trailing, spacing: 2) {
+                            Text(cookie.domain)
+                                .font(.caption2)
+                                .foregroundColor(.accentColor)
+                            Text(cookie.path)
+                                .font(.caption2)
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                    .padding(.vertical, 2)
+                }
+            }
+            .listStyle(.inset(alternatesRowBackgrounds: true))
+        }
+    }
+
+    private var testsResultsView: some View {
+        Group {
+            if tabVM.testResults.isEmpty {
+                VStack(spacing: 8) {
+                    Image(systemName: "checkmark.seal")
+                        .font(.system(size: 28))
+                        .foregroundColor(.secondary)
+                    Text("No tests executed")
+                        .foregroundColor(.secondary)
+                    Text("Configure test assertions in the Request Editor > Tests tab")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else {
+                List {
+                    ForEach(tabVM.testResults) { result in
+                        HStack(spacing: 10) {
+                            Image(systemName: result.passed ? "checkmark.circle.fill" : "xmark.circle.fill")
+                                .foregroundColor(result.passed ? .green : .red)
+                                .font(.system(size: 16))
+
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(result.assertion.type.rawValue)
+                                    .fontWeight(.semibold)
+                                    .font(.subheadline)
+                                Text(result.message)
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                            }
+
+                            Spacer()
+
+                            Text(result.passed ? "PASS" : "FAIL")
+                                .font(.system(size: 10, weight: .bold))
+                                .padding(.horizontal, 6)
+                                .padding(.vertical, 2)
+                                .background(result.passed ? Color.green.opacity(0.18) : Color.red.opacity(0.18))
+                                .foregroundColor(result.passed ? .green : .red)
+                                .cornerRadius(4)
+                        }
+                        .padding(.vertical, 4)
+                    }
+                }
+                .listStyle(.inset(alternatesRowBackgrounds: true))
             }
         }
     }
@@ -261,9 +370,10 @@ public struct ResponseViewerView: View {
     }
 
     private func openResponseInBrowser() {
-        if let tempFile = tabVM.exportResponseToTempFile() {
-            NSWorkspace.shared.open(tempFile)
-        }
+        guard let res = tabVM.response, !res.bodyData.isEmpty else { return }
+        let tempUrl = FileManager.default.temporaryDirectory.appendingPathComponent("response.html")
+        try? res.bodyData.write(to: tempUrl)
+        NSWorkspace.shared.open(tempUrl)
     }
 
     private func exportResponse() {

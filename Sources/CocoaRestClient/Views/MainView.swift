@@ -12,6 +12,9 @@ public struct MainView: View {
     @ObservedObject public var prefVM = PreferencesViewModel.shared
     @ObservedObject public var envVM = EnvironmentViewModel.shared
 
+    @State private var showingCookieManager: Bool = false
+    @State private var showingRealtimeConsole: Bool = false
+
     public init() {}
 
     public var body: some View {
@@ -78,6 +81,29 @@ public struct MainView: View {
                 SaveRequestSheetView(savedVM: savedVM, requestToSave: tab.request)
             }
         }
+        .sheet(isPresented: $showingCookieManager) {
+            CookieManagerSheetView()
+        }
+        .sheet(isPresented: $showingRealtimeConsole) {
+            VStack(spacing: 0) {
+                HStack {
+                    Text("Real-time WebSocket & SSE Testing Console")
+                        .font(.headline)
+                    Spacer()
+                    Button("Done") {
+                        showingRealtimeConsole = false
+                    }
+                    .keyboardShortcut(.defaultAction)
+                }
+                .padding(14)
+                .background(Color(NSColor.windowBackgroundColor))
+
+                Divider()
+
+                WebSocketClientView()
+            }
+            .frame(minWidth: 800, minHeight: 520)
+        }
         .toolbar {
             ToolbarItemGroup(placement: .automatic) {
                 // Environment Selector
@@ -97,13 +123,22 @@ public struct MainView: View {
                         envVM.showingEnvironmentSheet = true
                     }
                 } label: {
-                    HStack(spacing: 4) {
-                        Image(systemName: "globe")
-                        Text(envVM.activeEnvironment?.name ?? "No Environment")
-                            .font(.caption)
-                    }
+                    Label(envVM.activeEnvironment?.name ?? "No Environment", systemImage: "globe")
+                        .font(.caption)
                 }
                 .help("Select Active Environment")
+
+                // Realtime WebSocket & SSE Console
+                Button(action: { showingRealtimeConsole = true }) {
+                    Label("Real-time (WS/SSE)", systemImage: "antenna.radiowaves.left.and.right")
+                }
+                .help("Open Real-time WebSocket & SSE Console")
+
+                // Cookies Manager
+                Button(action: { showingCookieManager = true }) {
+                    Label("Cookies", systemImage: "circle.hexagongrid")
+                }
+                .help("Manage Stored Cookies (Cookie Jar)")
 
                 // Import cURL
                 Button(action: { workspaceVM.showingCurlImport = true }) {
@@ -200,6 +235,9 @@ public struct RequestDetailView: View {
         case .headers:
             let count = tabVM.request.headers.count
             return count > 0 ? "Headers (\(count))" : "Headers"
+        case .tests:
+            let count = tabVM.request.assertions.count
+            return count > 0 ? "Tests (\(count))" : "Tests"
         default:
             return tab.rawValue
         }
@@ -224,7 +262,7 @@ public struct RequestDetailView: View {
                     }
                     .pickerStyle(.segmented)
                     .labelsHidden()
-                    .frame(maxWidth: 380)
+                    .frame(maxWidth: 440)
 
                     Spacer()
                 }
@@ -245,6 +283,11 @@ public struct RequestDetailView: View {
                         .padding(.horizontal, 10)
                 case .auth:
                     AuthEditorView(auth: $tabVM.request.auth)
+                case .tests:
+                    TestsEditorView(
+                        assertions: $tabVM.request.assertions,
+                        extractionRules: $tabVM.request.extractionRules
+                    )
                 }
             }
             .frame(minHeight: 220)
@@ -262,17 +305,13 @@ private struct WorkspaceTabBar: View {
     var body: some View {
         HStack(spacing: 0) {
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 4) {
+                HStack(spacing: 2) {
                     ForEach(workspaceVM.tabs) { tab in
-                        TabButton(
+                        WorkspaceTabItemView(
                             tab: tab,
                             isSelected: workspaceVM.selectedTabId == tab.id,
-                            onSelect: {
-                                workspaceVM.selectedTabId = tab.id
-                            },
-                            onClose: {
-                                workspaceVM.closeTab(withId: tab.id)
-                            }
+                            onSelect: { workspaceVM.selectedTabId = tab.id },
+                            onClose: { workspaceVM.closeTab(withId: tab.id) }
                         )
                     }
                 }
@@ -280,26 +319,28 @@ private struct WorkspaceTabBar: View {
                 .padding(.vertical, 4)
             }
 
+            Spacer()
+
             Button(action: { workspaceVM.createNewTab() }) {
                 Image(systemName: "plus")
-                    .font(.caption)
+                    .foregroundColor(.secondary)
                     .padding(6)
             }
             .buttonStyle(.plain)
             .help("New Tab (Cmd+T)")
             .padding(.trailing, 8)
         }
-        .background(Color(NSColor.windowBackgroundColor))
+        .background(Color(NSColor.controlBackgroundColor))
     }
 }
 
-private struct TabButton: View {
+private struct WorkspaceTabItemView: View {
     @ObservedObject var tab: RequestTabViewModel
     let isSelected: Bool
     let onSelect: () -> Void
     let onClose: () -> Void
 
-    @State private var isHovering: Bool = false
+    @State private var isHovered: Bool = false
 
     var body: some View {
         HStack(spacing: 6) {
@@ -308,30 +349,24 @@ private struct TabButton: View {
                 .foregroundColor(methodColor(tab.request.method))
 
             Text(tab.tabTitle)
-                .font(.caption)
+                .font(.subheadline)
                 .lineLimit(1)
-                .frame(maxWidth: 160)
+                .foregroundColor(isSelected ? .primary : .secondary)
 
-            if isHovering || isSelected {
+            if isHovered || isSelected {
                 Button(action: onClose) {
                     Image(systemName: "xmark")
-                        .font(.system(size: 8, weight: .bold))
+                        .font(.system(size: 9, weight: .bold))
                         .foregroundColor(.secondary)
                 }
                 .buttonStyle(.plain)
-            } else {
-                Spacer().frame(width: 10)
             }
         }
         .padding(.horizontal, 10)
         .padding(.vertical, 5)
-        .background(isSelected ? Color(NSColor.controlBackgroundColor) : Color.clear)
+        .background(isSelected ? Color(NSColor.windowBackgroundColor) : Color.clear)
         .cornerRadius(6)
-        .overlay(
-            RoundedRectangle(cornerRadius: 6)
-                .stroke(isSelected ? Color(NSColor.separatorColor) : Color.clear, lineWidth: 1)
-        )
-        .onHover { isHovering = $0 }
+        .onHover { isHovered = $0 }
         .onTapGesture { onSelect() }
     }
 

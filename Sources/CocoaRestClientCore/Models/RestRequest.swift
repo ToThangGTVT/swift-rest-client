@@ -30,6 +30,14 @@ public struct RestRequest: Identifiable, Codable, Hashable, Sendable {
     public var graphqlQuery: String
     public var graphqlVariables: String
 
+    // Test Assertions & Extraction Rules
+    public var assertions: [TestAssertion]
+    public var extractionRules: [VariableExtractionRule]
+
+    // Client Certificate (mTLS)
+    public var clientCertificatePath: String
+    public var clientCertificatePassword: String
+
     public init(
         id: UUID = UUID(),
         name: String = "New Request",
@@ -48,7 +56,11 @@ public struct RestRequest: Identifiable, Codable, Hashable, Sendable {
         rawBodyContentType: String = "application/json",
         binaryFilePath: String = "",
         graphqlQuery: String = "",
-        graphqlVariables: String = "{}"
+        graphqlVariables: String = "{}",
+        assertions: [TestAssertion] = [],
+        extractionRules: [VariableExtractionRule] = [],
+        clientCertificatePath: String = "",
+        clientCertificatePassword: String = ""
     ) {
         self.id = id
         self.name = name
@@ -65,6 +77,10 @@ public struct RestRequest: Identifiable, Codable, Hashable, Sendable {
         self.binaryFilePath = binaryFilePath
         self.graphqlQuery = graphqlQuery
         self.graphqlVariables = graphqlVariables
+        self.assertions = assertions
+        self.extractionRules = extractionRules
+        self.clientCertificatePath = clientCertificatePath
+        self.clientCertificatePassword = clientCertificatePassword
     }
 
     public func duplicate(withName newName: String? = nil) -> RestRequest {

@@ -78,6 +78,11 @@ public struct ResponseFormatter: Sendable {
         }
     }
 
+    public static func formatJson(_ string: String) -> String? {
+        guard let data = string.data(using: .utf8) else { return nil }
+        return formatJson(data: data)
+    }
+
     public static func formatXml(data: Data) -> String? {
         do {
             let xmlDoc = try XMLDocument(data: data, options: [.nodePreserveAll])
@@ -85,6 +90,11 @@ public struct ResponseFormatter: Sendable {
         } catch {
             return nil
         }
+    }
+
+    public static func formatXml(_ string: String) -> String? {
+        guard let data = string.data(using: .utf8) else { return nil }
+        return formatXml(data: data)
     }
 
     public static func decodePlainText(data: Data) -> String {

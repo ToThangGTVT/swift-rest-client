@@ -1,13 +1,17 @@
 //
 //  PreferencesView.swift
-//  CocoaRestClientApp
+//  CocoaRestClient
 //
 
 import SwiftUI
 import CocoaRestClientCore
+import AppKit
 
 public struct PreferencesView: View {
     @ObservedObject public var prefVM = PreferencesViewModel.shared
+
+    @State private var clientCertPath: String = ""
+    @State private var clientCertPassword: String = ""
 
     public init() {}
 
@@ -28,7 +32,7 @@ public struct PreferencesView: View {
                     Toggle("Follow HTTP Redirects", isOn: $prefVM.followRedirects)
                     Toggle("Apply original HTTP Method on Redirect (POST/PUT instead of GET)", isOn: $prefVM.applyHttpMethodOnRedirect)
                     Toggle("Allow Self-Signed & Untrusted SSL Certificates", isOn: $prefVM.allowSelfSignedCerts)
-                    Toggle("Disable Cookies handling", isOn: $prefVM.disableCookies)
+                    Toggle("Disable Automatic Cookie Jar handling", isOn: $prefVM.disableCookies)
                 }
 
                 Section("Defaults") {
@@ -56,7 +60,36 @@ public struct PreferencesView: View {
             .tabItem {
                 Label("Editor", systemImage: "character.cursor.ibeam")
             }
+
+            // Certificates (mTLS) Tab
+            Form {
+                Section("Client SSL / TLS Certificates (mTLS)") {
+                    Text("Provide a PKCS#12 (.p12 / .pfx) client certificate for mutual TLS authentication.")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+
+                    HStack {
+                        TextField("Certificate File (.p12 / .pfx)", text: $clientCertPath)
+                            .textFieldStyle(.roundedBorder)
+                        Button("Browse...") {
+                            let panel = NSOpenPanel()
+                            panel.canChooseFiles = true
+                            panel.allowsMultipleSelection = false
+                            if panel.runModal() == .OK, let url = panel.url {
+                                clientCertPath = url.path
+                            }
+                        }
+                    }
+
+                    SecureField("Certificate Password (if protected)", text: $clientCertPassword)
+                        .textFieldStyle(.roundedBorder)
+                }
+            }
+            .padding(20)
+            .tabItem {
+                Label("Certificates", systemImage: "lock.shield")
+            }
         }
-        .frame(width: 480, height: 320)
+        .frame(width: 520, height: 340)
     }
 }

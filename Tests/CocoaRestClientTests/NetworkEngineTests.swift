@@ -13,7 +13,7 @@ final class NetworkEngineTests: XCTestCase {
         XCTAssertTrue(options.followRedirects)
         XCTAssertFalse(options.applyHttpMethodOnRedirect)
         XCTAssertTrue(options.allowSelfSignedCerts)
-        XCTAssertTrue(options.disableCookies)
+        XCTAssertFalse(options.disableCookies)
     }
 
     func testNetworkResponseInitialization() {

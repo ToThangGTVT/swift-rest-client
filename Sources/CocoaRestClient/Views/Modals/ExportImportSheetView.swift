@@ -1,6 +1,6 @@
 //
 //  ExportImportSheetView.swift
-//  CocoaRestClientApp
+//  CocoaRestClient
 //
 
 import SwiftUI
@@ -24,56 +24,86 @@ public struct ExportImportSheetView: View {
             Text("Import & Export Collections")
                 .font(.headline)
 
-            Text("Export your saved requests collection to JSON for backup or team sharing, or import an existing collection file.")
+            Text("Export your collections to JSON, or import existing collections from Postman, OpenAPI / Swagger, or CocoaRestClient.")
                 .font(.subheadline)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
-                .frame(maxWidth: 400)
+                .frame(maxWidth: 520)
 
-            HStack(spacing: 20) {
-                // Export Card
-                VStack(spacing: 12) {
+            HStack(spacing: 16) {
+                // 1. Export Card
+                VStack(spacing: 10) {
                     Image(systemName: "square.and.arrow.up.circle.fill")
-                        .font(.system(size: 40))
+                        .font(.system(size: 36))
                         .foregroundColor(.blue)
 
-                    Text("Export Requests")
+                    Text("Export")
                         .fontWeight(.semibold)
 
-                    Text("\(savedVM.rootFolder.totalRequestCount) total requests in collection")
-                        .font(.caption)
+                    Text("\(savedVM.rootFolder.totalRequestCount) requests in collection")
+                        .font(.caption2)
                         .foregroundColor(.secondary)
 
-                    Button("Export to JSON...") {
+                    Button("Export JSON...") {
                         exportRequests()
                     }
                     .buttonStyle(.borderedProminent)
+                    .controlSize(.small)
                 }
-                .padding()
-                .frame(width: 200, height: 180)
+                .padding(12)
+                .frame(width: 170, height: 180)
                 .background(Color(NSColor.controlBackgroundColor))
                 .cornerRadius(10)
 
-                // Import Card
-                VStack(spacing: 12) {
-                    Image(systemName: "square.and.arrow.down.circle.fill")
-                        .font(.system(size: 40))
-                        .foregroundColor(.green)
+                // 2. Postman Import Card
+                VStack(spacing: 10) {
+                    Image(systemName: "paperplane.circle.fill")
+                        .font(.system(size: 36))
+                        .foregroundColor(.orange)
 
-                    Text("Import Requests")
+                    Text("Postman (v2.1)")
                         .fontWeight(.semibold)
 
-                    Text("Supports JSON collections")
-                        .font(.caption)
+                    Text("Import Postman collection JSON")
+                        .font(.caption2)
                         .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
 
-                    Button("Import File...") {
-                        importRequests()
+                    Button("Import Postman...") {
+                        importFile(type: .postman)
                     }
                     .buttonStyle(.borderedProminent)
+                    .controlSize(.small)
+                    .tint(.orange)
                 }
-                .padding()
-                .frame(width: 200, height: 180)
+                .padding(12)
+                .frame(width: 170, height: 180)
+                .background(Color(NSColor.controlBackgroundColor))
+                .cornerRadius(10)
+
+                // 3. OpenAPI / Swagger Import Card
+                VStack(spacing: 10) {
+                    Image(systemName: "doc.text.magnifyingglass")
+                        .font(.system(size: 36))
+                        .foregroundColor(.green)
+
+                    Text("OpenAPI / Swagger")
+                        .fontWeight(.semibold)
+
+                    Text("Import OpenAPI 3.0 / Swagger JSON")
+                        .font(.caption2)
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
+
+                    Button("Import OpenAPI...") {
+                        importFile(type: .openApi)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .controlSize(.small)
+                    .tint(.green)
+                }
+                .padding(12)
+                .frame(width: 170, height: 180)
                 .background(Color(NSColor.controlBackgroundColor))
                 .cornerRadius(10)
             }
@@ -82,12 +112,19 @@ public struct ExportImportSheetView: View {
                 Text(msg)
                     .font(.caption)
                     .foregroundColor(isError ? .red : .green)
+                    .padding(.top, 4)
             }
 
             Divider()
 
             HStack {
+                Button("Auto-Detect File...") {
+                    importFile(type: .auto)
+                }
+                .buttonStyle(.bordered)
+
                 Spacer()
+
                 Button("Done") {
                     dismiss()
                 }
@@ -95,7 +132,11 @@ public struct ExportImportSheetView: View {
             }
         }
         .padding(20)
-        .frame(width: 500, height: 340)
+        .frame(width: 580, height: 360)
+    }
+
+    private enum ImportType {
+        case auto, postman, openApi
     }
 
     private func exportRequests() {
@@ -114,17 +155,40 @@ public struct ExportImportSheetView: View {
         }
     }
 
-    private func importRequests() {
+    private func importFile(type: ImportType) {
         let panel = NSOpenPanel()
         panel.canChooseFiles = true
         panel.canChooseDirectories = false
         panel.allowsMultipleSelection = false
         if panel.runModal() == .OK, let url = panel.url {
+            guard let data = try? Data(contentsOf: url) else {
+                importStatusMessage = "Failed to read file at \(url.lastPathComponent)"
+                isError = true
+                return
+            }
+
             do {
-                let importedFolder = try SavedRequestsStore.shared.importFolder(from: url)
-                savedVM.rootFolder.append(.folder(importedFolder))
+                let folder: RequestFolder
+                switch type {
+                case .postman:
+                    folder = try PostmanImporter.importCollection(from: data)
+                case .openApi:
+                    folder = try OpenAPIImporter.importSpecification(from: data)
+                case .auto:
+                    if let f = try? SavedRequestsStore.shared.importFolder(from: url) {
+                        folder = f
+                    } else if let f = try? PostmanImporter.importCollection(from: data) {
+                        folder = f
+                    } else if let f = try? OpenAPIImporter.importSpecification(from: data) {
+                        folder = f
+                    } else {
+                        throw NSError(domain: "Import", code: 2, userInfo: [NSLocalizedDescriptionKey: "Unrecognized collection format"])
+                    }
+                }
+
+                savedVM.rootFolder.append(.folder(folder))
                 savedVM.persist()
-                importStatusMessage = "Successfully imported \(importedFolder.name) (\(importedFolder.totalRequestCount) requests)"
+                importStatusMessage = "Successfully imported \"\(folder.name)\" (\(folder.totalRequestCount) requests)"
                 isError = false
             } catch {
                 importStatusMessage = "Import failed: \(error.localizedDescription)"

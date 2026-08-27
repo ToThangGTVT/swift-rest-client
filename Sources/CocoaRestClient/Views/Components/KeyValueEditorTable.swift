@@ -1,6 +1,6 @@
 //
 //  KeyValueEditorTable.swift
-//  CocoaRestClientApp
+//  CocoaRestClient
 //
 
 import SwiftUI
@@ -16,7 +16,7 @@ public struct KeyValueEditorTable: View {
         items: Binding<[KeyValuePair]>,
         keyPlaceholder: String = "Key",
         valuePlaceholder: String = "Value",
-        commonKeys: [String] = []
+        commonKeys: [String] = CommonHeaders.standardHeaderKeys
     ) {
         self._items = items
         self.keyPlaceholder = keyPlaceholder
@@ -32,6 +32,22 @@ public struct KeyValueEditorTable: View {
                     .font(.caption)
                     .foregroundColor(.secondary)
                 Spacer()
+
+                // Quick Presets Menu
+                if !commonKeys.isEmpty {
+                    Menu {
+                        ForEach(commonKeys, id: \.self) { preset in
+                            Button(preset) {
+                                items.append(KeyValuePair(key: preset, value: defaultForPreset(preset), isEnabled: true))
+                            }
+                        }
+                    } label: {
+                        Label("Add Preset Header", systemImage: "list.bullet")
+                    }
+                    .menuStyle(.borderlessButton)
+                    .font(.caption)
+                }
+
                 Button(action: addRow) {
                     Label("Add Row", systemImage: "plus")
                 }
@@ -59,13 +75,57 @@ public struct KeyValueEditorTable: View {
                                 .toggleStyle(.checkbox)
                                 .frame(width: 20)
 
-                            TextField(keyPlaceholder, text: $item.key)
-                                .textFieldStyle(.roundedBorder)
-                                .font(.system(.body, design: .monospaced))
+                            // Key field with quick preset menu
+                            HStack(spacing: 0) {
+                                TextField(keyPlaceholder, text: $item.key)
+                                    .textFieldStyle(.roundedBorder)
+                                    .font(.system(.body, design: .monospaced))
 
-                            TextField(valuePlaceholder, text: $item.value)
-                                .textFieldStyle(.roundedBorder)
-                                .font(.system(.body, design: .monospaced))
+                                if !commonKeys.isEmpty {
+                                    Menu {
+                                        ForEach(commonKeys.filter { $0 != item.key }, id: \.self) { k in
+                                            Button(k) {
+                                                item.key = k
+                                                if item.value.isEmpty {
+                                                    item.value = defaultForPreset(k)
+                                                }
+                                            }
+                                        }
+                                    } label: {
+                                        Image(systemName: "chevron.down")
+                                            .font(.caption2)
+                                            .foregroundColor(.secondary)
+                                            .padding(.horizontal, 4)
+                                    }
+                                    .menuStyle(.borderlessButton)
+                                    .frame(width: 20)
+                                }
+                            }
+
+                            // Value field with content-type suggestions when appropriate
+                            HStack(spacing: 0) {
+                                TextField(valuePlaceholder, text: $item.value)
+                                    .textFieldStyle(.roundedBorder)
+                                    .font(.system(.body, design: .monospaced))
+
+                                if item.key.caseInsensitiveCompare("Content-Type") == .orderedSame ||
+                                   item.key.caseInsensitiveCompare("Accept") == .orderedSame {
+                                    Menu {
+                                        ForEach(CommonHeaders.standardContentTypes, id: \.self) { ct in
+                                            Button(ct) {
+                                                item.value = ct
+                                            }
+                                        }
+                                    } label: {
+                                        Image(systemName: "chevron.down")
+                                            .font(.caption2)
+                                            .foregroundColor(.secondary)
+                                            .padding(.horizontal, 4)
+                                    }
+                                    .menuStyle(.borderlessButton)
+                                    .frame(width: 20)
+                                }
+                            }
 
                             Button(action: { deleteItem(item.id) }) {
                                 Image(systemName: "trash")
@@ -92,6 +152,17 @@ public struct KeyValueEditorTable: View {
                 }
                 .padding(.vertical, 4)
             }
+        }
+    }
+
+    private func defaultForPreset(_ key: String) -> String {
+        switch key.lowercased() {
+        case "content-type": return "application/json"
+        case "accept": return "*/*"
+        case "accept-encoding": return "gzip, deflate, br"
+        case "user-agent": return "CocoaRestClient"
+        case "cache-control": return "no-cache"
+        default: return ""
         }
     }
 

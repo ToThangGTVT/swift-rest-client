@@ -53,6 +53,16 @@ public final class EnvironmentViewModel: ObservableObject {
         save()
     }
 
+    public func setVariable(key: String, value: String) {
+        guard let id = selectedEnvironmentId, let idx = environments.firstIndex(where: { $0.id == id }) else { return }
+        if let varIdx = environments[idx].variables.firstIndex(where: { $0.key == key }) {
+            environments[idx].variables[varIdx].value = value
+        } else {
+            environments[idx].variables.append(KeyValuePair(key: key, value: value, isEnabled: true))
+        }
+        save()
+    }
+
     public func save() {
         store.saveEnvironments(environments)
     }

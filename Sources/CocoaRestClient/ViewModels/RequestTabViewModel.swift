@@ -9,10 +9,11 @@ import CocoaRestClientCore
 import AppKit
 
 public enum RequestEditorTab: String, CaseIterable, Identifiable {
-    case params = "Query Params"
+    case params = "Params"
     case headers = "Headers"
     case body = "Body"
     case auth = "Auth"
+    case tests = "Tests"
 
     public var id: String { rawValue }
 }
@@ -21,6 +22,8 @@ public enum ResponseViewerTab: String, CaseIterable, Identifiable {
     case body = "Body"
     case headers = "Headers"
     case sentHeaders = "Sent Headers"
+    case cookies = "Cookies"
+    case tests = "Tests"
 
     public var id: String { rawValue }
 }
@@ -37,6 +40,7 @@ public final class RequestTabViewModel: ObservableObject, Identifiable {
     public let id: UUID
     @Published public var request: RestRequest
     @Published public var response: NetworkResponse?
+    @Published public var testResults: [TestResult] = []
     @Published public var isLoading: Bool = false
     @Published public var selectedRequestTab: RequestEditorTab = .body
     @Published public var selectedResponseTab: ResponseViewerTab = .body
@@ -79,6 +83,18 @@ public final class RequestTabViewModel: ObservableObject, Identifiable {
                 self.response = res
                 self.isLoading = false
 
+                // Run Test Assertions
+                self.testResults = TestRunner.evaluate(assertions: self.request.assertions, response: res)
+
+                // Run Variable Extraction into Active Environment
+                if !self.request.extractionRules.isEmpty {
+                    var dict = EnvironmentViewModel.shared.activeVariables
+                    let extracted = VariableExtractor.extractVariables(rules: self.request.extractionRules, response: res, intoVariables: &dict)
+                    for (k, v) in extracted {
+                        EnvironmentViewModel.shared.setVariable(key: k, value: v)
+                    }
+                }
+
                 // Record into History
                 HistoryStore.shared.addEntry(
                     request: self.request,
@@ -100,32 +116,28 @@ public final class RequestTabViewModel: ObservableObject, Identifiable {
     }
 
     public func copyCurlCommand() {
-        let env = EnvironmentViewModel.shared.activeVariables
-        let curl = CurlCommandGenerator.generate(from: request, environment: env)
-        let pasteboard = NSPasteboard.general
-        pasteboard.clearContents()
-        pasteboard.setString(curl, forType: .string)
-    }
-
-    public func generateCode(language: CodeLanguage) -> String {
-        let env = EnvironmentViewModel.shared.activeVariables
-        return CodeGenerator.generate(language: language, request: request, environment: env)
+        let cmd = CurlCommandGenerator.generate(from: request, environment: EnvironmentViewModel.shared.activeVariables)
+        NSPasteboard.general.clearContents()
+        NSPasteboard.general.setString(cmd, forType: .string)
     }
 
     public func formatRawBody() {
-        guard !request.rawBody.isEmpty else { return }
-        if let data = request.rawBody.data(using: .utf8),
-           let formatted = ResponseFormatter.formatJson(data: data) {
+        if let formatted = ResponseFormatter.formatJson(request.rawBody) {
+            request.rawBody = formatted
+        } else if let formatted = ResponseFormatter.formatXml(request.rawBody) {
             request.rawBody = formatted
         }
     }
 
     public func exportResponseToTempFile() -> URL? {
         guard let res = response, !res.bodyData.isEmpty else { return nil }
-        let tempDir = FileManager.default.temporaryDirectory
         let ext = res.contentType?.contains("json") == true ? "json" : (res.contentType?.contains("xml") == true ? "xml" : (res.isHtml ? "html" : "txt"))
-        let fileUrl = tempDir.appendingPathComponent("response-\(Date().timeIntervalSince1970).\(ext)")
-        try? res.bodyData.write(to: fileUrl)
-        return fileUrl
+        let tempUrl = FileManager.default.temporaryDirectory.appendingPathComponent("response.\(ext)")
+        try? res.bodyData.write(to: tempUrl)
+        return tempUrl
+    }
+
+    public func duplicate() -> RequestTabViewModel {
+        RequestTabViewModel(request: request.duplicate(withName: "\(tabTitle) (Copy)"))
     }
 }
