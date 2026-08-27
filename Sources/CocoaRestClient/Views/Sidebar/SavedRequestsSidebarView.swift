@@ -77,7 +77,7 @@ public struct SavedRequestsSidebarView: View {
                     .font(.caption)
                 TextField("Search saved requests...", text: $savedVM.searchQuery)
                     .textFieldStyle(.plain)
-                    .font(.system(size: 11))
+                    .font(.system(size: 12))
 
                 if !savedVM.searchQuery.isEmpty {
                     Button(action: { savedVM.searchQuery = "" }) {
@@ -88,8 +88,8 @@ public struct SavedRequestsSidebarView: View {
                     .buttonStyle(.plain)
                 }
             }
-            .padding(.horizontal, 6)
-            .padding(.vertical, 4)
+            .padding(.horizontal, 8)
+            .padding(.vertical, 5)
             .background(Color(NSColor.controlBackgroundColor))
             .cornerRadius(6)
             .padding(.horizontal, 8)
@@ -104,7 +104,7 @@ public struct SavedRequestsSidebarView: View {
                         // Flat filtered list
                         if savedVM.filteredRequests.isEmpty {
                             Text("No matching requests")
-                                .font(.caption)
+                                .font(.system(size: 12))
                                 .foregroundColor(.secondary)
                                 .padding(.horizontal, 12)
                                 .padding(.top, 12)
@@ -122,7 +122,7 @@ public struct SavedRequestsSidebarView: View {
                         if savedVM.rootFolder.items.isEmpty {
                             VStack(spacing: 6) {
                                 Text("No saved requests")
-                                    .font(.caption)
+                                    .font(.system(size: 12))
                                     .foregroundColor(.secondary)
                                 Button("Create Folder") {
                                     targetFolderIdForNewFolder = nil
@@ -165,7 +165,7 @@ public struct SavedRequestsSidebarView: View {
                     Label("New Folder", systemImage: "folder.badge.plus")
                 }
                 .buttonStyle(.plain)
-                .font(.caption)
+                .font(.system(size: 12))
 
                 Spacer()
 
@@ -173,7 +173,7 @@ public struct SavedRequestsSidebarView: View {
                     Label("Import/Export", systemImage: "arrow.up.arrow.down")
                 }
                 .buttonStyle(.plain)
-                .font(.caption)
+                .font(.system(size: 12))
             }
             .padding(.horizontal, 10)
             .padding(.vertical, 6)
@@ -247,9 +247,9 @@ private struct CompactFolderView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 1) {
             // Folder Header Row
-            HStack(spacing: 4) {
+            HStack(spacing: 5) {
                 Image(systemName: "chevron.right")
-                    .font(.system(size: 9, weight: .bold))
+                    .font(.system(size: 10, weight: .bold))
                     .foregroundColor(.secondary)
                     .rotationEffect(.degrees(isExpanded ? 90 : 0))
                     .animation(.easeInOut(duration: 0.15), value: isExpanded)
@@ -257,20 +257,21 @@ private struct CompactFolderView: View {
 
                 Image(systemName: isExpanded ? "folder.fill" : "folder")
                     .foregroundColor(.accentColor)
-                    .font(.system(size: 11))
+                    .font(.system(size: 13))
 
                 Text(folder.name)
-                    .font(.system(size: 12, weight: .medium))
+                    .font(.system(size: 13, weight: .semibold))
                     .lineLimit(1)
 
                 Spacer()
 
                 Text("\(folder.totalRequestCount)")
-                    .font(.system(size: 9))
+                    .font(.system(size: 10.5, weight: .medium))
                     .foregroundColor(.secondary)
-                    .padding(.horizontal, 4)
+                    .padding(.horizontal, 5)
+                    .padding(.vertical, 1)
                     .background(Color.primary.opacity(0.06))
-                    .cornerRadius(3)
+                    .cornerRadius(4)
             }
             .padding(.leading, CGFloat(level) * 12.0)
             .padding(.horizontal, 4)
@@ -325,17 +326,17 @@ private struct CompactRequestRow: View {
     @State private var isHovered: Bool = false
 
     var body: some View {
-        HStack(spacing: 5) {
+        HStack(spacing: 6) {
             Text(req.method.rawValue)
-                .font(.system(size: 8, weight: .bold, design: .monospaced))
-                .padding(.horizontal, 3)
-                .padding(.vertical, 1)
+                .font(.system(size: 9.5, weight: .bold, design: .monospaced))
+                .padding(.horizontal, 4)
+                .padding(.vertical, 1.5)
                 .background(methodColor(req.method).opacity(0.18))
                 .foregroundColor(methodColor(req.method))
                 .cornerRadius(3)
 
             Text(req.name)
-                .font(.system(size: 11.5))
+                .font(.system(size: 13))
                 .lineLimit(1)
                 .foregroundColor(isSelected ? .primary : .primary.opacity(0.9))
 
@@ -382,24 +383,24 @@ private struct CompactFilteredRequestRow: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 1) {
-            HStack(spacing: 5) {
+            HStack(spacing: 6) {
                 Text(item.request.method.rawValue)
-                    .font(.system(size: 8, weight: .bold, design: .monospaced))
-                    .padding(.horizontal, 3)
-                    .padding(.vertical, 1)
+                    .font(.system(size: 9.5, weight: .bold, design: .monospaced))
+                    .padding(.horizontal, 4)
+                    .padding(.vertical, 1.5)
                     .background(methodColor(item.request.method).opacity(0.18))
                     .foregroundColor(methodColor(item.request.method))
                     .cornerRadius(3)
 
                 Text(item.request.name)
-                    .font(.system(size: 11.5))
+                    .font(.system(size: 13))
                     .lineLimit(1)
 
                 Spacer()
             }
 
             Text(item.path)
-                .font(.system(size: 9))
+                .font(.system(size: 10))
                 .foregroundColor(.secondary)
                 .lineLimit(1)
         }

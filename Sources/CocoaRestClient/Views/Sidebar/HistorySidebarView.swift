@@ -28,7 +28,7 @@ public struct HistorySidebarView: View {
 
                 TextField("Search history...", text: $historyVM.searchText)
                     .textFieldStyle(.plain)
-                    .font(.system(size: 11))
+                    .font(.system(size: 12))
 
                 if !historyVM.searchText.isEmpty {
                     Button(action: { historyVM.searchText = "" }) {
@@ -49,8 +49,8 @@ public struct HistorySidebarView: View {
                 .buttonStyle(.plain)
                 .help("Clear History")
             }
-            .padding(.horizontal, 6)
-            .padding(.vertical, 4)
+            .padding(.horizontal, 8)
+            .padding(.vertical, 5)
             .background(Color(NSColor.controlBackgroundColor))
             .cornerRadius(6)
             .padding(.horizontal, 8)
@@ -64,7 +64,7 @@ public struct HistorySidebarView: View {
                         .font(.title3)
                         .foregroundColor(.secondary)
                     Text("No request history yet")
-                        .font(.caption)
+                        .font(.system(size: 12))
                         .foregroundColor(.secondary)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -97,28 +97,28 @@ private struct CompactHistoryRow: View {
     var body: some View {
         Button(action: onSelect) {
             VStack(alignment: .leading, spacing: 2) {
-                HStack(spacing: 4) {
+                HStack(spacing: 5) {
                     Text(item.request.method.rawValue)
-                        .font(.system(size: 8, weight: .bold, design: .monospaced))
+                        .font(.system(size: 9.5, weight: .bold, design: .monospaced))
                         .foregroundColor(methodColor(item.request.method))
-                        .padding(.horizontal, 3)
-                        .padding(.vertical, 1)
+                        .padding(.horizontal, 4)
+                        .padding(.vertical, 1.5)
                         .background(methodColor(item.request.method).opacity(0.15))
                         .cornerRadius(3)
 
                     Text(item.formattedTime)
-                        .font(.system(size: 9))
+                        .font(.system(size: 10.5))
                         .foregroundColor(.secondary)
 
                     Spacer()
 
                     Text("\(item.statusCode)")
-                        .font(.system(size: 9, weight: .bold))
+                        .font(.system(size: 11, weight: .bold))
                         .foregroundColor(item.statusCode >= 200 && item.statusCode < 300 ? .green : .red)
                 }
 
                 Text(item.request.url)
-                    .font(.system(size: 11))
+                    .font(.system(size: 12.5))
                     .lineLimit(1)
                     .truncationMode(.middle)
                     .foregroundColor(.primary)
@@ -128,11 +128,11 @@ private struct CompactHistoryRow: View {
                     Spacer()
                     Text(item.formattedSize)
                 }
-                .font(.system(size: 8.5))
+                .font(.system(size: 10))
                 .foregroundColor(.secondary)
             }
             .padding(.horizontal, 6)
-            .padding(.vertical, 3)
+            .padding(.vertical, 3.5)
             .background(isHovered ? Color.primary.opacity(0.06) : Color.clear)
             .cornerRadius(4)
         }
