@@ -26,6 +26,10 @@ public struct GitSyncService: Sendable {
 
         var env = ProcessInfo.processInfo.environment
         env["GIT_TERMINAL_PROMPT"] = "0"
+        env["GIT_AUTHOR_NAME"] = "CocoaRestClient"
+        env["GIT_AUTHOR_EMAIL"] = "restclient@local"
+        env["GIT_COMMITTER_NAME"] = "CocoaRestClient"
+        env["GIT_COMMITTER_EMAIL"] = "restclient@local"
         process.environment = env
 
         let outPipe = Pipe()
@@ -35,10 +39,9 @@ public struct GitSyncService: Sendable {
 
         do {
             try process.run()
-            process.waitUntilExit()
-
             let outData = outPipe.fileHandleForReading.readDataToEndOfFile()
             let errData = errPipe.fileHandleForReading.readDataToEndOfFile()
+            process.waitUntilExit()
 
             let outStr = String(data: outData, encoding: .utf8) ?? ""
             let errStr = String(data: errData, encoding: .utf8) ?? ""

@@ -6,13 +6,33 @@
 import SwiftUI
 import CocoaRestClientCore
 
+final class AppDelegate: NSObject, NSApplicationDelegate {
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        NSApp.setActivationPolicy(.regular)
+        NSApp.activate(ignoringOtherApps: true)
+    }
+
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        if !flag {
+            for window in sender.windows {
+                window.makeKeyAndOrderFront(self)
+            }
+        }
+        return true
+    }
+}
+
 @main
 struct CocoaRestClientApp: App {
+    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+
     var body: some Scene {
         WindowGroup {
             MainView()
                 .frame(minWidth: 880, minHeight: 620)
         }
+        .windowStyle(.automatic)
+        .defaultSize(width: 1080, height: 720)
         .commands {
             SidebarCommands()
 
