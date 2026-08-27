@@ -3,1845 +3,718 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 47;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0C2FE256919949B9B4AAC202 /* libPods-CocoaRestClientTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FDE582D01932D33F7626F143 /* libPods-CocoaRestClientTests.a */; };
-		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
-		2C03E34F16CA2E0F00C7608A /* CRCHTTPHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C03E34E16CA2E0F00C7608A /* CRCHTTPHeaderCell.m */; };
-		2C954AFA16B9799D00C8D54B /* NSData+gzip.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C954AF916B9799D00C8D54B /* NSData+gzip.m */; };
-		2C954AFD16B97A3200C8D54B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C954AFC16B97A3200C8D54B /* libz.dylib */; };
-		5704EED0155C7BF400C55656 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5704EECF155C7BF400C55656 /* WebKit.framework */; };
-		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
-		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
-		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
-		985608C11C8FF3E700A3EB6E /* defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 985608C01C8FF3E700A3EB6E /* defaults.plist */; };
-		985608C71C90031300A3EB6E /* CRCConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 985608C61C90031300A3EB6E /* CRCConstants.m */; };
-		AF0A96BE1CC86E1A001870FC /* DMSlidingTabItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = AF0A96B81CC86D57001870FC /* DMSlidingTabItemView.m */; };
-		AF0A96C01CC86E1A001870FC /* DMSlidingTabView.m in Sources */ = {isa = PBXBuildFile; fileRef = AF0A96BA1CC86D57001870FC /* DMSlidingTabView.m */; };
-		AF1FC48410F435BD00ED5A57 /* CheckableRequestWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 256AC3D90F4B6AC300CF3369 /* CheckableRequestWrapper.m */; };
-		AF3FE7C71F6B7B60003ED6BA /* DiffWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF3FE7C51F6B7B60003ED6BA /* DiffWindow.xib */; };
-		AF3FE7CA1F6B7D67003ED6BA /* DiffWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3FE7C91F6B7D67003ED6BA /* DiffWindowController.m */; };
-		AF7A149B113B583A00F0D6F5 /* cocoaRestClient.icns in Resources */ = {isa = PBXBuildFile; fileRef = AF7A149A113B583A00F0D6F5 /* cocoaRestClient.icns */; };
-		AF7CE5C71766CBC10080363B /* TableRowAndColumn.m in Sources */ = {isa = PBXBuildFile; fileRef = AF7CE5C61766CBC10080363B /* TableRowAndColumn.m */; };
-		AF85365520692190002A8D0C /* NSTextView+TouchBarExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = AF85365420692190002A8D0C /* NSTextView+TouchBarExtension.m */; };
-		AF8536582069238F002A8D0C /* ACEView+TouchBarExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = AF8536572069238F002A8D0C /* ACEView+TouchBarExtension.m */; };
-		AF89587615608E9D0079B379 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF895874156088610079B379 /* QuartzCore.framework */; };
-		AF90070516AC43A80012C758 /* CocoaRestClientAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AF90070416AC43A80012C758 /* CocoaRestClientAppDelegate.m */; };
-		AF99ECAD1EC013A100101893 /* MainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF99ECAB1EC013A100101893 /* MainWindowController.m */; };
-		AF99ECB11EC013EF00101893 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = AF99ECAF1EC013EF00101893 /* MainWindow.xib */; };
-		AF99ECB71ECD302400101893 /* SavedRequestsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = AF99ECB61ECD302400101893 /* SavedRequestsDataSource.m */; };
-		AF99ECBA1ED289E100101893 /* SaveRequestPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF99ECB91ED289E100101893 /* SaveRequestPanelController.m */; };
-		AF99ECBD1ED5B73C00101893 /* TimeoutPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF99ECBC1ED5B73C00101893 /* TimeoutPanelController.m */; };
-		AF9FE4281E9187A600415022 /* document-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = AF9FE4261E9187A600415022 /* document-icon.png */; };
-		AFA11AB515CEDA3600831738 /* Welcome.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFA11AB315CEDA3600831738 /* Welcome.xib */; };
-		AFA11AB815CEDAE300831738 /* WelcomeController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFA11AB715CEDAE300831738 /* WelcomeController.m */; };
-		AFA11ACD15CF036300831738 /* motd.txt in Resources */ = {isa = PBXBuildFile; fileRef = AFA11ACC15CF036300831738 /* motd.txt */; };
-		AFAA04FC1CFB6F19005A50ED /* ContentTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = AFAA04FB1CFB6F19005A50ED /* ContentTypes.m */; };
-		AFB3AA3D1A87E43400012E04 /* HighlightingTypeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AFB3AA3C1A87E43400012E04 /* HighlightingTypeManager.m */; };
-		AFB3AA3F1A94051700012E04 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AFB3AA3E1A94051700012E04 /* Images.xcassets */; };
-		AFBB7D4714F9587A00424C12 /* TabbingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = AFBB7D4614F9587A00424C12 /* TabbingTableView.m */; };
-		AFBB7D4B14F98B4000424C12 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFBB7D4914F98B4000424C12 /* Preferences.xib */; };
-		AFBB7D4E14F98C1B00424C12 /* PreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFBB7D4D14F98C1B00424C12 /* PreferencesController.m */; };
-		AFBBA03E18D4AB93002E7036 /* CRCSavedRequestFolder.m in Sources */ = {isa = PBXBuildFile; fileRef = AFBBA03D18D4AB93002E7036 /* CRCSavedRequestFolder.m */; };
-		AFBF08BD14C1E9BB000E7411 /* ExportRequests.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFBF08BC14C1E9BB000E7411 /* ExportRequests.xib */; };
-		AFBF08C514C32D30000E7411 /* ExportRequestsController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFBF08C414C32D30000E7411 /* ExportRequestsController.m */; };
-		AFBF08E214C4D7EE000E7411 /* CRCDrawerView.m in Sources */ = {isa = PBXBuildFile; fileRef = AFBF08E114C4D7EE000E7411 /* CRCDrawerView.m */; };
-		AFCE79571419B54600E22468 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = AFCE79561419B54600E22468 /* dsa_pub.pem */; };
-		AFD637AF226D698F00CD89D5 /* MainWindowControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AFD637AE226D698F00CD89D5 /* MainWindowControllerTests.m */; };
-		AFE1837712E394E5001B1B29 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = AFE1837612E394E5001B1B29 /* LICENSE.txt */; };
-		AFE908861E748C87006D9B91 /* SelectableSavedRequestWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = AFE908851E748C87006D9B91 /* SelectableSavedRequestWrapper.m */; };
-		AFE908891E748F0A006D9B91 /* FastSearchSavedRequestTextCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = AFE908871E748F0A006D9B91 /* FastSearchSavedRequestTextCellView.m */; };
-		AFF3B97B1E15A0DC00AA664C /* FastSearchSavedRequestsController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFF3B97A1E15A0DC00AA664C /* FastSearchSavedRequestsController.m */; };
-		AFF3B97E1E15A24600AA664C /* FastSearchSavedRequests.xib in Resources */ = {isa = PBXBuildFile; fileRef = AFF3B97C1E15A24600AA664C /* FastSearchSavedRequests.xib */; };
-		D714A01D11E8BF7700F5A80B /* CRCFormEncodedRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D714A01C11E8BF7700F5A80B /* CRCFormEncodedRequest.m */; };
-		D714A02011E8C0F400F5A80B /* CRCRawRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D714A01F11E8C0F400F5A80B /* CRCRawRequest.m */; };
-		D714A03111E8F61D00F5A80B /* CRCFileRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D714A03011E8F61D00F5A80B /* CRCFileRequest.m */; };
-		D714A0A211E901FB00F5A80B /* CRCRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D714A0A111E901FB00F5A80B /* CRCRequest.m */; };
-		D7AC588711E60DDA00D67635 /* CRCMultipartRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D7AC588611E60DDA00D67635 /* CRCMultipartRequest.m */; };
-		D7D998B411EAA29B005B8811 /* CRCTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = D7D998B311EAA29B005B8811 /* CRCTopView.m */; };
-		F84CC2410A93E76AA17BDE2D /* libPods-CocoaRestClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCF7DF709BFF6221813746B /* libPods-CocoaRestClient.a */; };
+		053AF60C9C4A4612893F1B34 /* Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832D72869FED4678B9070ADC /* Authentication.swift */; };
+		46D683A6C052433C90DA4E57 /* CRCConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CF1A8CDBCB4340B493BFA0 /* CRCConstants.swift */; };
+		FFA6297F9B164F6B96C793B5 /* FileAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549C813C97B040DDAB5EB168 /* FileAttachment.swift */; };
+		BAE36F9D695A403EBD712A94 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0C76DA86D044E381364329 /* HTTPMethod.swift */; };
+		1C185350875C408C8D61453B /* KeyValuePair.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345ADD7233314C60B0644A75 /* KeyValuePair.swift */; };
+		B4014CA89EE74EADB13C3B27 /* RequestFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB08099BA4A149F8A2191800 /* RequestFolder.swift */; };
+		CAC28BC6D2FA4741A6303A5E /* RestRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185CCF723829471EB9F51000 /* RestRequest.swift */; };
+		824B8508577E4EAB9E809D97 /* CurlCommandGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF6B298CEBB410D81EBF909 /* CurlCommandGenerator.swift */; };
+		59B498A8B14D4BB6992920D5 /* DiffEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2725E461404677B8D2AEFB /* DiffEngine.swift */; };
+		EC2A01C62D4948F2863EC7A4 /* EnvironmentVariableResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03776EA43CBF46DF8EF28181 /* EnvironmentVariableResolver.swift */; };
+		A486B7E337894D79B9919B4C /* NetworkEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2AB797535448CC8D0D0605 /* NetworkEngine.swift */; };
+		86446DB1DBEC4AA0ABD8A3E8 /* RequestBodyBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2F499FB48E4C4D9E4E918F /* RequestBodyBuilder.swift */; };
+		887C9311F4064790902783A5 /* ResponseFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4771DD5C93D549CA8712AC36 /* ResponseFormatter.swift */; };
+		70EA809244F8465FADAB1B2D /* SavedRequestsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C5A02EE4FC449086DAD004 /* SavedRequestsStore.swift */; };
+		26DBAC061D864DBCA5F5BE67 /* CocoaRestClientApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E06E3670F34DD19CB4BF7A /* CocoaRestClientApp.swift */; };
+		E24F57C0496249DD9AAF951B /* DiffViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D148B990811A4A6393176492 /* DiffViewModel.swift */; };
+		5C7CAEE2B4B043BD808121F7 /* PreferencesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9DAAFF419E2498EAF69761B /* PreferencesViewModel.swift */; };
+		83A024C69B194A28B06E827B /* RequestTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965B0DA933714827BDAE0C40 /* RequestTabViewModel.swift */; };
+		EBFE1EDB08884E9995FA00C0 /* SavedRequestsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E822C582C247E2B80408D8 /* SavedRequestsViewModel.swift */; };
+		F5A91EDD18B54235A92AEEA9 /* WorkspaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C197A053C6D4C21B49AA36B /* WorkspaceViewModel.swift */; };
+		0655AF4BE89A4F5BB17E1715 /* KeyValueEditorTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0418956300FC4362806D4CBF /* KeyValueEditorTable.swift */; };
+		7DD2699FD7B74AD4A9FB4639 /* StatusBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3ECD2E76B4B48268DFCD2B3 /* StatusBadgeView.swift */; };
+		9304E62505ED42768001D21A /* SyntaxTextEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC8C39784326490A909258E7 /* SyntaxTextEditorView.swift */; };
+		4A3214F95B2F45DBB7920AA1 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6ADA9FE0B2E433DB74870DB /* MainView.swift */; };
+		BA6465C936F443568B85B175 /* DiffSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DDB0EA558A6469097179326 /* DiffSheetView.swift */; };
+		58AF213E93D44722A56CED31 /* ExportImportSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF0CA48C53F4D6C9685CDD3 /* ExportImportSheetView.swift */; };
+		D3B9F27632B548C2934EFBAE /* FastSearchSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401CE10C2D8F459DA1DB5A6F /* FastSearchSheetView.swift */; };
+		499C409799A3442483679008 /* SaveRequestSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1789A60DF42FCB0FC1256 /* SaveRequestSheetView.swift */; };
+		40373EBB5CE94A47ACEB963D /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D20F8E46230428CAC6C2B43 /* PreferencesView.swift */; };
+		CD2A847A61D543379643A53C /* AuthEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1AD3D1BFB1478FB5A10ECA /* AuthEditorView.swift */; };
+		222AAA2D74234D92B9351F67 /* FilesTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F89180E6134D402B90DF11B4 /* FilesTableView.swift */; };
+		6B36B89003934A669B23C7FE /* HeadersTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C419771DF24CC8B928B38A /* HeadersTableView.swift */; };
+		6BC5DAD3D1324B848D3C74EB /* ParamsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721DC2CBAD774A7DA661EB87 /* ParamsTableView.swift */; };
+		ED67A9DAB7974501ABC7FC9F /* RequestBodyEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9190E3A8FEED4EAC85D62B17 /* RequestBodyEditorView.swift */; };
+		91C71DBFE4EE42B38F7BCA4F /* RequestHeaderBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6790C3846A9E429A84AAFA63 /* RequestHeaderBar.swift */; };
+		DD2D9326FC2F4CB0AC25DFE1 /* ResponseHeadersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827FD55EDA04461CBF47AAB2 /* ResponseHeadersView.swift */; };
+		F52AC69157304DD194B0807F /* ResponseViewerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1751D011A7C4728BF4168BA /* ResponseViewerView.swift */; };
+		46FC3BC2FC464971BD67727E /* SentHeadersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA435659DF2846EDB578F386 /* SentHeadersView.swift */; };
+		EBA67B338D094AA5B5F9C1F0 /* SavedRequestsSidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6B9F93C4DE438B9699749F /* SavedRequestsSidebarView.swift */; };
+		6CCAA17348824088A769A0BF /* CurlCommandGeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35BC4C4E65ED4118A49E8CC7 /* CurlCommandGeneratorTests.swift */; };
+		9AF80D801ACD4C5E9DF2E926 /* DiffEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26DA6E2B551429583D8E686 /* DiffEngineTests.swift */; };
+		3B0D7FA31A6449E6A1297AFB /* EnvironmentVariableResolverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2521BC0ADE349FAA6A39606 /* EnvironmentVariableResolverTests.swift */; };
+		8944C5EF0EE44F6986556723 /* NetworkEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE4A2D2663974785A4E4D3C0 /* NetworkEngineTests.swift */; };
+		9780DF385FB044B7911D3698 /* ResponseFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33DBA8BB11A447EDB527B947 /* ResponseFormatterTests.swift */; };
+		CB65C0CD003A49328577EC69 /* RestRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A68F196AD8D2480DACDE8966 /* RestRequestTests.swift */; };
+		CA8E6AF328AB4DD58F5FE7FB /* SavedRequestsStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 873F9D0AAF924B0EB8BDA6FE /* SavedRequestsStoreTests.swift */; };
+		E3239C595CFC4AB9917A2068 /* AppIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 75364582B7264AC98F2F330D /* AppIcon.icns */; };
+		ACCFDE118F17475EAAC00B27 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 39003DACC0D840A6A1649E03 /* Assets.xcassets */; };
+		9A0969234F2B40988A6E55FD /* libCocoaRestClientCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F240A5F4318143BC8DAFAE5C /* libCocoaRestClientCore.a */; };
+		710E3A9789CE40AC876711C7 /* libCocoaRestClientCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F240A5F4318143BC8DAFAE5C /* libCocoaRestClientCore.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		AFD637A9226D693B00CD89D5 /* PBXContainerItemProxy */ = {
+		DB190EF515FA45DB804FB86E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			containerPortal = 47B55461D62349AA8E0A453B /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 8D1107260486CEB800E47090;
-			remoteInfo = CocoaRestClient;
+			remoteGlobalIDString = 0A052CDA5CD34520A9CBDEF3;
+			remoteInfo = CocoaRestClientCore;
+		};
+		E693772DDD984DFE8451DA4C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 47B55461D62349AA8E0A453B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0A052CDA5CD34520A9CBDEF3;
+			remoteInfo = CocoaRestClientCore;
 		};
 /* End PBXContainerItemProxy section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		AFCE79541419B49700E22468 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
-		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
-		14C15A15CB9C1B4386B81228 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		1DDD58150DA1D0A300B32029 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		256AC3D80F4B6AC300CF3369 /* CheckableRequestWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CheckableRequestWrapper.h; path = core/CheckableRequestWrapper.h; sourceTree = "<group>"; };
-		256AC3D90F4B6AC300CF3369 /* CheckableRequestWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CheckableRequestWrapper.m; path = core/CheckableRequestWrapper.m; sourceTree = "<group>"; };
-		256AC3F00F4B6AF500CF3369 /* CocoaRestClient_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CocoaRestClient_Prefix.pch; path = core/CocoaRestClient_Prefix.pch; sourceTree = "<group>"; };
-		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = core/main.m; sourceTree = "<group>"; };
-		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
-		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
-		2C03E34D16CA2E0F00C7608A /* CRCHTTPHeaderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CRCHTTPHeaderCell.h; path = view/CRCHTTPHeaderCell.h; sourceTree = "<group>"; };
-		2C03E34E16CA2E0F00C7608A /* CRCHTTPHeaderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CRCHTTPHeaderCell.m; path = view/CRCHTTPHeaderCell.m; sourceTree = "<group>"; };
-		2C954AF816B9799D00C8D54B /* NSData+gzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+gzip.h"; path = "request/NSData+gzip.h"; sourceTree = "<group>"; };
-		2C954AF916B9799D00C8D54B /* NSData+gzip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+gzip.m"; path = "request/NSData+gzip.m"; sourceTree = "<group>"; };
-		2C954AFC16B97A3200C8D54B /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/lib/libz.dylib; sourceTree = DEVELOPER_DIR; };
-		3FB6D9A2A59609386478D235 /* Pods-CocoaRestClientTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaRestClientTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaRestClientTests/Pods-CocoaRestClientTests.debug.xcconfig"; sourceTree = "<group>"; };
-		5704EECF155C7BF400C55656 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
-		5960B3DB0FE492FCE115D0AA /* Pods-CocoaRestClientTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaRestClientTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaRestClientTests/Pods-CocoaRestClientTests.release.xcconfig"; sourceTree = "<group>"; };
-		8CCF7DF709BFF6221813746B /* libPods-CocoaRestClient.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CocoaRestClient.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		8D1107310486CEB800E47090 /* CocoaRestClient-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "CocoaRestClient-Info.plist"; sourceTree = "<group>"; };
-		8D1107320486CEB800E47090 /* CocoaRestClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CocoaRestClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		985608C01C8FF3E700A3EB6E /* defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = defaults.plist; sourceTree = "<group>"; };
-		985608C51C90031300A3EB6E /* CRCConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRCConstants.h; sourceTree = "<group>"; };
-		985608C61C90031300A3EB6E /* CRCConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRCConstants.m; sourceTree = "<group>"; };
-		AF0A96B61CC86D38001870FC /* DMSlidingTabViewItemProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DMSlidingTabViewItemProtocol.h; path = view/DMSlidingTabViewItemProtocol.h; sourceTree = "<group>"; };
-		AF0A96B71CC86D57001870FC /* DMSlidingTabItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DMSlidingTabItemView.h; path = view/DMSlidingTabItemView.h; sourceTree = "<group>"; };
-		AF0A96B81CC86D57001870FC /* DMSlidingTabItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DMSlidingTabItemView.m; path = view/DMSlidingTabItemView.m; sourceTree = "<group>"; };
-		AF0A96B91CC86D57001870FC /* DMSlidingTabView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DMSlidingTabView.h; path = view/DMSlidingTabView.h; sourceTree = "<group>"; };
-		AF0A96BA1CC86D57001870FC /* DMSlidingTabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DMSlidingTabView.m; path = view/DMSlidingTabView.m; sourceTree = "<group>"; };
-		AF3FE7C61F6B7B60003ED6BA /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/DiffWindow.xib; sourceTree = "<group>"; };
-		AF3FE7C81F6B7D67003ED6BA /* DiffWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DiffWindowController.h; path = core/DiffWindowController.h; sourceTree = "<group>"; };
-		AF3FE7C91F6B7D67003ED6BA /* DiffWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DiffWindowController.m; path = core/DiffWindowController.m; sourceTree = "<group>"; };
-		AF7A149A113B583A00F0D6F5 /* cocoaRestClient.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = cocoaRestClient.icns; path = English.lproj/cocoaRestClient.icns; sourceTree = "<group>"; };
-		AF7CE5C51766CBC10080363B /* TableRowAndColumn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TableRowAndColumn.h; path = view/TableRowAndColumn.h; sourceTree = "<group>"; };
-		AF7CE5C61766CBC10080363B /* TableRowAndColumn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TableRowAndColumn.m; path = view/TableRowAndColumn.m; sourceTree = "<group>"; };
-		AF85365320692190002A8D0C /* NSTextView+TouchBarExtension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSTextView+TouchBarExtension.h"; path = "view/NSTextView+TouchBarExtension.h"; sourceTree = "<group>"; };
-		AF85365420692190002A8D0C /* NSTextView+TouchBarExtension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSTextView+TouchBarExtension.m"; path = "view/NSTextView+TouchBarExtension.m"; sourceTree = "<group>"; };
-		AF8536562069238F002A8D0C /* ACEView+TouchBarExtension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "ACEView+TouchBarExtension.h"; path = "view/ACEView+TouchBarExtension.h"; sourceTree = "<group>"; };
-		AF8536572069238F002A8D0C /* ACEView+TouchBarExtension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "ACEView+TouchBarExtension.m"; path = "view/ACEView+TouchBarExtension.m"; sourceTree = "<group>"; };
-		AF895874156088610079B379 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		AF90070316AC43A80012C758 /* CocoaRestClientAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CocoaRestClientAppDelegate.h; path = core/CocoaRestClientAppDelegate.h; sourceTree = "<group>"; };
-		AF90070416AC43A80012C758 /* CocoaRestClientAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CocoaRestClientAppDelegate.m; path = core/CocoaRestClientAppDelegate.m; sourceTree = "<group>"; };
-		AF99ECAA1EC013A100101893 /* MainWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainWindowController.h; path = core/MainWindowController.h; sourceTree = "<group>"; };
-		AF99ECAB1EC013A100101893 /* MainWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MainWindowController.m; path = core/MainWindowController.m; sourceTree = "<group>"; };
-		AF99ECB01EC013EF00101893 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainWindow.xib; sourceTree = "<group>"; };
-		AF99ECB51ECD302400101893 /* SavedRequestsDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SavedRequestsDataSource.h; path = core/SavedRequestsDataSource.h; sourceTree = "<group>"; };
-		AF99ECB61ECD302400101893 /* SavedRequestsDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SavedRequestsDataSource.m; path = core/SavedRequestsDataSource.m; sourceTree = "<group>"; };
-		AF99ECB81ED289E100101893 /* SaveRequestPanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SaveRequestPanelController.h; path = core/SaveRequestPanelController.h; sourceTree = "<group>"; };
-		AF99ECB91ED289E100101893 /* SaveRequestPanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SaveRequestPanelController.m; path = core/SaveRequestPanelController.m; sourceTree = "<group>"; };
-		AF99ECBB1ED5B73C00101893 /* TimeoutPanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimeoutPanelController.h; path = core/TimeoutPanelController.h; sourceTree = "<group>"; };
-		AF99ECBC1ED5B73C00101893 /* TimeoutPanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimeoutPanelController.m; path = core/TimeoutPanelController.m; sourceTree = "<group>"; };
-		AF9F0F802676ABD80078FAB8 /* CocoaRestClient.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = CocoaRestClient.entitlements; path = CocoaRestClient/CocoaRestClient.entitlements; sourceTree = "<group>"; };
-		AF9FE4271E9187A600415022 /* English */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = English; path = "English.lproj/document-icon.png"; sourceTree = "<group>"; };
-		AFA11AB415CEDA3600831738 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/Welcome.xib; sourceTree = "<group>"; };
-		AFA11AB615CEDAE300831738 /* WelcomeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WelcomeController.h; path = core/WelcomeController.h; sourceTree = "<group>"; };
-		AFA11AB715CEDAE300831738 /* WelcomeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WelcomeController.m; path = core/WelcomeController.m; sourceTree = "<group>"; };
-		AFA11ACC15CF036300831738 /* motd.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = motd.txt; path = English.lproj/motd.txt; sourceTree = "<group>"; };
-		AFAA04FA1CFB6F19005A50ED /* ContentTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContentTypes.h; path = core/ContentTypes.h; sourceTree = "<group>"; };
-		AFAA04FB1CFB6F19005A50ED /* ContentTypes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ContentTypes.m; path = core/ContentTypes.m; sourceTree = "<group>"; };
-		AFB3AA3B1A87E43400012E04 /* HighlightingTypeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HighlightingTypeManager.h; path = view/HighlightingTypeManager.h; sourceTree = "<group>"; };
-		AFB3AA3C1A87E43400012E04 /* HighlightingTypeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HighlightingTypeManager.m; path = view/HighlightingTypeManager.m; sourceTree = "<group>"; };
-		AFB3AA3E1A94051700012E04 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = CocoaRestClient/Images.xcassets; sourceTree = "<group>"; };
-		AFBB7D4514F9587A00424C12 /* TabbingTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TabbingTableView.h; path = view/TabbingTableView.h; sourceTree = "<group>"; };
-		AFBB7D4614F9587A00424C12 /* TabbingTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TabbingTableView.m; path = view/TabbingTableView.m; sourceTree = "<group>"; };
-		AFBB7D4A14F98B4000424C12 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/Preferences.xib; sourceTree = "<group>"; };
-		AFBB7D4C14F98C1B00424C12 /* PreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreferencesController.h; path = core/PreferencesController.h; sourceTree = "<group>"; };
-		AFBB7D4D14F98C1B00424C12 /* PreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreferencesController.m; path = core/PreferencesController.m; sourceTree = "<group>"; };
-		AFBBA03C18D4AB93002E7036 /* CRCSavedRequestFolder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CRCSavedRequestFolder.h; path = request/CRCSavedRequestFolder.h; sourceTree = "<group>"; };
-		AFBBA03D18D4AB93002E7036 /* CRCSavedRequestFolder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CRCSavedRequestFolder.m; path = request/CRCSavedRequestFolder.m; sourceTree = "<group>"; };
-		AFBF08BC14C1E9BB000E7411 /* ExportRequests.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ExportRequests.xib; path = English.lproj/ExportRequests.xib; sourceTree = "<group>"; };
-		AFBF08C314C32D30000E7411 /* ExportRequestsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExportRequestsController.h; path = core/ExportRequestsController.h; sourceTree = "<group>"; };
-		AFBF08C414C32D30000E7411 /* ExportRequestsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ExportRequestsController.m; path = core/ExportRequestsController.m; sourceTree = "<group>"; };
-		AFBF08E014C4D7EE000E7411 /* CRCDrawerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CRCDrawerView.h; path = view/CRCDrawerView.h; sourceTree = "<group>"; };
-		AFBF08E114C4D7EE000E7411 /* CRCDrawerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CRCDrawerView.m; path = view/CRCDrawerView.m; sourceTree = "<group>"; };
-		AFCE79561419B54600E22468 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = dsa_pub.pem; path = English.lproj/dsa_pub.pem; sourceTree = "<group>"; };
-		AFD637A4226D693B00CD89D5 /* CocoaRestClientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CocoaRestClientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		AFD637A8226D693B00CD89D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AFD637AE226D698F00CD89D5 /* MainWindowControllerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainWindowControllerTests.m; sourceTree = "<group>"; };
-		AFE1837612E394E5001B1B29 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
-		AFE908841E748C87006D9B91 /* SelectableSavedRequestWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectableSavedRequestWrapper.h; path = core/SelectableSavedRequestWrapper.h; sourceTree = "<group>"; };
-		AFE908851E748C87006D9B91 /* SelectableSavedRequestWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectableSavedRequestWrapper.m; path = core/SelectableSavedRequestWrapper.m; sourceTree = "<group>"; };
-		AFE908871E748F0A006D9B91 /* FastSearchSavedRequestTextCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FastSearchSavedRequestTextCellView.m; path = view/FastSearchSavedRequestTextCellView.m; sourceTree = "<group>"; };
-		AFE908881E748F0A006D9B91 /* FastSearchSavedRequestTextCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FastSearchSavedRequestTextCellView.h; path = view/FastSearchSavedRequestTextCellView.h; sourceTree = "<group>"; };
-		AFF3B9791E15A0DC00AA664C /* FastSearchSavedRequestsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FastSearchSavedRequestsController.h; path = core/FastSearchSavedRequestsController.h; sourceTree = "<group>"; };
-		AFF3B97A1E15A0DC00AA664C /* FastSearchSavedRequestsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FastSearchSavedRequestsController.m; path = core/FastSearchSavedRequestsController.m; sourceTree = "<group>"; };
-		AFF3B97D1E15A24600AA664C /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/FastSearchSavedRequests.xib; sourceTree = "<group>"; };
-		CA38BFABF00E1FC9B3DD37DD /* Pods-CocoaRestClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaRestClient.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaRestClient/Pods-CocoaRestClient.debug.xcconfig"; sourceTree = "<group>"; };
-		D714A01B11E8BF7700F5A80B /* CRCFormEncodedRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CRCFormEncodedRequest.h; path = request/CRCFormEncodedRequest.h; sourceTree = "<group>"; };
-		D714A01C11E8BF7700F5A80B /* CRCFormEncodedRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CRCFormEncodedRequest.m; path = request/CRCFormEncodedRequest.m; sourceTree = "<group>"; };
-		D714A01E11E8C0F400F5A80B /* CRCRawRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CRCRawRequest.h; path = request/CRCRawRequest.h; sourceTree = "<group>"; };
-		D714A01F11E8C0F400F5A80B /* CRCRawRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CRCRawRequest.m; path = request/CRCRawRequest.m; sourceTree = "<group>"; };
-		D714A02F11E8F61D00F5A80B /* CRCFileRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CRCFileRequest.h; path = request/CRCFileRequest.h; sourceTree = "<group>"; };
-		D714A03011E8F61D00F5A80B /* CRCFileRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CRCFileRequest.m; path = request/CRCFileRequest.m; sourceTree = "<group>"; };
-		D714A0A011E901FB00F5A80B /* CRCRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CRCRequest.h; path = request/CRCRequest.h; sourceTree = "<group>"; };
-		D714A0A111E901FB00F5A80B /* CRCRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CRCRequest.m; path = request/CRCRequest.m; sourceTree = "<group>"; };
-		D7AC588511E60DDA00D67635 /* CRCMultipartRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CRCMultipartRequest.h; path = request/CRCMultipartRequest.h; sourceTree = "<group>"; };
-		D7AC588611E60DDA00D67635 /* CRCMultipartRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CRCMultipartRequest.m; path = request/CRCMultipartRequest.m; sourceTree = "<group>"; };
-		D7D998B211EAA29B005B8811 /* CRCTopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CRCTopView.h; path = view/CRCTopView.h; sourceTree = "<group>"; };
-		D7D998B311EAA29B005B8811 /* CRCTopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CRCTopView.m; path = view/CRCTopView.m; sourceTree = "<group>"; };
-		D7EAC25B3F30972DE7FE9764 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		DECFE55E2726D0B061E38482 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		F8553EBB0B884CE2A4EB748F /* Pods-CocoaRestClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaRestClient.release.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaRestClient/Pods-CocoaRestClient.release.xcconfig"; sourceTree = "<group>"; };
-		FDE582D01932D33F7626F143 /* libPods-CocoaRestClientTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CocoaRestClientTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		95E06E3670F34DD19CB4BF7A /* CocoaRestClientApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CocoaRestClientApp.swift"; sourceTree = "<group>"; };
+		D148B990811A4A6393176492 /* DiffViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiffViewModel.swift"; sourceTree = "<group>"; };
+		B9DAAFF419E2498EAF69761B /* PreferencesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PreferencesViewModel.swift"; sourceTree = "<group>"; };
+		965B0DA933714827BDAE0C40 /* RequestTabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RequestTabViewModel.swift"; sourceTree = "<group>"; };
+		57E822C582C247E2B80408D8 /* SavedRequestsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SavedRequestsViewModel.swift"; sourceTree = "<group>"; };
+		9C197A053C6D4C21B49AA36B /* WorkspaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WorkspaceViewModel.swift"; sourceTree = "<group>"; };
+		0418956300FC4362806D4CBF /* KeyValueEditorTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KeyValueEditorTable.swift"; sourceTree = "<group>"; };
+		A3ECD2E76B4B48268DFCD2B3 /* StatusBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StatusBadgeView.swift"; sourceTree = "<group>"; };
+		DC8C39784326490A909258E7 /* SyntaxTextEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SyntaxTextEditorView.swift"; sourceTree = "<group>"; };
+		C6ADA9FE0B2E433DB74870DB /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainView.swift"; sourceTree = "<group>"; };
+		9DDB0EA558A6469097179326 /* DiffSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiffSheetView.swift"; sourceTree = "<group>"; };
+		8CF0CA48C53F4D6C9685CDD3 /* ExportImportSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ExportImportSheetView.swift"; sourceTree = "<group>"; };
+		401CE10C2D8F459DA1DB5A6F /* FastSearchSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FastSearchSheetView.swift"; sourceTree = "<group>"; };
+		82E1789A60DF42FCB0FC1256 /* SaveRequestSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SaveRequestSheetView.swift"; sourceTree = "<group>"; };
+		1D20F8E46230428CAC6C2B43 /* PreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PreferencesView.swift"; sourceTree = "<group>"; };
+		BE1AD3D1BFB1478FB5A10ECA /* AuthEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AuthEditorView.swift"; sourceTree = "<group>"; };
+		F89180E6134D402B90DF11B4 /* FilesTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FilesTableView.swift"; sourceTree = "<group>"; };
+		79C419771DF24CC8B928B38A /* HeadersTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HeadersTableView.swift"; sourceTree = "<group>"; };
+		721DC2CBAD774A7DA661EB87 /* ParamsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParamsTableView.swift"; sourceTree = "<group>"; };
+		9190E3A8FEED4EAC85D62B17 /* RequestBodyEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RequestBodyEditorView.swift"; sourceTree = "<group>"; };
+		6790C3846A9E429A84AAFA63 /* RequestHeaderBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RequestHeaderBar.swift"; sourceTree = "<group>"; };
+		827FD55EDA04461CBF47AAB2 /* ResponseHeadersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseHeadersView.swift"; sourceTree = "<group>"; };
+		C1751D011A7C4728BF4168BA /* ResponseViewerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseViewerView.swift"; sourceTree = "<group>"; };
+		BA435659DF2846EDB578F386 /* SentHeadersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SentHeadersView.swift"; sourceTree = "<group>"; };
+		6C6B9F93C4DE438B9699749F /* SavedRequestsSidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SavedRequestsSidebarView.swift"; sourceTree = "<group>"; };
+		832D72869FED4678B9070ADC /* Authentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Authentication.swift"; sourceTree = "<group>"; };
+		11CF1A8CDBCB4340B493BFA0 /* CRCConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CRCConstants.swift"; sourceTree = "<group>"; };
+		549C813C97B040DDAB5EB168 /* FileAttachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileAttachment.swift"; sourceTree = "<group>"; };
+		CC0C76DA86D044E381364329 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HTTPMethod.swift"; sourceTree = "<group>"; };
+		345ADD7233314C60B0644A75 /* KeyValuePair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KeyValuePair.swift"; sourceTree = "<group>"; };
+		CB08099BA4A149F8A2191800 /* RequestFolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RequestFolder.swift"; sourceTree = "<group>"; };
+		185CCF723829471EB9F51000 /* RestRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RestRequest.swift"; sourceTree = "<group>"; };
+		9CF6B298CEBB410D81EBF909 /* CurlCommandGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CurlCommandGenerator.swift"; sourceTree = "<group>"; };
+		5A2725E461404677B8D2AEFB /* DiffEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiffEngine.swift"; sourceTree = "<group>"; };
+		03776EA43CBF46DF8EF28181 /* EnvironmentVariableResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EnvironmentVariableResolver.swift"; sourceTree = "<group>"; };
+		CB2AB797535448CC8D0D0605 /* NetworkEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkEngine.swift"; sourceTree = "<group>"; };
+		2A2F499FB48E4C4D9E4E918F /* RequestBodyBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RequestBodyBuilder.swift"; sourceTree = "<group>"; };
+		4771DD5C93D549CA8712AC36 /* ResponseFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseFormatter.swift"; sourceTree = "<group>"; };
+		61C5A02EE4FC449086DAD004 /* SavedRequestsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SavedRequestsStore.swift"; sourceTree = "<group>"; };
+		35BC4C4E65ED4118A49E8CC7 /* CurlCommandGeneratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CurlCommandGeneratorTests.swift"; sourceTree = "<group>"; };
+		E26DA6E2B551429583D8E686 /* DiffEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiffEngineTests.swift"; sourceTree = "<group>"; };
+		D2521BC0ADE349FAA6A39606 /* EnvironmentVariableResolverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EnvironmentVariableResolverTests.swift"; sourceTree = "<group>"; };
+		AE4A2D2663974785A4E4D3C0 /* NetworkEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkEngineTests.swift"; sourceTree = "<group>"; };
+		33DBA8BB11A447EDB527B947 /* ResponseFormatterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseFormatterTests.swift"; sourceTree = "<group>"; };
+		A68F196AD8D2480DACDE8966 /* RestRequestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RestRequestTests.swift"; sourceTree = "<group>"; };
+		873F9D0AAF924B0EB8BDA6FE /* SavedRequestsStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SavedRequestsStoreTests.swift"; sourceTree = "<group>"; };
+		75364582B7264AC98F2F330D /* AppIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "AppIcon.icns"; sourceTree = "<group>"; };
+		39003DACC0D840A6A1649E03 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Assets.xcassets"; sourceTree = "<group>"; };
+		48491FB176324BB584A4A5D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info.plist"; sourceTree = "<group>"; };
+		C85C5531B549471BAD866AB4 /* CocoaRestClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CocoaRestClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F240A5F4318143BC8DAFAE5C /* libCocoaRestClientCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCocoaRestClientCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		17510C4DCD754721B6155B45 /* CocoaRestClientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CocoaRestClientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		8D11072E0486CEB800E47090 /* Frameworks */ = {
+		7CD75310899F4E00B501D764 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2C954AFD16B97A3200C8D54B /* libz.dylib in Frameworks */,
-				AF89587615608E9D0079B379 /* QuartzCore.framework in Frameworks */,
-				5704EED0155C7BF400C55656 /* WebKit.framework in Frameworks */,
-				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
-				F84CC2410A93E76AA17BDE2D /* libPods-CocoaRestClient.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AFD637A1226D693B00CD89D5 /* Frameworks */ = {
+		D11CCD88DDB8418C96F86A01 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C2FE256919949B9B4AAC202 /* libPods-CocoaRestClientTests.a in Frameworks */,
+				9A0969234F2B40988A6E55FD /* libCocoaRestClientCore.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9A206675C86D40498BE1F786 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				710E3A9789CE40AC876711C7 /* libCocoaRestClientCore.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		080E96DDFE201D6D7F000001 /* Classes */ = {
+		22BE9953167940C1A9E47305 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				982641EE1C91007D00FEA5E9 /* DMSlidingTabView */,
-				AF1A1B9816A1DF1E00915644 /* core */,
-				AFBB7D4814F985AB00424C12 /* view */,
-				AFBB7D4414F93DE400424C12 /* request */,
+				D148B990811A4A6393176492 /* DiffViewModel.swift */,
+				B9DAAFF419E2498EAF69761B /* PreferencesViewModel.swift */,
+				965B0DA933714827BDAE0C40 /* RequestTabViewModel.swift */,
+				57E822C582C247E2B80408D8 /* SavedRequestsViewModel.swift */,
+				9C197A053C6D4C21B49AA36B /* WorkspaceViewModel.swift */,
 			);
-			name = Classes;
-			sourceTree = "<group>";
+			path = "ViewModels"; sourceTree = "<group>";
 		};
-		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
+		FBB8E8D8E95F4222B8FFEBE0 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
+				0418956300FC4362806D4CBF /* KeyValueEditorTable.swift */,
+				A3ECD2E76B4B48268DFCD2B3 /* StatusBadgeView.swift */,
+				DC8C39784326490A909258E7 /* SyntaxTextEditorView.swift */,
 			);
-			name = "Linked Frameworks";
-			sourceTree = "<group>";
+			path = "Components"; sourceTree = "<group>";
 		};
-		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
+		48E56A2822044106B8929A8C /* Modals */ = {
 			isa = PBXGroup;
 			children = (
-				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
-				13E42FB307B3F0F600E4EEF1 /* CoreData.framework */,
-				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
+				9DDB0EA558A6469097179326 /* DiffSheetView.swift */,
+				8CF0CA48C53F4D6C9685CDD3 /* ExportImportSheetView.swift */,
+				401CE10C2D8F459DA1DB5A6F /* FastSearchSheetView.swift */,
+				82E1789A60DF42FCB0FC1256 /* SaveRequestSheetView.swift */,
 			);
-			name = "Other Frameworks";
-			sourceTree = "<group>";
+			path = "Modals"; sourceTree = "<group>";
 		};
-		19C28FACFE9D520D11CA2CBB /* Products */ = {
+		721ECE1EA39C418F908856E9 /* Preferences */ = {
 			isa = PBXGroup;
 			children = (
-				8D1107320486CEB800E47090 /* CocoaRestClient.app */,
-				AFD637A4226D693B00CD89D5 /* CocoaRestClientTests.xctest */,
+				1D20F8E46230428CAC6C2B43 /* PreferencesView.swift */,
+			);
+			path = "Preferences"; sourceTree = "<group>";
+		};
+		500077C31802449F942E4965 /* RequestEditor */ = {
+			isa = PBXGroup;
+			children = (
+				BE1AD3D1BFB1478FB5A10ECA /* AuthEditorView.swift */,
+				F89180E6134D402B90DF11B4 /* FilesTableView.swift */,
+				79C419771DF24CC8B928B38A /* HeadersTableView.swift */,
+				721DC2CBAD774A7DA661EB87 /* ParamsTableView.swift */,
+				9190E3A8FEED4EAC85D62B17 /* RequestBodyEditorView.swift */,
+				6790C3846A9E429A84AAFA63 /* RequestHeaderBar.swift */,
+			);
+			path = "RequestEditor"; sourceTree = "<group>";
+		};
+		E7127EC2FA1442F0A438EC9C /* ResponseViewer */ = {
+			isa = PBXGroup;
+			children = (
+				827FD55EDA04461CBF47AAB2 /* ResponseHeadersView.swift */,
+				C1751D011A7C4728BF4168BA /* ResponseViewerView.swift */,
+				BA435659DF2846EDB578F386 /* SentHeadersView.swift */,
+			);
+			path = "ResponseViewer"; sourceTree = "<group>";
+		};
+		84A48DD44AE043D2BEDF69FB /* Sidebar */ = {
+			isa = PBXGroup;
+			children = (
+				6C6B9F93C4DE438B9699749F /* SavedRequestsSidebarView.swift */,
+			);
+			path = "Sidebar"; sourceTree = "<group>";
+		};
+		831A4510A12A40F99BB9C6A6 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				FBB8E8D8E95F4222B8FFEBE0 /* Components */,
+				48E56A2822044106B8929A8C /* Modals */,
+				721ECE1EA39C418F908856E9 /* Preferences */,
+				500077C31802449F942E4965 /* RequestEditor */,
+				E7127EC2FA1442F0A438EC9C /* ResponseViewer */,
+				84A48DD44AE043D2BEDF69FB /* Sidebar */,
+				C6ADA9FE0B2E433DB74870DB /* MainView.swift */,
+			);
+			path = "Views"; sourceTree = "<group>";
+		};
+		98298A9A86424972916489C1 /* CocoaRestClient */ = {
+			isa = PBXGroup;
+			children = (
+				22BE9953167940C1A9E47305 /* ViewModels */,
+				831A4510A12A40F99BB9C6A6 /* Views */,
+				95E06E3670F34DD19CB4BF7A /* CocoaRestClientApp.swift */,
+			);
+			name = "CocoaRestClient"; path = "Sources/CocoaRestClient"; sourceTree = "<group>";
+		};
+		B7235C9BD3134F95859CE9D6 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				832D72869FED4678B9070ADC /* Authentication.swift */,
+				11CF1A8CDBCB4340B493BFA0 /* CRCConstants.swift */,
+				549C813C97B040DDAB5EB168 /* FileAttachment.swift */,
+				CC0C76DA86D044E381364329 /* HTTPMethod.swift */,
+				345ADD7233314C60B0644A75 /* KeyValuePair.swift */,
+				CB08099BA4A149F8A2191800 /* RequestFolder.swift */,
+				185CCF723829471EB9F51000 /* RestRequest.swift */,
+			);
+			path = "Models"; sourceTree = "<group>";
+		};
+		2ACE593B964E43A3875B4631 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				9CF6B298CEBB410D81EBF909 /* CurlCommandGenerator.swift */,
+				5A2725E461404677B8D2AEFB /* DiffEngine.swift */,
+				03776EA43CBF46DF8EF28181 /* EnvironmentVariableResolver.swift */,
+				CB2AB797535448CC8D0D0605 /* NetworkEngine.swift */,
+				2A2F499FB48E4C4D9E4E918F /* RequestBodyBuilder.swift */,
+				4771DD5C93D549CA8712AC36 /* ResponseFormatter.swift */,
+				61C5A02EE4FC449086DAD004 /* SavedRequestsStore.swift */,
+			);
+			path = "Services"; sourceTree = "<group>";
+		};
+		830726402ABA4C6FA499EE8A /* CocoaRestClientCore */ = {
+			isa = PBXGroup;
+			children = (
+				B7235C9BD3134F95859CE9D6 /* Models */,
+				2ACE593B964E43A3875B4631 /* Services */,
+			);
+			name = "CocoaRestClientCore"; path = "Sources/CocoaRestClientCore"; sourceTree = "<group>";
+		};
+		536C45C85DCF464EAFC78AC6 /* CocoaRestClientTests */ = {
+			isa = PBXGroup;
+			children = (
+				35BC4C4E65ED4118A49E8CC7 /* CurlCommandGeneratorTests.swift */,
+				E26DA6E2B551429583D8E686 /* DiffEngineTests.swift */,
+				D2521BC0ADE349FAA6A39606 /* EnvironmentVariableResolverTests.swift */,
+				AE4A2D2663974785A4E4D3C0 /* NetworkEngineTests.swift */,
+				33DBA8BB11A447EDB527B947 /* ResponseFormatterTests.swift */,
+				A68F196AD8D2480DACDE8966 /* RestRequestTests.swift */,
+				873F9D0AAF924B0EB8BDA6FE /* SavedRequestsStoreTests.swift */,
+			);
+			name = "CocoaRestClientTests"; path = "Tests/CocoaRestClientTests"; sourceTree = "<group>";
+		};
+		19EB63A97B9D4FD0AF3D0D43 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				75364582B7264AC98F2F330D /* AppIcon.icns */,
+				39003DACC0D840A6A1649E03 /* Assets.xcassets */,
+				48491FB176324BB584A4A5D9 /* Info.plist */,
+			);
+			path = "Resources"; sourceTree = "<group>";
+		};
+		D69BA489EABE4AB5A27035E5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C85C5531B549471BAD866AB4 /* CocoaRestClient.app */,
+				F240A5F4318143BC8DAFAE5C /* libCocoaRestClientCore.a */,
+				17510C4DCD754721B6155B45 /* CocoaRestClientTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		29B97314FDCFA39411CA2CEA /* CocoaRestClient */ = {
+		9B81DB65742F4376BCD6294C = {
 			isa = PBXGroup;
 			children = (
-				AF9F0F802676ABD80078FAB8 /* CocoaRestClient.entitlements */,
-				AF895874156088610079B379 /* QuartzCore.framework */,
-				5704EECF155C7BF400C55656 /* WebKit.framework */,
-				080E96DDFE201D6D7F000001 /* Classes */,
-				29B97315FDCFA39411CA2CEA /* Other Sources */,
-				29B97317FDCFA39411CA2CEA /* Resources */,
-				AFD637A5226D693B00CD89D5 /* CocoaRestClientTests */,
-				29B97323FDCFA39411CA2CEA /* Frameworks */,
-				19C28FACFE9D520D11CA2CBB /* Products */,
-				2C1E2F4CE5F1D0141F817AAD /* Pods */,
+				98298A9A86424972916489C1 /* CocoaRestClient */,
+				830726402ABA4C6FA499EE8A /* CocoaRestClientCore */,
+				19EB63A97B9D4FD0AF3D0D43 /* Resources */,
+				536C45C85DCF464EAFC78AC6 /* CocoaRestClientTests */,
+				D69BA489EABE4AB5A27035E5 /* Products */,
 			);
-			name = CocoaRestClient;
-			sourceTree = "<group>";
-		};
-		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
-			isa = PBXGroup;
-			children = (
-				256AC3F00F4B6AF500CF3369 /* CocoaRestClient_Prefix.pch */,
-				29B97316FDCFA39411CA2CEA /* main.m */,
-			);
-			name = "Other Sources";
-			sourceTree = "<group>";
-		};
-		29B97317FDCFA39411CA2CEA /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				AF9FE4261E9187A600415022 /* document-icon.png */,
-				AFB3AA3E1A94051700012E04 /* Images.xcassets */,
-				AFCE79561419B54600E22468 /* dsa_pub.pem */,
-				AFE1837612E394E5001B1B29 /* LICENSE.txt */,
-				AF7A149A113B583A00F0D6F5 /* cocoaRestClient.icns */,
-				8D1107310486CEB800E47090 /* CocoaRestClient-Info.plist */,
-				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
-				1DDD58140DA1D0A300B32029 /* MainMenu.xib */,
-				AFBF08BC14C1E9BB000E7411 /* ExportRequests.xib */,
-				AFBB7D4914F98B4000424C12 /* Preferences.xib */,
-				AFA11AB315CEDA3600831738 /* Welcome.xib */,
-				AFA11ACC15CF036300831738 /* motd.txt */,
-				985608C01C8FF3E700A3EB6E /* defaults.plist */,
-				AFF3B97C1E15A24600AA664C /* FastSearchSavedRequests.xib */,
-				AF99ECAF1EC013EF00101893 /* MainWindow.xib */,
-				AF3FE7C51F6B7B60003ED6BA /* DiffWindow.xib */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-		};
-		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				2C954AFC16B97A3200C8D54B /* libz.dylib */,
-				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
-				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
-				14C15A15CB9C1B4386B81228 /* libPods.a */,
-				8CCF7DF709BFF6221813746B /* libPods-CocoaRestClient.a */,
-				FDE582D01932D33F7626F143 /* libPods-CocoaRestClientTests.a */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		2C1E2F4CE5F1D0141F817AAD /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				D7EAC25B3F30972DE7FE9764 /* Pods.debug.xcconfig */,
-				DECFE55E2726D0B061E38482 /* Pods.release.xcconfig */,
-				CA38BFABF00E1FC9B3DD37DD /* Pods-CocoaRestClient.debug.xcconfig */,
-				F8553EBB0B884CE2A4EB748F /* Pods-CocoaRestClient.release.xcconfig */,
-				3FB6D9A2A59609386478D235 /* Pods-CocoaRestClientTests.debug.xcconfig */,
-				5960B3DB0FE492FCE115D0AA /* Pods-CocoaRestClientTests.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
-		982641EE1C91007D00FEA5E9 /* DMSlidingTabView */ = {
-			isa = PBXGroup;
-			children = (
-				AF0A96B71CC86D57001870FC /* DMSlidingTabItemView.h */,
-				AF0A96B81CC86D57001870FC /* DMSlidingTabItemView.m */,
-				AF0A96B91CC86D57001870FC /* DMSlidingTabView.h */,
-				AF0A96BA1CC86D57001870FC /* DMSlidingTabView.m */,
-				AF0A96B61CC86D38001870FC /* DMSlidingTabViewItemProtocol.h */,
-			);
-			name = DMSlidingTabView;
-			sourceTree = "<group>";
-		};
-		AF1A1B9816A1DF1E00915644 /* core */ = {
-			isa = PBXGroup;
-			children = (
-				AFE908841E748C87006D9B91 /* SelectableSavedRequestWrapper.h */,
-				AFE908851E748C87006D9B91 /* SelectableSavedRequestWrapper.m */,
-				AFAA04FA1CFB6F19005A50ED /* ContentTypes.h */,
-				AFAA04FB1CFB6F19005A50ED /* ContentTypes.m */,
-				985608C51C90031300A3EB6E /* CRCConstants.h */,
-				985608C61C90031300A3EB6E /* CRCConstants.m */,
-				AF90070316AC43A80012C758 /* CocoaRestClientAppDelegate.h */,
-				AF90070416AC43A80012C758 /* CocoaRestClientAppDelegate.m */,
-				AFBB7D4C14F98C1B00424C12 /* PreferencesController.h */,
-				AFBB7D4D14F98C1B00424C12 /* PreferencesController.m */,
-				256AC3D80F4B6AC300CF3369 /* CheckableRequestWrapper.h */,
-				256AC3D90F4B6AC300CF3369 /* CheckableRequestWrapper.m */,
-				AFBF08C314C32D30000E7411 /* ExportRequestsController.h */,
-				AFBF08C414C32D30000E7411 /* ExportRequestsController.m */,
-				AFA11AB615CEDAE300831738 /* WelcomeController.h */,
-				AFA11AB715CEDAE300831738 /* WelcomeController.m */,
-				AFF3B9791E15A0DC00AA664C /* FastSearchSavedRequestsController.h */,
-				AFF3B97A1E15A0DC00AA664C /* FastSearchSavedRequestsController.m */,
-				AF99ECAA1EC013A100101893 /* MainWindowController.h */,
-				AF99ECAB1EC013A100101893 /* MainWindowController.m */,
-				AF99ECB51ECD302400101893 /* SavedRequestsDataSource.h */,
-				AF99ECB61ECD302400101893 /* SavedRequestsDataSource.m */,
-				AF99ECB81ED289E100101893 /* SaveRequestPanelController.h */,
-				AF99ECB91ED289E100101893 /* SaveRequestPanelController.m */,
-				AF99ECBB1ED5B73C00101893 /* TimeoutPanelController.h */,
-				AF99ECBC1ED5B73C00101893 /* TimeoutPanelController.m */,
-				AF3FE7C81F6B7D67003ED6BA /* DiffWindowController.h */,
-				AF3FE7C91F6B7D67003ED6BA /* DiffWindowController.m */,
-			);
-			name = core;
-			sourceTree = "<group>";
-		};
-		AFBB7D4414F93DE400424C12 /* request */ = {
-			isa = PBXGroup;
-			children = (
-				D7AC588511E60DDA00D67635 /* CRCMultipartRequest.h */,
-				D7AC588611E60DDA00D67635 /* CRCMultipartRequest.m */,
-				D714A01B11E8BF7700F5A80B /* CRCFormEncodedRequest.h */,
-				D714A01C11E8BF7700F5A80B /* CRCFormEncodedRequest.m */,
-				D714A01E11E8C0F400F5A80B /* CRCRawRequest.h */,
-				D714A01F11E8C0F400F5A80B /* CRCRawRequest.m */,
-				D714A02F11E8F61D00F5A80B /* CRCFileRequest.h */,
-				D714A03011E8F61D00F5A80B /* CRCFileRequest.m */,
-				D714A0A011E901FB00F5A80B /* CRCRequest.h */,
-				D714A0A111E901FB00F5A80B /* CRCRequest.m */,
-				2C954AF816B9799D00C8D54B /* NSData+gzip.h */,
-				2C954AF916B9799D00C8D54B /* NSData+gzip.m */,
-				AFBBA03C18D4AB93002E7036 /* CRCSavedRequestFolder.h */,
-				AFBBA03D18D4AB93002E7036 /* CRCSavedRequestFolder.m */,
-			);
-			name = request;
-			sourceTree = "<group>";
-		};
-		AFBB7D4814F985AB00424C12 /* view */ = {
-			isa = PBXGroup;
-			children = (
-				AFE908871E748F0A006D9B91 /* FastSearchSavedRequestTextCellView.m */,
-				AFE908881E748F0A006D9B91 /* FastSearchSavedRequestTextCellView.h */,
-				AFBB7D4514F9587A00424C12 /* TabbingTableView.h */,
-				AFBB7D4614F9587A00424C12 /* TabbingTableView.m */,
-				D7D998B211EAA29B005B8811 /* CRCTopView.h */,
-				D7D998B311EAA29B005B8811 /* CRCTopView.m */,
-				AFBF08E014C4D7EE000E7411 /* CRCDrawerView.h */,
-				AFBF08E114C4D7EE000E7411 /* CRCDrawerView.m */,
-				2C03E34E16CA2E0F00C7608A /* CRCHTTPHeaderCell.m */,
-				2C03E34D16CA2E0F00C7608A /* CRCHTTPHeaderCell.h */,
-				AF7CE5C51766CBC10080363B /* TableRowAndColumn.h */,
-				AF7CE5C61766CBC10080363B /* TableRowAndColumn.m */,
-				AFB3AA3B1A87E43400012E04 /* HighlightingTypeManager.h */,
-				AFB3AA3C1A87E43400012E04 /* HighlightingTypeManager.m */,
-				AF85365320692190002A8D0C /* NSTextView+TouchBarExtension.h */,
-				AF85365420692190002A8D0C /* NSTextView+TouchBarExtension.m */,
-				AF8536562069238F002A8D0C /* ACEView+TouchBarExtension.h */,
-				AF8536572069238F002A8D0C /* ACEView+TouchBarExtension.m */,
-			);
-			name = view;
-			sourceTree = "<group>";
-		};
-		AFD637A5226D693B00CD89D5 /* CocoaRestClientTests */ = {
-			isa = PBXGroup;
-			children = (
-				AFD637AE226D698F00CD89D5 /* MainWindowControllerTests.m */,
-				AFD637A8226D693B00CD89D5 /* Info.plist */,
-			);
-			path = CocoaRestClientTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8D1107260486CEB800E47090 /* CocoaRestClient */ = {
+		0A052CDA5CD34520A9CBDEF3 /* CocoaRestClientCore */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "CocoaRestClient" */;
+			buildConfigurationList = C0D93A01CE6F410E84607E59 /* Build configuration list for PBXNativeTarget "CocoaRestClientCore" */;
 			buildPhases = (
-				BFD29973DF6B632BA7758274 /* [CP] Check Pods Manifest.lock */,
-				EDD115E02121420F8D3A0921 /* Check Pods Manifest.lock */,
-				FCAEBE35430B94C6C1587894 /* 📦 Check Pods Manifest.lock */,
-				8D1107290486CEB800E47090 /* Resources */,
-				8D11072C0486CEB800E47090 /* Sources */,
-				8D11072E0486CEB800E47090 /* Frameworks */,
-				AFCE79541419B49700E22468 /* CopyFiles */,
-				0B3CF23179E00579F355A6A8 /* 📦 Copy Pods Resources */,
-				6250BD2BBA69C29720A4E395 /* 📦 Embed Pods Frameworks */,
-				6D54EE5330DE6A1B2E789668 /* Embed Pods Frameworks */,
-				447589E7CC1305ED0F1EF474 /* Copy Pods Resources */,
-				331C591BC9449CB150594566 /* [CP] Embed Pods Frameworks */,
-				BFF36EB5C7D0EFB57584BD12 /* [CP] Copy Pods Resources */,
+				AACEA2E3CD934052A9EC4E6A /* Sources */,
+				7CD75310899F4E00B501D764 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+			);
+			name = CocoaRestClientCore;
+			productName = CocoaRestClientCore;
+			productReference = F240A5F4318143BC8DAFAE5C /* libCocoaRestClientCore.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		76EA31D989344A2DB358DC6E /* CocoaRestClient */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A63BC8287049494F814E605F /* Build configuration list for PBXNativeTarget "CocoaRestClient" */;
+			buildPhases = (
+				C330C6029B464751813AE86F /* Sources */,
+				D11CCD88DDB8418C96F86A01 /* Frameworks */,
+				A70A2CDCF50D4C0E90381C6D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C55973747FDC44F284E14C94 /* PBXTargetDependency */,
 			);
 			name = CocoaRestClient;
-			productInstallPath = "$(HOME)/Applications";
 			productName = CocoaRestClient;
-			productReference = 8D1107320486CEB800E47090 /* CocoaRestClient.app */;
+			productReference = C85C5531B549471BAD866AB4 /* CocoaRestClient.app */;
 			productType = "com.apple.product-type.application";
 		};
-		AFD637A3226D693B00CD89D5 /* CocoaRestClientTests */ = {
+		A274656CF69A4837BDAF634B /* CocoaRestClientTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AFD637AD226D693B00CD89D5 /* Build configuration list for PBXNativeTarget "CocoaRestClientTests" */;
+			buildConfigurationList = C26385B8E66E4EE3B8E97BE0 /* Build configuration list for PBXNativeTarget "CocoaRestClientTests" */;
 			buildPhases = (
-				E801B72BF03372BCE0435C0A /* [CP] Check Pods Manifest.lock */,
-				AFD637A0226D693B00CD89D5 /* Sources */,
-				AFD637A1226D693B00CD89D5 /* Frameworks */,
-				AFD637A2226D693B00CD89D5 /* Resources */,
-				6E4409D41582274E3B50808E /* [CP] Copy Pods Resources */,
+				3BD7DB5CDD504E4E83E7E7E7 /* Sources */,
+				9A206675C86D40498BE1F786 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				AFD637AA226D693B00CD89D5 /* PBXTargetDependency */,
+				1BCC7227A8814F39860B188D /* PBXTargetDependency */,
 			);
 			name = CocoaRestClientTests;
 			productName = CocoaRestClientTests;
-			productReference = AFD637A4226D693B00CD89D5 /* CocoaRestClientTests.xctest */;
+			productReference = 17510C4DCD754721B6155B45 /* CocoaRestClientTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		29B97313FDCFA39411CA2CEA /* Project object */ = {
+		47B55461D62349AA8E0A453B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1170;
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
 				TargetAttributes = {
-					8D1107260486CEB800E47090 = {
-						DevelopmentTeam = V3RDC2WXT3;
-						ProvisioningStyle = Automatic;
+					76EA31D989344A2DB358DC6E = {
+						CreatedOnToolsVersion = 15.0;
 					};
-					AFD637A3226D693B00CD89D5 = {
-						CreatedOnToolsVersion = 9.4.1;
-						ProvisioningStyle = Manual;
-						TestTargetID = 8D1107260486CEB800E47090;
+					0A052CDA5CD34520A9CBDEF3 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+					A274656CF69A4837BDAF634B = {
+						CreatedOnToolsVersion = 15.0;
 					};
 				};
 			};
-			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "CocoaRestClient" */;
-			compatibilityVersion = "Xcode 6.3";
-			developmentRegion = English;
-			hasScannedForEncodings = 1;
+			buildConfigurationList = B434D6A1B26D4C5AAB211714 /* Build configuration list for PBXProject "CocoaRestClient" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
-				English,
+				Base,
 			);
-			mainGroup = 29B97314FDCFA39411CA2CEA /* CocoaRestClient */;
-			productRefGroup = 19C28FACFE9D520D11CA2CBB /* Products */;
+			mainGroup = 9B81DB65742F4376BCD6294C;
+			productRefGroup = D69BA489EABE4AB5A27035E5 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8D1107260486CEB800E47090 /* CocoaRestClient */,
-				AFD637A3226D693B00CD89D5 /* CocoaRestClientTests */,
+				0A052CDA5CD34520A9CBDEF3 /* CocoaRestClientCore */,
+				76EA31D989344A2DB358DC6E /* CocoaRestClient */,
+				A274656CF69A4837BDAF634B /* CocoaRestClientTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		8D1107290486CEB800E47090 /* Resources */ = {
+		A70A2CDCF50D4C0E90381C6D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AF3FE7C71F6B7B60003ED6BA /* DiffWindow.xib in Resources */,
-				AF99ECB11EC013EF00101893 /* MainWindow.xib in Resources */,
-				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
-				1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */,
-				AF7A149B113B583A00F0D6F5 /* cocoaRestClient.icns in Resources */,
-				AF9FE4281E9187A600415022 /* document-icon.png in Resources */,
-				AFE1837712E394E5001B1B29 /* LICENSE.txt in Resources */,
-				AFCE79571419B54600E22468 /* dsa_pub.pem in Resources */,
-				AFBF08BD14C1E9BB000E7411 /* ExportRequests.xib in Resources */,
-				985608C11C8FF3E700A3EB6E /* defaults.plist in Resources */,
-				AFBB7D4B14F98B4000424C12 /* Preferences.xib in Resources */,
-				AFA11AB515CEDA3600831738 /* Welcome.xib in Resources */,
-				AFB3AA3F1A94051700012E04 /* Images.xcassets in Resources */,
-				AFA11ACD15CF036300831738 /* motd.txt in Resources */,
-				AFF3B97E1E15A24600AA664C /* FastSearchSavedRequests.xib in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		AFD637A2226D693B00CD89D5 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				ACCFDE118F17475EAAC00B27 /* Assets.xcassets in Resources */,
+				E3239C595CFC4AB9917A2068 /* AppIcon.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		0B3CF23179E00579F355A6A8 /* 📦 Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "📦 Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CocoaRestClient/Pods-CocoaRestClient-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		331C591BC9449CB150594566 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CocoaRestClient/Pods-CocoaRestClient-frameworks.sh",
-				"${PODS_ROOT}/Sparkle/Sparkle.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Sparkle.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CocoaRestClient/Pods-CocoaRestClient-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		447589E7CC1305ED0F1EF474 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CocoaRestClient/Pods-CocoaRestClient-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6250BD2BBA69C29720A4E395 /* 📦 Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "📦 Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CocoaRestClient/Pods-CocoaRestClient-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6D54EE5330DE6A1B2E789668 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CocoaRestClient/Pods-CocoaRestClient-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6E4409D41582274E3B50808E /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CocoaRestClientTests/Pods-CocoaRestClientTests-resources.sh",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/ace.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/ext-beautify.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/ext-chromevox.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/ext-elastic_tabstops_lite.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/ext-emmet.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/ext-error_marker.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/ext-keybinding_menu.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/ext-language_tools.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/ext-linking.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/ext-modelist.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/ext-old_ie.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/ext-searchbox.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/ext-settings_menu.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/ext-spellcheck.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/ext-split.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/ext-static_highlight.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/ext-statusbar.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/ext-textarea.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/ext-themelist.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/ext-whitespace.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/keybinding-emacs.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/keybinding-vim.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-abap.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-actionscript.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-ada.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-apache_conf.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-applescript.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-asciidoc.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-assembly_x86.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-autohotkey.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-batchfile.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-c9search.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-cirru.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-clojure.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-cobol.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-coffee.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-coldfusion.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-csharp.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-css.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-curly.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-c_cpp.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-d.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-dart.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-diff.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-django.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-dockerfile.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-dot.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-eiffel.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-ejs.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-elixir.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-elm.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-erlang.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-forth.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-ftl.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-gcode.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-gherkin.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-gitignore.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-glsl.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-golang.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-groovy.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-haml.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-handlebars.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-haskell.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-haxe.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-html.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-html_ruby.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-ini.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-io.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-jack.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-jade.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-java.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-javascript.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-json.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-jsoniq.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-jsp.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-jsx.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-julia.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-latex.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-less.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-liquid.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-lisp.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-livescript.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-logiql.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-lsl.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-lua.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-luapage.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-lucene.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-makefile.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-markdown.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-mask.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-matlab.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-mel.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-mushcode.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-mysql.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-nix.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-objectivec.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-ocaml.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-pascal.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-perl.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-pgsql.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-php.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-plain_text.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-powershell.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-praat.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-prolog.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-properties.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-protobuf.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-python.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-r.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-rdoc.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-rhtml.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-ruby.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-rust.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-sass.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-scad.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-scala.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-scheme.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-scss.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-sh.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-sjs.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-smarty.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-snippets.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-soy_template.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-space.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-sql.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-stylus.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-svg.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-tcl.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-tex.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-text.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-textile.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-toml.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-twig.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-typescript.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-vala.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-vbscript.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-velocity.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-verilog.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-vhdl.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-xml.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-xquery.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-yaml.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-ambiance.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-chaos.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-chrome.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-clouds.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-clouds_midnight.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-cobalt.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-crimson_editor.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-dawn.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-dreamweaver.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-eclipse.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-github.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-idle_fingers.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-katzenmilch.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-kr_theme.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-kuroir.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-merbivore.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-merbivore_soft.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-monokai.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-mono_industrial.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-pastel_on_dark.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-solarized_dark.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-solarized_light.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-terminal.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-textmate.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-tomorrow.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-tomorrow_night.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-tomorrow_night_blue.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-tomorrow_night_bright.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-tomorrow_night_eighties.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-twilight.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-vibrant_ink.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-xcode.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/worker-coffee.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/worker-css.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/worker-html.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/worker-javascript.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/worker-json.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/worker-lua.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/worker-php.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/worker-xquery.js",
-				"${PODS_ROOT}/ACEView/ACEView/HTML/index.html",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ace.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ext-beautify.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ext-chromevox.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ext-elastic_tabstops_lite.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ext-emmet.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ext-error_marker.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ext-keybinding_menu.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ext-language_tools.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ext-linking.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ext-modelist.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ext-old_ie.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ext-searchbox.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ext-settings_menu.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ext-spellcheck.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ext-split.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ext-static_highlight.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ext-statusbar.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ext-textarea.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ext-themelist.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ext-whitespace.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/keybinding-emacs.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/keybinding-vim.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-abap.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-actionscript.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-ada.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-apache_conf.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-applescript.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-asciidoc.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-assembly_x86.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-autohotkey.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-batchfile.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-c9search.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-cirru.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-clojure.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-cobol.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-coffee.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-coldfusion.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-csharp.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-css.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-curly.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-c_cpp.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-d.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-dart.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-diff.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-django.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-dockerfile.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-dot.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-eiffel.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-ejs.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-elixir.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-elm.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-erlang.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-forth.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-ftl.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-gcode.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-gherkin.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-gitignore.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-glsl.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-golang.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-groovy.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-haml.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-handlebars.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-haskell.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-haxe.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-html.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-html_ruby.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-ini.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-io.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-jack.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-jade.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-java.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-javascript.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-json.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-jsoniq.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-jsp.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-jsx.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-julia.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-latex.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-less.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-liquid.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-lisp.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-livescript.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-logiql.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-lsl.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-lua.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-luapage.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-lucene.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-makefile.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-markdown.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-mask.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-matlab.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-mel.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-mushcode.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-mysql.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-nix.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-objectivec.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-ocaml.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-pascal.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-perl.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-pgsql.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-php.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-plain_text.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-powershell.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-praat.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-prolog.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-properties.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-protobuf.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-python.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-r.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-rdoc.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-rhtml.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-ruby.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-rust.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-sass.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-scad.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-scala.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-scheme.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-scss.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-sh.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-sjs.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-smarty.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-snippets.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-soy_template.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-space.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-sql.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-stylus.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-svg.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-tcl.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-tex.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-text.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-textile.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-toml.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-twig.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-typescript.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-vala.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-vbscript.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-velocity.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-verilog.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-vhdl.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-xml.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-xquery.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-yaml.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-ambiance.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-chaos.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-chrome.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-clouds.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-clouds_midnight.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-cobalt.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-crimson_editor.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-dawn.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-dreamweaver.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-eclipse.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-github.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-idle_fingers.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-katzenmilch.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-kr_theme.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-kuroir.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-merbivore.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-merbivore_soft.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-monokai.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-mono_industrial.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-pastel_on_dark.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-solarized_dark.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-solarized_light.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-terminal.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-textmate.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-tomorrow.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-tomorrow_night.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-tomorrow_night_blue.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-tomorrow_night_bright.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-tomorrow_night_eighties.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-twilight.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-vibrant_ink.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-xcode.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/worker-coffee.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/worker-css.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/worker-html.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/worker-javascript.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/worker-json.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/worker-lua.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/worker-php.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/worker-xquery.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/index.html",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CocoaRestClientTests/Pods-CocoaRestClientTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BFD29973DF6B632BA7758274 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-CocoaRestClient-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BFF36EB5C7D0EFB57584BD12 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CocoaRestClient/Pods-CocoaRestClient-resources.sh",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/ace.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/ext-beautify.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/ext-chromevox.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/ext-elastic_tabstops_lite.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/ext-emmet.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/ext-error_marker.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/ext-keybinding_menu.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/ext-language_tools.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/ext-linking.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/ext-modelist.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/ext-old_ie.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/ext-searchbox.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/ext-settings_menu.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/ext-spellcheck.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/ext-split.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/ext-static_highlight.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/ext-statusbar.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/ext-textarea.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/ext-themelist.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/ext-whitespace.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/keybinding-emacs.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/keybinding-vim.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-abap.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-actionscript.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-ada.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-apache_conf.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-applescript.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-asciidoc.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-assembly_x86.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-autohotkey.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-batchfile.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-c9search.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-cirru.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-clojure.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-cobol.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-coffee.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-coldfusion.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-csharp.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-css.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-curly.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-c_cpp.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-d.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-dart.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-diff.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-django.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-dockerfile.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-dot.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-eiffel.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-ejs.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-elixir.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-elm.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-erlang.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-forth.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-ftl.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-gcode.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-gherkin.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-gitignore.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-glsl.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-golang.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-groovy.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-haml.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-handlebars.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-haskell.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-haxe.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-html.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-html_ruby.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-ini.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-io.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-jack.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-jade.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-java.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-javascript.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-json.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-jsoniq.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-jsp.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-jsx.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-julia.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-latex.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-less.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-liquid.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-lisp.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-livescript.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-logiql.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-lsl.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-lua.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-luapage.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-lucene.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-makefile.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-markdown.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-mask.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-matlab.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-mel.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-mushcode.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-mysql.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-nix.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-objectivec.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-ocaml.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-pascal.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-perl.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-pgsql.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-php.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-plain_text.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-powershell.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-praat.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-prolog.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-properties.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-protobuf.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-python.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-r.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-rdoc.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-rhtml.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-ruby.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-rust.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-sass.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-scad.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-scala.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-scheme.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-scss.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-sh.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-sjs.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-smarty.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-snippets.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-soy_template.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-space.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-sql.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-stylus.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-svg.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-tcl.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-tex.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-text.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-textile.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-toml.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-twig.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-typescript.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-vala.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-vbscript.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-velocity.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-verilog.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-vhdl.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-xml.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-xquery.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/mode-yaml.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-ambiance.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-chaos.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-chrome.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-clouds.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-clouds_midnight.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-cobalt.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-crimson_editor.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-dawn.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-dreamweaver.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-eclipse.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-github.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-idle_fingers.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-katzenmilch.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-kr_theme.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-kuroir.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-merbivore.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-merbivore_soft.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-monokai.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-mono_industrial.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-pastel_on_dark.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-solarized_dark.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-solarized_light.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-terminal.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-textmate.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-tomorrow.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-tomorrow_night.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-tomorrow_night_blue.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-tomorrow_night_bright.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-tomorrow_night_eighties.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-twilight.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-vibrant_ink.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/theme-xcode.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/worker-coffee.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/worker-css.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/worker-html.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/worker-javascript.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/worker-json.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/worker-lua.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/worker-php.js",
-				"${PODS_ROOT}/ACEView/ACEView/Dependencies/ace/src/worker-xquery.js",
-				"${PODS_ROOT}/ACEView/ACEView/HTML/index.html",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ace.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ext-beautify.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ext-chromevox.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ext-elastic_tabstops_lite.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ext-emmet.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ext-error_marker.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ext-keybinding_menu.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ext-language_tools.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ext-linking.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ext-modelist.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ext-old_ie.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ext-searchbox.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ext-settings_menu.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ext-spellcheck.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ext-split.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ext-static_highlight.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ext-statusbar.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ext-textarea.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ext-themelist.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ext-whitespace.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/keybinding-emacs.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/keybinding-vim.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-abap.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-actionscript.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-ada.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-apache_conf.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-applescript.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-asciidoc.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-assembly_x86.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-autohotkey.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-batchfile.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-c9search.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-cirru.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-clojure.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-cobol.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-coffee.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-coldfusion.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-csharp.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-css.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-curly.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-c_cpp.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-d.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-dart.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-diff.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-django.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-dockerfile.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-dot.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-eiffel.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-ejs.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-elixir.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-elm.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-erlang.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-forth.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-ftl.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-gcode.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-gherkin.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-gitignore.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-glsl.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-golang.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-groovy.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-haml.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-handlebars.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-haskell.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-haxe.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-html.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-html_ruby.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-ini.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-io.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-jack.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-jade.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-java.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-javascript.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-json.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-jsoniq.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-jsp.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-jsx.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-julia.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-latex.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-less.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-liquid.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-lisp.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-livescript.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-logiql.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-lsl.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-lua.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-luapage.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-lucene.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-makefile.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-markdown.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-mask.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-matlab.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-mel.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-mushcode.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-mysql.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-nix.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-objectivec.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-ocaml.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-pascal.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-perl.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-pgsql.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-php.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-plain_text.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-powershell.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-praat.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-prolog.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-properties.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-protobuf.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-python.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-r.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-rdoc.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-rhtml.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-ruby.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-rust.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-sass.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-scad.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-scala.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-scheme.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-scss.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-sh.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-sjs.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-smarty.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-snippets.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-soy_template.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-space.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-sql.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-stylus.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-svg.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-tcl.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-tex.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-text.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-textile.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-toml.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-twig.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-typescript.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-vala.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-vbscript.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-velocity.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-verilog.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-vhdl.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-xml.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-xquery.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mode-yaml.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-ambiance.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-chaos.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-chrome.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-clouds.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-clouds_midnight.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-cobalt.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-crimson_editor.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-dawn.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-dreamweaver.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-eclipse.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-github.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-idle_fingers.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-katzenmilch.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-kr_theme.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-kuroir.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-merbivore.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-merbivore_soft.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-monokai.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-mono_industrial.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-pastel_on_dark.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-solarized_dark.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-solarized_light.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-terminal.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-textmate.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-tomorrow.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-tomorrow_night.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-tomorrow_night_blue.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-tomorrow_night_bright.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-tomorrow_night_eighties.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-twilight.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-vibrant_ink.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/theme-xcode.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/worker-coffee.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/worker-css.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/worker-html.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/worker-javascript.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/worker-json.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/worker-lua.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/worker-php.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/worker-xquery.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/index.html",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CocoaRestClient/Pods-CocoaRestClient-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E801B72BF03372BCE0435C0A /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-CocoaRestClientTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		EDD115E02121420F8D3A0921 /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		FCAEBE35430B94C6C1587894 /* 📦 Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "📦 Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
-		8D11072C0486CEB800E47090 /* Sources */ = {
+		AACEA2E3CD934052A9EC4E6A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AF0A96BE1CC86E1A001870FC /* DMSlidingTabItemView.m in Sources */,
-				AF0A96C01CC86E1A001870FC /* DMSlidingTabView.m in Sources */,
-				8D11072D0486CEB800E47090 /* main.m in Sources */,
-				AFB3AA3D1A87E43400012E04 /* HighlightingTypeManager.m in Sources */,
-				AF3FE7CA1F6B7D67003ED6BA /* DiffWindowController.m in Sources */,
-				AF1FC48410F435BD00ED5A57 /* CheckableRequestWrapper.m in Sources */,
-				D7AC588711E60DDA00D67635 /* CRCMultipartRequest.m in Sources */,
-				D714A01D11E8BF7700F5A80B /* CRCFormEncodedRequest.m in Sources */,
-				D714A02011E8C0F400F5A80B /* CRCRawRequest.m in Sources */,
-				AF8536582069238F002A8D0C /* ACEView+TouchBarExtension.m in Sources */,
-				D714A03111E8F61D00F5A80B /* CRCFileRequest.m in Sources */,
-				D714A0A211E901FB00F5A80B /* CRCRequest.m in Sources */,
-				D7D998B411EAA29B005B8811 /* CRCTopView.m in Sources */,
-				AFBF08C514C32D30000E7411 /* ExportRequestsController.m in Sources */,
-				AF99ECBD1ED5B73C00101893 /* TimeoutPanelController.m in Sources */,
-				AF99ECBA1ED289E100101893 /* SaveRequestPanelController.m in Sources */,
-				AFBF08E214C4D7EE000E7411 /* CRCDrawerView.m in Sources */,
-				AFBB7D4714F9587A00424C12 /* TabbingTableView.m in Sources */,
-				AFBB7D4E14F98C1B00424C12 /* PreferencesController.m in Sources */,
-				AF99ECAD1EC013A100101893 /* MainWindowController.m in Sources */,
-				AFA11AB815CEDAE300831738 /* WelcomeController.m in Sources */,
-				AFE908861E748C87006D9B91 /* SelectableSavedRequestWrapper.m in Sources */,
-				985608C71C90031300A3EB6E /* CRCConstants.m in Sources */,
-				AFAA04FC1CFB6F19005A50ED /* ContentTypes.m in Sources */,
-				AFE908891E748F0A006D9B91 /* FastSearchSavedRequestTextCellView.m in Sources */,
-				AF90070516AC43A80012C758 /* CocoaRestClientAppDelegate.m in Sources */,
-				2C954AFA16B9799D00C8D54B /* NSData+gzip.m in Sources */,
-				AF85365520692190002A8D0C /* NSTextView+TouchBarExtension.m in Sources */,
-				2C03E34F16CA2E0F00C7608A /* CRCHTTPHeaderCell.m in Sources */,
-				AFF3B97B1E15A0DC00AA664C /* FastSearchSavedRequestsController.m in Sources */,
-				AF7CE5C71766CBC10080363B /* TableRowAndColumn.m in Sources */,
-				AF99ECB71ECD302400101893 /* SavedRequestsDataSource.m in Sources */,
-				AFBBA03E18D4AB93002E7036 /* CRCSavedRequestFolder.m in Sources */,
+				053AF60C9C4A4612893F1B34 /* Authentication.swift in Sources */,
+				46D683A6C052433C90DA4E57 /* CRCConstants.swift in Sources */,
+				FFA6297F9B164F6B96C793B5 /* FileAttachment.swift in Sources */,
+				BAE36F9D695A403EBD712A94 /* HTTPMethod.swift in Sources */,
+				1C185350875C408C8D61453B /* KeyValuePair.swift in Sources */,
+				B4014CA89EE74EADB13C3B27 /* RequestFolder.swift in Sources */,
+				CAC28BC6D2FA4741A6303A5E /* RestRequest.swift in Sources */,
+				824B8508577E4EAB9E809D97 /* CurlCommandGenerator.swift in Sources */,
+				59B498A8B14D4BB6992920D5 /* DiffEngine.swift in Sources */,
+				EC2A01C62D4948F2863EC7A4 /* EnvironmentVariableResolver.swift in Sources */,
+				A486B7E337894D79B9919B4C /* NetworkEngine.swift in Sources */,
+				86446DB1DBEC4AA0ABD8A3E8 /* RequestBodyBuilder.swift in Sources */,
+				887C9311F4064790902783A5 /* ResponseFormatter.swift in Sources */,
+				70EA809244F8465FADAB1B2D /* SavedRequestsStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AFD637A0226D693B00CD89D5 /* Sources */ = {
+		C330C6029B464751813AE86F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AFD637AF226D698F00CD89D5 /* MainWindowControllerTests.m in Sources */,
+				26DBAC061D864DBCA5F5BE67 /* CocoaRestClientApp.swift in Sources */,
+				E24F57C0496249DD9AAF951B /* DiffViewModel.swift in Sources */,
+				5C7CAEE2B4B043BD808121F7 /* PreferencesViewModel.swift in Sources */,
+				83A024C69B194A28B06E827B /* RequestTabViewModel.swift in Sources */,
+				EBFE1EDB08884E9995FA00C0 /* SavedRequestsViewModel.swift in Sources */,
+				F5A91EDD18B54235A92AEEA9 /* WorkspaceViewModel.swift in Sources */,
+				0655AF4BE89A4F5BB17E1715 /* KeyValueEditorTable.swift in Sources */,
+				7DD2699FD7B74AD4A9FB4639 /* StatusBadgeView.swift in Sources */,
+				9304E62505ED42768001D21A /* SyntaxTextEditorView.swift in Sources */,
+				4A3214F95B2F45DBB7920AA1 /* MainView.swift in Sources */,
+				BA6465C936F443568B85B175 /* DiffSheetView.swift in Sources */,
+				58AF213E93D44722A56CED31 /* ExportImportSheetView.swift in Sources */,
+				D3B9F27632B548C2934EFBAE /* FastSearchSheetView.swift in Sources */,
+				499C409799A3442483679008 /* SaveRequestSheetView.swift in Sources */,
+				40373EBB5CE94A47ACEB963D /* PreferencesView.swift in Sources */,
+				CD2A847A61D543379643A53C /* AuthEditorView.swift in Sources */,
+				222AAA2D74234D92B9351F67 /* FilesTableView.swift in Sources */,
+				6B36B89003934A669B23C7FE /* HeadersTableView.swift in Sources */,
+				6BC5DAD3D1324B848D3C74EB /* ParamsTableView.swift in Sources */,
+				ED67A9DAB7974501ABC7FC9F /* RequestBodyEditorView.swift in Sources */,
+				91C71DBFE4EE42B38F7BCA4F /* RequestHeaderBar.swift in Sources */,
+				DD2D9326FC2F4CB0AC25DFE1 /* ResponseHeadersView.swift in Sources */,
+				F52AC69157304DD194B0807F /* ResponseViewerView.swift in Sources */,
+				46FC3BC2FC464971BD67727E /* SentHeadersView.swift in Sources */,
+				EBA67B338D094AA5B5F9C1F0 /* SavedRequestsSidebarView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3BD7DB5CDD504E4E83E7E7E7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6CCAA17348824088A769A0BF /* CurlCommandGeneratorTests.swift in Sources */,
+				9AF80D801ACD4C5E9DF2E926 /* DiffEngineTests.swift in Sources */,
+				3B0D7FA31A6449E6A1297AFB /* EnvironmentVariableResolverTests.swift in Sources */,
+				8944C5EF0EE44F6986556723 /* NetworkEngineTests.swift in Sources */,
+				9780DF385FB044B7911D3698 /* ResponseFormatterTests.swift in Sources */,
+				CB65C0CD003A49328577EC69 /* RestRequestTests.swift in Sources */,
+				CA8E6AF328AB4DD58F5FE7FB /* SavedRequestsStoreTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		AFD637AA226D693B00CD89D5 /* PBXTargetDependency */ = {
+		C55973747FDC44F284E14C94 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 8D1107260486CEB800E47090 /* CocoaRestClient */;
-			targetProxy = AFD637A9226D693B00CD89D5 /* PBXContainerItemProxy */;
+			target = 0A052CDA5CD34520A9CBDEF3 /* CocoaRestClientCore */;
+			targetProxy = DB190EF515FA45DB804FB86E /* PBXContainerItemProxy */;
+		};
+		1BCC7227A8814F39860B188D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0A052CDA5CD34520A9CBDEF3 /* CocoaRestClientCore */;
+			targetProxy = E693772DDD984DFE8451DA4C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
-/* Begin PBXVariantGroup section */
-		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				089C165DFE840E0CC02AAC07 /* English */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		1DDD58140DA1D0A300B32029 /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1DDD58150DA1D0A300B32029 /* English */,
-			);
-			name = MainMenu.xib;
-			sourceTree = "<group>";
-		};
-		AF3FE7C51F6B7B60003ED6BA /* DiffWindow.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				AF3FE7C61F6B7B60003ED6BA /* English */,
-			);
-			name = DiffWindow.xib;
-			sourceTree = "<group>";
-		};
-		AF99ECAF1EC013EF00101893 /* MainWindow.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				AF99ECB01EC013EF00101893 /* English */,
-			);
-			name = MainWindow.xib;
-			sourceTree = "<group>";
-		};
-		AF9FE4261E9187A600415022 /* document-icon.png */ = {
-			isa = PBXVariantGroup;
-			children = (
-				AF9FE4271E9187A600415022 /* English */,
-			);
-			name = "document-icon.png";
-			sourceTree = "<group>";
-		};
-		AFA11AB315CEDA3600831738 /* Welcome.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				AFA11AB415CEDA3600831738 /* English */,
-			);
-			name = Welcome.xib;
-			sourceTree = "<group>";
-		};
-		AFBB7D4914F98B4000424C12 /* Preferences.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				AFBB7D4A14F98B4000424C12 /* English */,
-			);
-			name = Preferences.xib;
-			sourceTree = "<group>";
-		};
-		AFF3B97C1E15A24600AA664C /* FastSearchSavedRequests.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				AFF3B97D1E15A24600AA664C /* English */,
-			);
-			name = FastSearchSavedRequests.xib;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
-		AFD637AB226D693B00CD89D5 /* Debug */ = {
+		68418DEB106446E182D11173 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3FB6D9A2A59609386478D235 /* Pods-CocoaRestClientTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Manual;
-				COMBINE_HIDPI_IMAGES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
+				ENABLE_TESTABILITY = YES;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				INFOPLIST_FILE = CocoaRestClientTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = restlesscode.org.CocoaRestClientTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CocoaRestClient.app/Contents/MacOS/CocoaRestClient";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
-		AFD637AC226D693B00CD89D5 /* Release */ = {
+		144DAB537D274E8FBE17F984 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5960B3DB0FE492FCE115D0AA /* Pods-CocoaRestClientTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Manual;
-				COMBINE_HIDPI_IMAGES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				INFOPLIST_FILE = CocoaRestClientTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = restlesscode.org.CocoaRestClientTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CocoaRestClient.app/Contents/MacOS/CocoaRestClient";
-			};
-			name = Release;
-		};
-		C01FCF4B08A954540054247B /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = CA38BFABF00E1FC9B3DD37DD /* Pods-CocoaRestClient.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = CocoaRestClient/CocoaRestClient.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 30;
-				DEVELOPMENT_TEAM = V3RDC2WXT3;
-				ENABLE_HARDENED_RUNTIME = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)\"",
-				);
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_OBJC_GC = unsupported;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = core/CocoaRestClient_Prefix.pch;
-				GCC_VERSION = "";
-				INFOPLIST_FILE = "CocoaRestClient-Info.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 1.4.7;
-				PRODUCT_BUNDLE_IDENTIFIER = org.restlesscode.cocoarestclient;
-				PRODUCT_NAME = CocoaRestClient;
-				PROVISIONING_PROFILE_SPECIFIER = "";
-			};
-			name = Debug;
-		};
-		C01FCF4C08A954540054247B /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = F8553EBB0B884CE2A4EB748F /* Pods-CocoaRestClient.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = CocoaRestClient/CocoaRestClient.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 30;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = V3RDC2WXT3;
-				ENABLE_HARDENED_RUNTIME = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)\"",
-				);
-				GCC_ENABLE_OBJC_GC = unsupported;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = core/CocoaRestClient_Prefix.pch;
-				GCC_VERSION = "";
-				INFOPLIST_FILE = "CocoaRestClient-Info.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 1.4.7;
-				PRODUCT_BUNDLE_IDENTIFIER = org.restlesscode.cocoarestclient;
-				PRODUCT_NAME = CocoaRestClient;
-				PROVISIONING_PROFILE_SPECIFIER = "";
-			};
-			name = Release;
-		};
-		C01FCF4F08A954540054247B /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
-				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_ENABLE_OBJC_GC = supported;
 				GCC_OPTIMIZATION_LEVEL = s;
-				GCC_VERSION = "";
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				ONLY_ACTIVE_ARCH = YES;
-				OTHER_CFLAGS = "-DDEBUG";
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		851AF279F595433BB3601553 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				EXECUTABLE_PREFIX = "lib";
+				MACH_O_TYPE = staticlib;
+				PRODUCT_BUNDLE_IDENTIFIER = org.restlesscode.CocoaRestClientCore;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
-		C01FCF5008A954540054247B /* Release */ = {
+		5525238DD43247D1A2B756CE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_ENABLE_OBJC_GC = supported;
-				GCC_VERSION = "";
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				ONLY_ACTIVE_ARCH = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				EXECUTABLE_PREFIX = "lib";
+				MACH_O_TYPE = staticlib;
+				PRODUCT_BUNDLE_IDENTIFIER = org.restlesscode.CocoaRestClientCore;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		FA57AA7A7B3A498C8CE95588 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
+				INFOPLIST_FILE = "Resources/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.restlesscode.CocoaRestClient;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		2620BC9A688E471DA55BD5B6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
+				INFOPLIST_FILE = "Resources/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.restlesscode.CocoaRestClient;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		2BF9DB219F6C4DF7B21ADF75 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACH_O_TYPE = mh_bundle;
+				OTHER_CODE_SIGN_FLAGS = "--deep";
+				PRODUCT_BUNDLE_IDENTIFIER = org.restlesscode.CocoaRestClientTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		DDDBB63D2FEA4644886B6192 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACH_O_TYPE = mh_bundle;
+				OTHER_CODE_SIGN_FLAGS = "--deep";
+				PRODUCT_BUNDLE_IDENTIFIER = org.restlesscode.CocoaRestClientTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		AFD637AD226D693B00CD89D5 /* Build configuration list for PBXNativeTarget "CocoaRestClientTests" */ = {
+		B434D6A1B26D4C5AAB211714 /* Build configuration list for PBXProject "CocoaRestClient" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				AFD637AB226D693B00CD89D5 /* Debug */,
-				AFD637AC226D693B00CD89D5 /* Release */,
+				68418DEB106446E182D11173 /* Debug */,
+				144DAB537D274E8FBE17F984 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "CocoaRestClient" */ = {
+		C0D93A01CE6F410E84607E59 /* Build configuration list for PBXNativeTarget "CocoaRestClientCore" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C01FCF4B08A954540054247B /* Debug */,
-				C01FCF4C08A954540054247B /* Release */,
+				851AF279F595433BB3601553 /* Debug */,
+				5525238DD43247D1A2B756CE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "CocoaRestClient" */ = {
+		A63BC8287049494F814E605F /* Build configuration list for PBXNativeTarget "CocoaRestClient" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C01FCF4F08A954540054247B /* Debug */,
-				C01FCF5008A954540054247B /* Release */,
+				FA57AA7A7B3A498C8CE95588 /* Debug */,
+				2620BC9A688E471DA55BD5B6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C26385B8E66E4EE3B8E97BE0 /* Build configuration list for PBXNativeTarget "CocoaRestClientTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2BF9DB219F6C4DF7B21ADF75 /* Debug */,
+				DDDBB63D2FEA4644886B6192 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
 	};
-	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+	rootObject = 47B55461D62349AA8E0A453B /* Project object */;
 }

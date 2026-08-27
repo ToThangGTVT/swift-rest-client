@@ -1,100 +1,139 @@
-About
-=================
-CocoaRestClient is a Mac OS X app for testing HTTP/Restful endpoints.
+# CocoaRestClient (Swift Edition)
 
-I love curl, but sometimes I need my output XML or JSON pretty printed. I want to be able to save frequent PUT and POST bodies for later and copy and paste from responses easily. Think of this as curl with a light UI.
+A lightweight, modern, native macOS REST client built entirely with **Swift 6**, **SwiftUI**, and **Swift Concurrency (`async/await`)**.
 
-The goal of this project is to build a lightweight native Cocoa app for testing and debugging HTTP Restful services.
-This project was greatly inspired by the Java rest-client (https://code.google.com/archive/p/rest-client).
+[![macOS 13+](https://img.shields.io/badge/macOS-13.0%2B-blue.svg)](https://www.apple.com/macos)
+[![Swift 6.0](https://img.shields.io/badge/Swift-6.0-orange.svg)](https://swift.org)
+[![License: GPL-3.0](https://img.shields.io/badge/License-GPL%203.0-green.svg)](LICENSE.txt)
 
-Official project website: http://mmattozzi.github.io/cocoa-rest-client/
+---
 
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmmattozzi%2Fcocoa-rest-client.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmmattozzi%2Fcocoa-rest-client?ref=badge_shield)
+## 🚀 Tính năng nổi bật (Features)
 
-Download
-=================
-If you're not looking to compile from source and only want to use this tool, latest releases are here:
+* **HTTP Methods**: GET, POST, PUT, DELETE, HEAD, OPTIONS, PATCH, COPY, SEARCH và Custom Methods.
+* **Request Body linh hoạt**:
+  * **Raw Input**: Tự động format, Beautify và tô màu cú pháp JSON, XML, Plain Text, HTML, JavaScript.
+  * **Form URL-Encoded**: Soạn thảo các cặp Key-Value trực quan.
+  * **Multipart Form-Data**: Hỗ trợ đính kèm files, tự nhận diện MIME type và nén Gzip.
+  * **Binary File**: Tải lên tệp nhị phân trực tiếp.
+* **URL Parameters & Headers**: Bảng chỉnh sửa Key-Value có thể bật/tắt (toggle) từng dòng; tự động đồng bộ 2 chiều giữa bảng tham số và thanh địa chỉ URL.
+* **Biến môi trường (Environment Variables)**: Hỗ trợ cú pháp `${VAR_NAME}` trong URL, Headers, Params và Request Body.
+* **Authentication**: Hỗ trợ HTTP Basic Auth (với Preemptive Auth), Bearer Token, và Digest Auth.
+* **Response Inspector**:
+  * Hiển thị mã trạng thái HTTP kèm màu sắc trực quan (2xx, 3xx, 4xx, 5xx).
+  * Đo thời gian phản hồi (Latency / Response time theo mili-giây).
+  * Tự động format / Pretty Print JSON và XML.
+  * Xem Response Headers và Sent Headers (Header đã gửi qua mạng).
+  * Phóng to / Thu nhỏ cỡ chữ xem kết quả, xuất file hoặc mở nhanh bằng trình duyệt mặc định.
+* **Diff Tool (So sánh 2 Response)**: So sánh trực quan sự khác biệt giữa nội dung phản hồi của 2 tab (hỗ trợ hiển thị dòng thêm/bớt).
+* **Lưu & Quản lý Requests (Sidebar & Fast Search)**:
+  * Tổ chức theo cây thư mục phân cấp (Folders).
+  * Tìm kiếm nhanh tức thì (Quick Open / Fast Search qua `Cmd+O`).
+  * Xuất / Nhập (Export / Import) toàn bộ bộ sưu tập request dạng JSON.
+  * Tương thích ngược tự động với dữ liệu lưu trữ cũ (`CocoaRestClient.savedRequests`).
+* **Sao chép lệnh cURL**: Sinh câu lệnh `curl` hoàn chỉnh chuẩn xác chỉ với 1 phím tắt (`Cmd+Shift+C`).
+* **Đa tab (Native Tabs)**: Mở và làm việc với nhiều request cùng lúc (`Cmd+T`, `Cmd+W`).
+* **Tùy chỉnh & Bảo mật**: Cho phép chứng chỉ SSL tự ký (Self-Signed / Untrusted), cấu hình Timeout, kiểm soát Follow Redirects và Cookies.
 
-[Download List](https://github.com/mmattozzi/cocoa-rest-client/releases)
+---
 
-You can also install it through [homebrew](https://brew.sh/) as a [cask](https://caskroom.github.io):
+## 📁 Cấu trúc thư mục mới (New Project Structure)
 
-```sh
-# install cask if necessary
-brew tap caskroom/cask
-# install CocoaRestClient
-brew install --cask cocoarestclient
+```
+swift-rest-client/
+├── Package.swift               # Cấu hình Swift Package Manager chuẩn
+├── README.md                   # Tài liệu hướng dẫn dự án
+├── LICENSE.txt                 # Giấy phép mã nguồn mở (GPL-3.0)
+│
+├── Resources/                  # Tài nguyên ứng dụng
+│   ├── AppIcon.icns            # Icon ứng dụng macOS
+│   ├── Info.plist              # Metadata ứng dụng (Bundle ID, Permissions,...)
+│   └── Assets.xcassets/        # Asset catalog chứa AppIcon
+│
+├── Sources/
+│   ├── CocoaRestClient/        # Target ứng dụng chính (SwiftUI macOS App)
+│   │   ├── CocoaRestClientApp.swift   # Entrypoint @main & Menu bar commands
+│   │   ├── ViewModels/         # Các ViewModels quản lý trạng thái
+│   │   │   ├── WorkspaceViewModel.swift
+│   │   │   ├── RequestTabViewModel.swift
+│   │   │   ├── SavedRequestsViewModel.swift
+│   │   │   ├── PreferencesViewModel.swift
+│   │   │   └── DiffViewModel.swift
+│   │   └── Views/              # Các giao diện SwiftUI
+│   │       ├── MainView.swift
+│   │       ├── RequestEditor/  # Header, Body, Headers, Params, Auth, Files
+│   │       ├── ResponseViewer/ # Response Body, Headers, Sent Headers
+│   │       ├── Sidebar/        # Cây thư mục request đã lưu
+│   │       ├── Modals/         # Quick Open, Diff, Import/Export, Save Sheet
+│   │       ├── Preferences/    # Cài đặt ứng dụng
+│   │       └── Components/     # Text Editor, KeyValue Table, Status Badge
+│   │
+│   └── CocoaRestClientCore/    # Core logic & Networking library
+│       ├── Models/             # RestRequest, RequestFolder, KeyValuePair, HTTPMethod,...
+│       └── Services/           # NetworkEngine, RequestBodyBuilder, ResponseFormatter,
+│                               # EnvironmentVariableResolver, CurlCommandGenerator,
+│                               # DiffEngine, SavedRequestsStore
+│
+├── Tests/
+│   └── CocoaRestClientTests/   # Bộ kiểm thử Unit Tests tự động (XCTest)
+│       ├── RestRequestTests.swift
+│       ├── RequestBodyBuilderTests.swift
+│       ├── ResponseFormatterTests.swift
+│       ├── EnvironmentVariableResolverTests.swift
+│       ├── CurlCommandGeneratorTests.swift
+│       ├── DiffEngineTests.swift
+│       ├── NetworkEngineTests.swift
+│       └── SavedRequestsStoreTests.swift
+│
+└── scripts/
+    └── build_app.sh            # Script build đóng gói thành file .app độc lập
 ```
 
-Features
-=================
-* Make GET, PUT, POST, DELETE, HEAD calls
-* Set request body to arbitrary content
-* Set request headers
-* Edit URL parameters in an easy to read table
-* Set HTTP basic & digest auth
-* Auto-format (pretty print) XML, JSON, and MsgPack responses
-* Some cool Ace Editor themes for syntax highlighting
-* Display response headers
-* Quick save requests in a handy sidebar using folder organization
-* Upload files and form data via multipart/form-data
-* Enter POST/PUT input as raw input or key/value pairs
-* Reports response latency
-* Command-R reloads last request
-* Lightweight: Low real memory usage and < 6mb DMG
-* SSL Support (including untrusted certificates)
-* Optionally follows HTTP redirects
-* Import and export requests
-* New in version 1.4: Uses native macOS tabs and windows.
-* New in version 1.4.3: Generate a unified diff between two response body tabs
-* Supports native MacOS dark mode
-* Mac M1/arm and intel processor support
+---
 
-Screenshots
-=================
+## 🛠️ Hướng dẫn Mở & Build Ứng dụng (Xcode macOS App)
 
-<img src="https://mmattozzi.github.io/cocoa-rest-client/screenshots/screenshot-1.png" width=400/>
+### 1. Mở trực tiếp bằng Xcode (Khuyên dùng)
+Bạn chỉ cần mở tệp dự án Xcode:
+```bash
+open CocoaRestClient.xcodeproj
+```
+* Nhấn **`Cmd + R`** để chạy trực tiếp ứng dụng macOS.
+* Nhấn **`Cmd + U`** để chạy toàn bộ bộ kiểm thử Unit Tests.
 
-*Pretty print JSON content. Set and save HTTP headers.*
+### 2. Build & Test qua Command Line (xcodebuild)
+```bash
+# Chạy toàn bộ Unit Tests
+xcodebuild test -project CocoaRestClient.xcodeproj -scheme CocoaRestClient -destination 'platform=macOS'
 
-<img src="https://mmattozzi.github.io/cocoa-rest-client/screenshots/screenshot-4.png" width=400/>
+# Build bản Release
+xcodebuild -project CocoaRestClient.xcodeproj -scheme CocoaRestClient -configuration Release -destination 'platform=macOS' build
+```
 
-*Pretty print XML content. Quick save of request URLs, body, and headers in one convenient drawer.*
+### 3. Đóng gói nhanh thành App độc lập
+```bash
+./scripts/build_app.sh
+```
+File ứng dụng hoàn chỉnh sẽ được đóng gói tại: `build/CocoaRestClient.app`.
 
-<img src="https://mmattozzi.github.io/cocoa-rest-client/screenshots/screenshot-5.png" width=400/>
+---
 
-*Set HTTP Basic or Digest Auth. Displays HTTP response headers.*
+## ⌨️ Phím tắt hữu ích (Shortcuts)
 
-<img src="https://mmattozzi.github.io/cocoa-rest-client/screenshots/screenshot-2.png" width=400/>
+| Phím tắt | Chức năng |
+| :--- | :--- |
+| `Cmd + Return` | Gửi Request |
+| `Cmd + R` | Nạp lại Request trước |
+| `Cmd + T` | Mở Tab mới |
+| `Cmd + W` | Đóng Tab hiện tại |
+| `Cmd + S` | Lưu Request |
+| `Cmd + O` | Mở nhanh (Quick Open / Fast Search) |
+| `Cmd + Shift + C` | Sao chép lệnh cURL |
+| `Cmd + Shift + F` | Tự động format / Beautify JSON |
+| `Cmd + D` | So sánh 2 Response (Diff tool) |
+| `Cmd + ,` | Cài đặt ứng dụng (Preferences) |
 
-*Upload files using HTTP multipart requests. HTTP form encoding also supported.*
+---
 
-<img src="https://mmattozzi.github.io/cocoa-rest-client/screenshots/screenshot-6.png" width=400/>
-
-*Unified diff tool for comparing response bodies.*
-
-Source and Contributions
-=================
-* Contributions are always welcome! Please fork and create a pull request.
-* Source uses [Cocoapods](https://cocoapods.org/) for dependencies, to get started, [install CocoaPods](http://guides.cocoapods.org/using/getting-started.html) and in the main project directory run:
-
-    ```
-      pod install
-    ```
-  * Note that you must have a github account and a public key registered with github so that CocoaPods can pull down a github-hosted dependency.
-
-Credits
-=================
-* Uses a very lightly modified fork of SBJson (https://github.com/SBJson/SBJson) for pretty printing JSON
-* Much guidance from Adrian Kosmaczewski blog (http://kosmaczewski.net/playing-with-http-libraries/)
-* Sparkle automatic update framework (https://github.com/sparkle-project/Sparkle)
-* ACEView syntax highlighting (https://github.com/ACENative/ACEView)
-* Base64 encoding uses Matt Gallagher's NSData+Base64 code (http://www.cocoawithlove.com/2009/06/base64-encoding-options-on-mac-and.html)
-* Code & testing contributions: Adam Venturella, Sergey Klimov, Cory Alder, Tito Ciuro, Eric Broska, Nicholas Robinson, Diego Massanti, Robert Horvath
-
-
-
-## License
-See [LICENSE.txt](https://github.com/mmattozzi/cocoa-rest-client/blob/master/LICENSE.txt)
-
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmmattozzi%2Fcocoa-rest-client.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmmattozzi%2Fcocoa-rest-client?ref=badge_large)
+## 📄 Bản quyền (License)
+Xem file [LICENSE.txt](LICENSE.txt).
