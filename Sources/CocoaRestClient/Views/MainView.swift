@@ -239,13 +239,12 @@ public struct RequestDetailView: View {
                     RequestBodyEditorView(tabVM: tabVM)
                 case .params:
                     ParamsTableView(request: $tabVM.request)
-                        .padding(.horizontal, 8)
+                        .padding(.horizontal, 10)
                 case .headers:
                     HeadersTableView(headers: $tabVM.request.headers)
-                        .padding(.horizontal, 8)
+                        .padding(.horizontal, 10)
                 case .auth:
                     AuthEditorView(auth: $tabVM.request.auth)
-                        .padding(.horizontal, 8)
                 }
             }
             .frame(minHeight: 220)
