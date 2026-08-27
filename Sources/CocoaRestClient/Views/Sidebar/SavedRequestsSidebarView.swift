@@ -187,46 +187,12 @@ private struct RequestTreeItemView: View {
     var body: some View {
         switch item {
         case .folder(let folder):
-            DisclosureGroup(
-                isExpanded: Binding(
-                    get: { folder.isExpanded },
-                    set: { _ in }
-                ),
-                content: {
-                    ForEach(folder.items) { subItem in
-                        RequestTreeItemView(
-                            item: subItem,
-                            savedVM: savedVM,
-                            currentRequest: currentRequest,
-                            onSelectRequest: onSelectRequest,
-                            onNewFolderIn: onNewFolderIn
-                        )
-                    }
-                },
-                label: {
-                    HStack(spacing: 6) {
-                        Image(systemName: "folder.fill")
-                            .foregroundColor(.accentColor)
-                        Text(folder.name)
-                            .fontWeight(.medium)
-                        Spacer()
-                        Text("\(folder.totalRequestCount)")
-                            .font(.caption2)
-                            .foregroundColor(.secondary)
-                    }
-                    .contextMenu {
-                        Button("Add Request Here") {
-                            savedVM.addRequest(currentRequest, intoFolderId: folder.id)
-                        }
-                        Button("New Subfolder") {
-                            onNewFolderIn(folder.id)
-                        }
-                        Divider()
-                        Button("Delete Folder", role: .destructive) {
-                            savedVM.deleteItem(withId: folder.id)
-                        }
-                    }
-                }
+            RequestTreeFolderView(
+                folder: folder,
+                savedVM: savedVM,
+                currentRequest: currentRequest,
+                onSelectRequest: onSelectRequest,
+                onNewFolderIn: onNewFolderIn
             )
 
         case .request(let req):
@@ -271,6 +237,76 @@ private struct RequestTreeItemView: View {
         case .put: return .orange
         case .delete: return .red
         default: return .gray
+        }
+    }
+}
+
+private struct RequestTreeFolderView: View {
+    let folder: RequestFolder
+    @ObservedObject var savedVM: SavedRequestsViewModel
+    let currentRequest: RestRequest
+    let onSelectRequest: (RestRequest) -> Void
+    let onNewFolderIn: (UUID) -> Void
+
+    @State private var isExpanded: Bool
+
+    init(
+        folder: RequestFolder,
+        savedVM: SavedRequestsViewModel,
+        currentRequest: RestRequest,
+        onSelectRequest: @escaping (RestRequest) -> Void,
+        onNewFolderIn: @escaping (UUID) -> Void
+    ) {
+        self.folder = folder
+        self.savedVM = savedVM
+        self.currentRequest = currentRequest
+        self.onSelectRequest = onSelectRequest
+        self.onNewFolderIn = onNewFolderIn
+        self._isExpanded = State(initialValue: folder.isExpanded)
+    }
+
+    var body: some View {
+        DisclosureGroup(
+            isExpanded: $isExpanded,
+            content: {
+                ForEach(folder.items) { subItem in
+                    RequestTreeItemView(
+                        item: subItem,
+                        savedVM: savedVM,
+                        currentRequest: currentRequest,
+                        onSelectRequest: onSelectRequest,
+                        onNewFolderIn: onNewFolderIn
+                    )
+                }
+            },
+            label: {
+                HStack(spacing: 6) {
+                    Image(systemName: isExpanded ? "folder.fill" : "folder")
+                        .foregroundColor(.accentColor)
+                    Text(folder.name)
+                        .fontWeight(.medium)
+                    Spacer()
+                    Text("\(folder.totalRequestCount)")
+                        .font(.caption2)
+                        .foregroundColor(.secondary)
+                }
+                .contentShape(Rectangle())
+                .contextMenu {
+                    Button("Add Request Here") {
+                        savedVM.addRequest(currentRequest, intoFolderId: folder.id)
+                    }
+                    Button("New Subfolder") {
+                        onNewFolderIn(folder.id)
+                    }
+                    Divider()
+                    Button("Delete Folder", role: .destructive) {
+                        savedVM.deleteItem(withId: folder.id)
+                    }
+                }
+            }
+        )
+        .onChange(of: isExpanded) { newValue in
+            savedVM.setFolderExpanded(id: folder.id, isExpanded: newValue)
         }
     }
 }

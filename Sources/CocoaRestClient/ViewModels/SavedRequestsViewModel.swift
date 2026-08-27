@@ -126,6 +126,34 @@ public final class SavedRequestsViewModel: ObservableObject {
         return false
     }
 
+    public func setFolderExpanded(id: UUID, isExpanded: Bool) {
+        if rootFolder.id == id {
+            rootFolder.isExpanded = isExpanded
+            persist()
+            return
+        }
+        if setFolderExpandedIn(&rootFolder, id: id, isExpanded: isExpanded) {
+            persist()
+        }
+    }
+
+    private func setFolderExpandedIn(_ folder: inout RequestFolder, id: UUID, isExpanded: Bool) -> Bool {
+        for i in 0..<folder.items.count {
+            if case .folder(var sub) = folder.items[i] {
+                if sub.id == id {
+                    sub.isExpanded = isExpanded
+                    folder.items[i] = .folder(sub)
+                    return true
+                }
+                if setFolderExpandedIn(&sub, id: id, isExpanded: isExpanded) {
+                    folder.items[i] = .folder(sub)
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
     public var filteredRequests: [(path: String, request: RestRequest)] {
         let all = rootFolder.allRequests()
         guard !searchQuery.isEmpty else { return all }
