@@ -6,6 +6,8 @@ A lightweight, modern, native macOS REST client built entirely with **Swift 6**,
 [![Swift 6.0](https://img.shields.io/badge/Swift-6.0-orange.svg)](https://swift.org)
 [![License: GPL-3.0](https://img.shields.io/badge/License-GPL%203.0-green.svg)](LICENSE.txt)
 
+<img width="1278" height="1002" alt="Screenshot 2026-08-28 at 09 45 14" src="https://github.com/user-attachments/assets/dec8f70a-b109-4886-bd4c-4ce559a009f1" />
+
 ---
 
 ## 🚀 Tính năng nổi bật (Features)
