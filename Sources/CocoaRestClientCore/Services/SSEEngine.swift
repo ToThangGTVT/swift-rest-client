@@ -26,9 +26,15 @@ public final class SSEEngine: NSObject, ObservableObject, URLSessionDataDelegate
     @Published public var events: [SSEEvent] = []
     @Published public var errorMessage: String?
 
+    /// Headers actually sent, for the console to display.
+    @Published public private(set) var sentHeaders: [KeyValuePair] = []
+
     private var session: URLSession?
     private var dataTask: URLSessionDataTask?
     private var buffer = ""
+    /// Id of the last event seen, replayed as `Last-Event-ID` on the next connect
+    /// so a reconnect resumes where the stream left off.
+    private var lastEventId: String?
 
     public override init() {
         super.init()
@@ -39,19 +45,69 @@ public final class SSEEngine: NSObject, ObservableObject, URLSessionDataDelegate
         errorMessage = nil
 
         let config = URLSessionConfiguration.default
-        config.timeoutIntervalForRequest = TimeInterval(Double.greatestFiniteMagnitude)
-        config.timeoutIntervalForResource = TimeInterval(Double.greatestFiniteMagnitude)
+        // A stream has no response deadline, but the values must stay finite:
+        // greatestFiniteMagnitude is not a duration URLSession can reason about.
+        config.timeoutIntervalForRequest = Self.streamTimeout
+        config.timeoutIntervalForResource = Self.streamTimeout
+        // Cookies come from the app's own jar via `headers`.
+        config.httpShouldSetCookies = false
+        config.httpCookieStorage = nil
         self.session = URLSession(configuration: config, delegate: self, delegateQueue: .main)
+
+        buffer = ""
 
         var request = URLRequest(url: url)
         request.setValue("text/event-stream", forHTTPHeaderField: "Accept")
+        request.setValue("no-cache", forHTTPHeaderField: "Cache-Control")
         for (k, v) in headers {
             request.setValue(v, forHTTPHeaderField: k)
         }
+        if let lastEventId {
+            request.setValue(lastEventId, forHTTPHeaderField: "Last-Event-ID")
+        }
+        sentHeaders = (request.allHTTPHeaderFields ?? [:])
+            .map { KeyValuePair(key: $0.key, value: $0.value, isEnabled: true) }
+            .sorted { $0.key < $1.key }
 
         self.dataTask = session?.dataTask(with: request)
         dataTask?.resume()
         isConnected = true
+    }
+
+    /// One day. Long enough that no stream hits it, short enough to stay a number.
+    private static let streamTimeout: TimeInterval = 86_400
+
+    /// Rejects a response that is not an event stream.
+    ///
+    /// Without this a 401 page is fed straight into the SSE parser, which finds no
+    /// `data:` lines and reports nothing at all -- the stream just looks idle.
+    public func urlSession(
+        _ session: URLSession,
+        dataTask: URLSessionDataTask,
+        didReceive response: URLResponse,
+        completionHandler: @escaping (URLSession.ResponseDisposition) -> Void
+    ) {
+        guard let http = response as? HTTPURLResponse else {
+            completionHandler(.allow)
+            return
+        }
+
+        guard (200..<300).contains(http.statusCode) else {
+            errorMessage = "HTTP \(http.statusCode) \(HTTPURLResponse.localizedString(forStatusCode: http.statusCode))"
+            isConnected = false
+            completionHandler(.cancel)
+            return
+        }
+
+        let contentType = (http.value(forHTTPHeaderField: "Content-Type") ?? "").lowercased()
+        guard contentType.contains("text/event-stream") else {
+            errorMessage = "Not an event stream -- server replied with \(contentType.isEmpty ? "no Content-Type" : contentType)"
+            isConnected = false
+            completionHandler(.cancel)
+            return
+        }
+
+        completionHandler(.allow)
     }
 
     public func disconnect() {
@@ -107,6 +163,7 @@ public final class SSEEngine: NSObject, ObservableObject, URLSessionDataDelegate
         if !combinedData.isEmpty {
             let event = SSEEvent(event: eventType, data: combinedData, eventId: eventId)
             DispatchQueue.main.async {
+                if let eventId { self.lastEventId = eventId }
                 self.events.append(event)
             }
         }

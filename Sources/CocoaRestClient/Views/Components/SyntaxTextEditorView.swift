@@ -127,6 +127,10 @@ public struct SyntaxTextEditorView: NSViewRepresentable {
         public func textDidChange(_ notification: Notification) {
             guard let textView = notification.object as? NSTextView else { return }
             let newValue = textView.string
+            // `text` is a binding into a @Published request; writing it republishes
+            // even when the value is identical. Ignore notifications that carry the
+            // string we just applied ourselves, so only real edits propagate.
+            guard newValue != appliedText else { return }
             appliedText = newValue
             parent.text = newValue
             rulerView?.rebuildLineCache()

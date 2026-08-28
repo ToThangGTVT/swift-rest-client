@@ -34,10 +34,13 @@ public enum WebSocketConnectionState: Equatable, Sendable {
     case error(String)
 }
 
-public final class WebSocketEngine: NSObject, ObservableObject, @unchecked Sendable {
+public final class WebSocketEngine: NSObject, ObservableObject, URLSessionWebSocketDelegate, @unchecked Sendable {
     @Published public var state: WebSocketConnectionState = .disconnected
     @Published public var frames: [WebSocketFrame] = []
-    
+
+    /// Headers actually sent on the handshake, for the console to display.
+    @Published public private(set) var sentHeaders: [KeyValuePair] = []
+
     private var webSocketTask: URLSessionWebSocketTask?
     private var urlSession: URLSession?
 
@@ -50,20 +53,63 @@ public final class WebSocketEngine: NSObject, ObservableObject, @unchecked Senda
         state = .connecting
 
         let configuration = URLSessionConfiguration.default
-        let session = URLSession(configuration: configuration, delegate: nil, delegateQueue: .main)
+        // The engine injects the app's own cookie jar explicitly; letting URLSession
+        // add a second set from its shared storage would send both.
+        configuration.httpShouldSetCookies = false
+        configuration.httpCookieStorage = nil
+        let session = URLSession(configuration: configuration, delegate: self, delegateQueue: .main)
         self.urlSession = session
 
         var request = URLRequest(url: url)
         for (k, v) in headers {
-            request.addValue(v, forHTTPHeaderField: k)
+            request.setValue(v, forHTTPHeaderField: k)
         }
+        sentHeaders = (request.allHTTPHeaderFields ?? [:])
+            .map { KeyValuePair(key: $0.key, value: $0.value, isEnabled: true) }
+            .sorted { $0.key < $1.key }
 
         let task = session.webSocketTask(with: request)
         self.webSocketTask = task
         task.resume()
 
-        state = .connected
+        // Stay in .connecting until the delegate reports the handshake opened.
+        // Flipping to .connected here reports success for a server that answered
+        // 401, and the failure only surfaces later as a receive error.
         listenForMessages()
+    }
+
+    // MARK: - URLSessionWebSocketDelegate
+
+    public func urlSession(
+        _ session: URLSession,
+        webSocketTask: URLSessionWebSocketTask,
+        didOpenWithProtocol protocol: String?
+    ) {
+        guard webSocketTask === self.webSocketTask else { return }
+        state = .connected
+    }
+
+    public func urlSession(
+        _ session: URLSession,
+        webSocketTask: URLSessionWebSocketTask,
+        didCloseWith closeCode: URLSessionWebSocketTask.CloseCode,
+        reason: Data?
+    ) {
+        guard webSocketTask === self.webSocketTask else { return }
+        let detail = reason.flatMap { String(data: $0, encoding: .utf8) }.flatMap { $0.isEmpty ? nil : $0 }
+        state = closeCode == .normalClosure || closeCode == .goingAway
+            ? .disconnected
+            : .error("Closed by server (code \(closeCode.rawValue))\(detail.map { ": \($0)" } ?? "")")
+    }
+
+    public func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+        guard task === self.webSocketTask else { return }
+        // A handshake rejected with an HTTP error never opens, so report the status.
+        if let http = task.response as? HTTPURLResponse, http.statusCode >= 400 {
+            state = .error("Handshake rejected: HTTP \(http.statusCode) \(HTTPURLResponse.localizedString(forStatusCode: http.statusCode))")
+        } else if let error, state != .disconnected {
+            state = .error(error.localizedDescription)
+        }
     }
 
     public func send(text: String) {
@@ -82,8 +128,9 @@ public final class WebSocketEngine: NSObject, ObservableObject, @unchecked Senda
     }
 
     public func disconnect() {
-        webSocketTask?.cancel(with: .goingAway, reason: nil)
+        let task = webSocketTask
         webSocketTask = nil
+        task?.cancel(with: .goingAway, reason: nil)
         urlSession?.invalidateAndCancel()
         urlSession = nil
         state = .disconnected
@@ -112,11 +159,13 @@ public final class WebSocketEngine: NSObject, ObservableObject, @unchecked Senda
                         break
                     }
                     // Continue listening for next message
-                    if self.state == .connected {
+                    if self.webSocketTask != nil {
                         self.listenForMessages()
                     }
                 case .failure(let error):
-                    if self.state == .connected {
+                    // didCompleteWithError reports handshake rejections with the HTTP
+                    // status, which is more useful than the generic socket error.
+                    if self.webSocketTask != nil, self.state == .connected {
                         self.state = .error(error.localizedDescription)
                     }
                 }

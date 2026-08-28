@@ -16,6 +16,37 @@ final class NetworkEngineTests: XCTestCase {
         XCTAssertFalse(options.disableCookies)
     }
 
+    func testUrlVariablesResolveBeforeSchemeFallback() {
+        let env = ["baseUrl": "https://httpbin.org", "host": "example.com"]
+
+        // The scheme lives inside the variable -- it must not be prefixed again.
+        var request = RestRequest(url: "{{baseUrl}}/get")
+        XCTAssertEqual(
+            NetworkEngine.requestUrlString(for: request, environment: env),
+            "https://httpbin.org/get"
+        )
+
+        request = RestRequest(url: "${baseUrl}/get")
+        XCTAssertEqual(
+            NetworkEngine.requestUrlString(for: request, environment: env),
+            "https://httpbin.org/get"
+        )
+
+        // A variable that expands to a bare host still gets the fallback scheme.
+        request = RestRequest(url: "{{host}}/get")
+        XCTAssertEqual(
+            NetworkEngine.requestUrlString(for: request, environment: env),
+            "http://example.com/get"
+        )
+
+        // Unresolvable variables keep the old behaviour.
+        request = RestRequest(url: "api.example.com/get")
+        XCTAssertEqual(
+            NetworkEngine.requestUrlString(for: request, environment: env),
+            "http://api.example.com/get"
+        )
+    }
+
     func testNetworkResponseInitialization() {
         let response = NetworkResponse(
             statusCode: 200,

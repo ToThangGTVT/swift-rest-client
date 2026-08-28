@@ -28,7 +28,14 @@ public struct ParamsTableView: View {
             )
         }
         .onAppear {
-            request.parseUrlParameters()
+            // SwiftUI runs onAppear inside the update that inserted this view, and
+            // `request` is a @Published on the tab view model that the header bar,
+            // the response viewer and the tab bar all observe -- writing it here is
+            // "Publishing changes from within view updates". parseUrlParameters() is
+            // a no-op once the table agrees with the URL, so this settles in one pass.
+            DispatchQueue.main.async {
+                request.parseUrlParameters()
+            }
         }
     }
 }

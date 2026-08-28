@@ -11,16 +11,62 @@ public struct WebSocketClientView: View {
     @StateObject private var wsEngine = WebSocketEngine()
     @StateObject private var sseEngine = SSEEngine()
 
+    @ObservedObject private var envVM = EnvironmentViewModel.shared
+
     @State private var protocolMode: ProtocolMode = .webSocket
     @State private var urlString: String = "wss://echo.websocket.events"
     @State private var outgoingMessage: String = "{\n  \"message\": \"Hello from CocoaRestClient!\"\n}"
     @State private var searchFilter: String = ""
+
+    @State private var auth = Authentication()
+    @State private var headers: [KeyValuePair] = []
+    @State private var showingConnectionSetup: Bool = false
+    @State private var setupTab: SetupTab = .auth
+
+    private enum SetupTab: String, CaseIterable, Identifiable {
+        case auth = "Auth"
+        case headers = "Headers"
+
+        var id: String { rawValue }
+    }
+
+    /// Headers the next connect will send, resolved against the active environment.
+    private var resolvedHeaders: [String: String] {
+        RequestHeaderBuilder.build(
+            headers: headers,
+            auth: auth,
+            environment: envVM.activeVariables,
+            url: URL(string: resolvedUrlString),
+            includeCookies: true
+        )
+    }
+
+    private var resolvedUrlString: String {
+        EnvironmentVariableResolver.resolve(
+            urlString.trimmingCharacters(in: .whitespacesAndNewlines),
+            environment: envVM.activeVariables
+        )
+    }
+
+    /// Count shown on the setup button, so it is obvious that something is attached.
+    private var attachedCount: Int {
+        headers.filter { $0.isEnabled && !$0.key.isEmpty }.count + (auth.type == .none ? 0 : 1)
+    }
 
     private enum ProtocolMode: String, CaseIterable, Identifiable {
         case webSocket = "WebSocket (WS/WSS)"
         case sse = "Server-Sent Events (SSE)"
 
         var id: String { rawValue }
+
+        /// Segment label. The full names are in the sheet title; spelled out here
+        /// they overflow the picker and get clipped at both ends.
+        var shortTitle: String {
+            switch self {
+            case .webSocket: return "WebSocket"
+            case .sse: return "Server-Sent Events"
+            }
+        }
     }
 
     public init() {}
@@ -31,12 +77,12 @@ public struct WebSocketClientView: View {
             HStack(spacing: 10) {
                 Picker("", selection: $protocolMode) {
                     ForEach(ProtocolMode.allCases) { mode in
-                        Text(mode.rawValue).tag(mode)
+                        Text(mode.shortTitle).tag(mode)
                     }
                 }
                 .pickerStyle(.segmented)
                 .labelsHidden()
-                .frame(width: 250)
+                .fixedSize()
 
                 TextField("URL (e.g. wss://... or https://.../events)", text: $urlString)
                     .textFieldStyle(.roundedBorder)
@@ -54,9 +100,28 @@ public struct WebSocketClientView: View {
                     .buttonStyle(.borderedProminent)
                     .tint(.green)
                 }
+
+                Button(action: { showingConnectionSetup.toggle() }) {
+                    HStack(spacing: 4) {
+                        Image(systemName: "lock.shield")
+                        if attachedCount > 0 {
+                            Text("\(attachedCount)")
+                                .font(.system(size: 10, weight: .bold))
+                        }
+                        Image(systemName: showingConnectionSetup ? "chevron.up" : "chevron.down")
+                            .font(.system(size: 9))
+                    }
+                }
+                .buttonStyle(.bordered)
+                .help("Auth & headers sent on connect")
             }
             .padding(10)
             .background(Color(NSColor.windowBackgroundColor))
+
+            if showingConnectionSetup {
+                Divider()
+                connectionSetup
+            }
 
             Divider()
 
@@ -136,6 +201,49 @@ public struct WebSocketClientView: View {
                 }
             }
         }
+    }
+
+    /// Auth and headers applied to the handshake. Same editors as the request tab,
+    /// so a stream authenticates exactly the way the equivalent HTTP call does.
+    private var connectionSetup: some View {
+        VStack(spacing: 0) {
+            HStack {
+                Picker("", selection: $setupTab) {
+                    ForEach(SetupTab.allCases) { tab in
+                        Text(tab == .headers && !headers.isEmpty ? "Headers (\(headers.count))" : tab.rawValue)
+                            .tag(tab)
+                    }
+                }
+                .pickerStyle(.segmented)
+                .labelsHidden()
+                .fixedSize()
+
+                Spacer()
+
+                Text(resolvedUrlString)
+                    .font(.system(size: 11, design: .monospaced))
+                    .foregroundColor(.secondary)
+                    .lineLimit(1)
+                    .truncationMode(.middle)
+                    .help("URL after environment variables are resolved")
+            }
+            .padding(.horizontal, 10)
+            .padding(.vertical, 6)
+
+            Divider()
+
+            Group {
+                switch setupTab {
+                case .auth:
+                    AuthEditorView(auth: $auth)
+                case .headers:
+                    HeadersTableView(headers: $headers)
+                        .padding(.horizontal, 10)
+                }
+            }
+            .frame(height: 200)
+        }
+        .background(Color(NSColor.controlBackgroundColor).opacity(0.35))
     }
 
     private var wsMessagesList: some View {
@@ -284,11 +392,12 @@ public struct WebSocketClientView: View {
     }
 
     private func connect() {
-        guard let url = URL(string: urlString) else { return }
+        guard let url = URL(string: resolvedUrlString) else { return }
+        let headers = resolvedHeaders
         if protocolMode == .webSocket {
-            wsEngine.connect(url: url)
+            wsEngine.connect(url: url, headers: headers)
         } else {
-            sseEngine.connect(url: url)
+            sseEngine.connect(url: url, headers: headers)
         }
     }
 

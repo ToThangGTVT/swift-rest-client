@@ -40,7 +40,7 @@ public struct RequestBodyEditorView: View {
     ]
 
     public var body: some View {
-        VStack(spacing: 6) {
+        VStack(spacing: 0) {
             // Body type picker & Actions bar
             HStack(spacing: 12) {
                 if isTypeRowCompact {
@@ -88,7 +88,7 @@ public struct RequestBodyEditorView: View {
                 }
             }
             .padding(.horizontal, 12)
-            .padding(.top, 6)
+            .padding(.vertical, 6)
             .widthBreakpoint(typeRowThreshold, isCompact: $isTypeRowCompact)
 
             Divider()
@@ -102,9 +102,6 @@ public struct RequestBodyEditorView: View {
                     fontSize: tabVM.fontSize
                 )
                 .background(Color(NSColor.textBackgroundColor))
-                .cornerRadius(4)
-                .padding(.horizontal, 10)
-                .padding(.bottom, 6)
 
             case .formUrlEncoded:
                 KeyValueEditorTable(
@@ -113,6 +110,7 @@ public struct RequestBodyEditorView: View {
                     valuePlaceholder: "Parameter Value"
                 )
                 .padding(.horizontal, 10)
+                .padding(.top, 6)
 
             case .multipart:
                 VStack(spacing: 8) {
@@ -141,6 +139,7 @@ public struct RequestBodyEditorView: View {
                     FilesTableView(files: $tabVM.request.files)
                         .padding(.horizontal, 10)
                 }
+                .padding(.top, 6)
 
             case .binaryFile:
                 VStack(spacing: 12) {
@@ -189,7 +188,6 @@ public struct RequestBodyEditorView: View {
                     variables: $tabVM.request.graphqlVariables,
                     fontSize: tabVM.fontSize
                 )
-                .padding(.horizontal, 10)
             }
         }
     }

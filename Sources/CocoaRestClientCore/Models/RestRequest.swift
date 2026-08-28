@@ -158,10 +158,19 @@ public struct RestRequest: Identifiable, Codable, Hashable, Sendable {
 
     public mutating func parseUrlParameters() {
         guard let components = URLComponents(string: url) else { return }
-        if let queryItems = components.queryItems, !queryItems.isEmpty {
-            self.urlParams = queryItems.map { item in
-                KeyValuePair(key: item.name, value: item.value ?? "", isEnabled: true)
+        guard let queryItems = components.queryItems, !queryItems.isEmpty else { return }
+
+        // Bail out when the table already describes this URL. Re-assigning would
+        // hand every row a fresh id, churning the identity SwiftUI's ForEach keys
+        // on and publishing a change for a value that did not move.
+        let unchanged = urlParams.count == queryItems.count
+            && zip(urlParams, queryItems).allSatisfy { pair, item in
+                pair.key == item.name && pair.value == (item.value ?? "") && pair.isEnabled
             }
+        guard !unchanged else { return }
+
+        self.urlParams = queryItems.map { item in
+            KeyValuePair(key: item.name, value: item.value ?? "", isEnabled: true)
         }
     }
 

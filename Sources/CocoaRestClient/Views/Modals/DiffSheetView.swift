@@ -21,6 +21,8 @@ public struct DiffSheetView: View {
             HStack(spacing: 12) {
                 Text("Compare Responses")
                     .font(.headline)
+                    .lineLimit(1)
+                    .fixedSize()
 
                 Spacer()
 
@@ -84,7 +86,8 @@ public struct DiffSheetView: View {
 
                                 Text(line.text)
                                     .font(.system(size: 12, design: .monospaced))
-                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .lineLimit(1)
+                                    .frame(width: textColumnWidth, alignment: .leading)
                             }
                             .padding(.horizontal, 8)
                             .padding(.vertical, 2)
@@ -107,16 +110,33 @@ public struct DiffSheetView: View {
             }
             .padding(10)
         }
-        .frame(minWidth: 700, minHeight: 480)
+        .frame(minWidth: 820, minHeight: 520)
         .onAppear {
-            if workspaceVM.tabs.count >= 2 {
-                diffVM.leftTabId = workspaceVM.tabs[0].id
-                diffVM.rightTabId = workspaceVM.tabs[1].id
-                diffVM.computeDiff(tabs: workspaceVM.tabs)
-            } else if let first = workspaceVM.tabs.first {
-                diffVM.leftTabId = first.id
+            // diffVM is observed by this view, so seeding it inline would publish
+            // from inside the update that presents the sheet.
+            DispatchQueue.main.async {
+                if workspaceVM.tabs.count >= 2 {
+                    diffVM.leftTabId = workspaceVM.tabs[0].id
+                    diffVM.rightTabId = workspaceVM.tabs[1].id
+                    diffVM.computeDiff(tabs: workspaceVM.tabs)
+                } else if let first = workspaceVM.tabs.first {
+                    diffVM.leftTabId = first.id
+                }
             }
         }
+    }
+
+    /// Width of the diff text column, measured from the longest line.
+    ///
+    /// The rows sit in a two-axis ScrollView, which proposes no width to its
+    /// content: `maxWidth: .infinity` resolves to nothing there and every line
+    /// collapses to a single character. Measuring keeps the rows lazy and gives them
+    /// all the same width, so the per-line backgrounds line up.
+    private var textColumnWidth: CGFloat {
+        let font = NSFont.monospacedSystemFont(ofSize: 12, weight: .regular)
+        let advance = ("0" as NSString).size(withAttributes: [.font: font]).width
+        let longest = diffVM.diffLines.map(\.text.count).max() ?? 0
+        return max(320, CGFloat(longest) * advance + 8)
     }
 
     private func prefixForType(_ type: DiffLineType) -> String {

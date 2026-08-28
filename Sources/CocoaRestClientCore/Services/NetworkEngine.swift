@@ -115,23 +115,35 @@ public struct NetworkResponse: Identifiable, Sendable {
 public final class NetworkEngine: NSObject, Sendable, URLSessionTaskDelegate, URLSessionDataDelegate {
     public static let shared = NetworkEngine()
 
+    /// Builds the URL string handed to `URL(string:)` for a request.
+    ///
+    /// Variables are resolved *before* the scheme fallback: a URL written as
+    /// `{{baseUrl}}/get` keeps its scheme inside the variable, so prefixing first
+    /// turns it into `http://https://httpbin.org/get` and the request never leaves.
+    static func requestUrlString(for request: RestRequest, environment: [String: String]) -> String {
+        let raw = request.url.trimmingCharacters(in: .whitespacesAndNewlines)
+        var resolved = EnvironmentVariableResolver.resolve(raw, environment: environment)
+
+        if !resolved.lowercased().hasPrefix("http://") && !resolved.lowercased().hasPrefix("https://") {
+            resolved = "http://" + resolved
+        }
+
+        // If API Key is in query parameters, append to URL
+        if request.auth.type == .apiKey, request.auth.apiKeyLocation == .query, !request.auth.apiKeyName.isEmpty {
+            let separator = resolved.contains("?") ? "&" : "?"
+            let k = request.auth.apiKeyName.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? request.auth.apiKeyName
+            let v = request.auth.apiKeyValue.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? request.auth.apiKeyValue
+            resolved += "\(separator)\(k)=\(v)"
+        }
+
+        return resolved
+    }
+
     public func execute(
         request: RestRequest,
         options: NetworkOptions = NetworkOptions()
     ) async -> NetworkResponse {
-        var rawUrlString = request.url.trimmingCharacters(in: .whitespacesAndNewlines)
-        if !rawUrlString.lowercased().hasPrefix("http://") && !rawUrlString.lowercased().hasPrefix("https://") {
-            rawUrlString = "http://" + rawUrlString
-        }
-        var resolvedUrlString = EnvironmentVariableResolver.resolve(rawUrlString, environment: options.environment)
-
-        // If API Key is in query parameters, append to URL
-        if request.auth.type == .apiKey, request.auth.apiKeyLocation == .query, !request.auth.apiKeyName.isEmpty {
-            let separator = resolvedUrlString.contains("?") ? "&" : "?"
-            let k = request.auth.apiKeyName.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? request.auth.apiKeyName
-            let v = request.auth.apiKeyValue.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? request.auth.apiKeyValue
-            resolvedUrlString += "\(separator)\(k)=\(v)"
-        }
+        let resolvedUrlString = Self.requestUrlString(for: request, environment: options.environment)
 
         guard let encodedUrlString = resolvedUrlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed),
               let url = URL(string: encodedUrlString) else {
@@ -153,49 +165,22 @@ public final class NetworkEngine: NSObject, Sendable, URLSessionTaskDelegate, UR
             urlRequest.httpBody = bodyData
         }
 
-        // Set Headers
-        var explicitHeaders: [String: String] = [:]
-        for header in request.headers where header.isEnabled && !header.key.isEmpty {
-            let k = EnvironmentVariableResolver.resolve(header.key, environment: options.environment)
-            let v = EnvironmentVariableResolver.resolve(header.value, environment: options.environment)
-            explicitHeaders[k] = v
+        // Headers, auth injection and the cookie jar -- shared with the realtime
+        // engines so both transports authenticate the same way.
+        let builtHeaders = RequestHeaderBuilder.build(
+            headers: request.headers,
+            auth: request.auth,
+            environment: options.environment,
+            url: url,
+            includeCookies: !options.disableCookies
+        )
+        for (k, v) in builtHeaders {
             urlRequest.setValue(v, forHTTPHeaderField: k)
         }
 
         // Content-Type fallback if not explicitly provided
         if urlRequest.value(forHTTPHeaderField: "Content-Type") == nil, let ct = bodyResult.contentType {
             urlRequest.setValue(ct, forHTTPHeaderField: "Content-Type")
-        }
-
-        // Authentication Header Injection
-        switch request.auth.type {
-        case .basic:
-            if request.auth.isPreemptive, let authVal = request.auth.basicAuthHeaderValue() {
-                urlRequest.setValue(authVal, forHTTPHeaderField: "Authorization")
-            }
-        case .bearer:
-            if let bearerVal = request.auth.bearerHeaderValue() {
-                urlRequest.setValue(bearerVal, forHTTPHeaderField: "Authorization")
-            }
-        case .apiKey:
-            if request.auth.apiKeyLocation == .header, !request.auth.apiKeyName.isEmpty {
-                urlRequest.setValue(request.auth.apiKeyValue, forHTTPHeaderField: request.auth.apiKeyName)
-            }
-        case .oauth2:
-            if !request.auth.oauth2AccessToken.isEmpty {
-                urlRequest.setValue("Bearer \(request.auth.oauth2AccessToken)", forHTTPHeaderField: "Authorization")
-            }
-        default:
-            break
-        }
-
-        // Automatic Cookie Jar Injection
-        if !options.disableCookies {
-            if let cookieHeader = CookieJarStore.shared.cookieHeaderValue(for: url) {
-                let existing = urlRequest.value(forHTTPHeaderField: "Cookie")
-                let combined = existing != nil ? "\(existing!); \(cookieHeader)" : cookieHeader
-                urlRequest.setValue(combined, forHTTPHeaderField: "Cookie")
-            }
         }
 
         // Capture sent headers

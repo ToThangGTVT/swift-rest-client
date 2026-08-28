@@ -8,6 +8,7 @@ import CocoaRestClientCore
 
 public struct RequestHeaderBar: View {
     @ObservedObject public var tabVM: RequestTabViewModel
+    @ObservedObject private var envVM = EnvironmentViewModel.shared
     public var onSave: () -> Void
     public var onOpenCodeGenerator: () -> Void
 
@@ -47,21 +48,33 @@ public struct RequestHeaderBar: View {
 
             // URL Box
             HStack {
-                TextField("https://api.example.com/resource", text: $tabVM.request.url)
-                    .textFieldStyle(.plain)
-                    .font(.system(.body, design: .monospaced))
-                    .onChange(of: tabVM.request.url) { newUrl in
-                        // Auto-detect pasted cURL command in URL bar
-                        let trimmed = newUrl.trimmingCharacters(in: .whitespacesAndNewlines)
-                        if trimmed.lowercased().hasPrefix("curl ") {
-                            if let parsed = try? CurlParser.parse(trimmed) {
-                                tabVM.request = parsed
-                            }
-                        }
+                ZStack(alignment: .leading) {
+                    if tabVM.request.url.isEmpty {
+                        Text("https://api.example.com/resource")
+                            .font(.system(size: 13, design: .monospaced))
+                            .foregroundColor(Color(NSColor.placeholderTextColor))
+                            .allowsHitTesting(false)
                     }
-                    .onSubmit {
-                        tabVM.sendRequest()
+
+                    VariableChipTextField(
+                        text: $tabVM.request.url,
+                        environment: envVM.activeVariables,
+                        onSubmit: { tabVM.sendRequest() }
+                    )
+                    .frame(height: 18)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .onChange(of: tabVM.request.url) { newUrl in
+                    // Auto-detect pasted cURL command in URL bar
+                    let trimmed = newUrl.trimmingCharacters(in: .whitespacesAndNewlines)
+                    guard trimmed.lowercased().hasPrefix("curl "),
+                          let parsed = try? CurlParser.parse(trimmed) else { return }
+                    // onChange runs inside the update that observed the edit, so
+                    // replacing the whole request here would publish mid-update.
+                    DispatchQueue.main.async {
+                        tabVM.request = parsed
                     }
+                }
 
                 if !tabVM.request.url.isEmpty {
                     Button(action: { tabVM.request.url = "" }) {

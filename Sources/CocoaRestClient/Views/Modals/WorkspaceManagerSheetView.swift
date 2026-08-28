@@ -66,8 +66,12 @@ public struct WorkspaceManagerSheetView: View {
         .frame(width: 860, height: 620)
         .onAppear {
             selectedWorkspaceId = wsManagerVM.activeWorkspace.id
-            wsManagerVM.refreshAllStatuses()
             loadRepoFields()
+            // Publishes a status for every workspace (and shells out to git for each
+            // one), so keep it off the update that presents the sheet.
+            DispatchQueue.main.async {
+                wsManagerVM.refreshAllStatuses()
+            }
         }
         .onChange(of: selectedWorkspaceId) { _ in
             loadRepoFields()
