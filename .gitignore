@@ -9,3 +9,7 @@ Podfile.lock
 Pods/
 DerivedData/
 *.xcscmblueprint
+
+# Vendored libgit2 build artefacts (scripts/build_libgit2.sh regenerates them)
+Vendor/.build/
+Vendor/libgit2.xcframework/

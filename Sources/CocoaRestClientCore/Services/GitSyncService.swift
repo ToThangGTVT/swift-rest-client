@@ -5,51 +5,46 @@
 
 import Foundation
 
-public struct GitCommandResult: Sendable {
-    public let exitCode: Int32
+/// Outcome of a Git operation, shaped for direct display in the sync banner.
+public struct GitOperationResult: Sendable {
+    public let isSuccess: Bool
     public let output: String
     public let error: String
 
-    public var isSuccess: Bool {
-        exitCode == 0
+    public init(isSuccess: Bool, output: String = "", error: String = "") {
+        self.isSuccess = isSuccess
+        self.output = output
+        self.error = error
+    }
+
+    static func success(_ output: String = "") -> GitOperationResult {
+        GitOperationResult(isSuccess: true, output: output)
+    }
+
+    static func failure(_ error: Error) -> GitOperationResult {
+        GitOperationResult(isSuccess: false, error: String(describing: error))
+    }
+
+    static func failure(message: String) -> GitOperationResult {
+        GitOperationResult(isSuccess: false, error: message)
     }
 }
 
+/// Git operations for workspace synchronisation, implemented on libgit2.
+///
+/// The app runs in the App Sandbox: it cannot spawn `/usr/bin/git`, and it has
+/// no access to the user's `~/.gitconfig` or to `git-credential-osxkeychain`.
+/// Everything the library needs — the author identity and the HTTPS credentials
+/// — therefore comes from the workspace settings and this app's own keychain.
 public struct GitSyncService: Sendable {
+    public static let defaultRemoteName = "origin"
+
     public init() {}
 
-    public static func runGit(args: [String], inDirectory dirPath: String) -> GitCommandResult {
-        let process = Process()
-        process.executableURL = URL(fileURLWithPath: "/usr/bin/git")
-        process.arguments = args
-        process.currentDirectoryURL = URL(fileURLWithPath: dirPath)
+    // MARK: - Inspection
 
-        var env = ProcessInfo.processInfo.environment
-        env["GIT_TERMINAL_PROMPT"] = "0"
-        env["GIT_AUTHOR_NAME"] = "CocoaRestClient"
-        env["GIT_AUTHOR_EMAIL"] = "restclient@local"
-        env["GIT_COMMITTER_NAME"] = "CocoaRestClient"
-        env["GIT_COMMITTER_EMAIL"] = "restclient@local"
-        process.environment = env
-
-        let outPipe = Pipe()
-        let errPipe = Pipe()
-        process.standardOutput = outPipe
-        process.standardError = errPipe
-
-        do {
-            try process.run()
-            let outData = outPipe.fileHandleForReading.readDataToEndOfFile()
-            let errData = errPipe.fileHandleForReading.readDataToEndOfFile()
-            process.waitUntilExit()
-
-            let outStr = String(data: outData, encoding: .utf8) ?? ""
-            let errStr = String(data: errData, encoding: .utf8) ?? ""
-
-            return GitCommandResult(exitCode: process.terminationStatus, output: outStr, error: errStr)
-        } catch {
-            return GitCommandResult(exitCode: -1, output: "", error: error.localizedDescription)
-        }
+    public static func isRepository(atDirectory dirPath: String) -> Bool {
+        GitRepository.exists(at: dirPath)
     }
 
     public static func getStatus(inDirectory dirPath: String) -> GitSyncStatus {
@@ -57,109 +52,206 @@ public struct GitSyncService: Sendable {
             return GitSyncStatus(isGitRepo: false)
         }
 
-        // 1. Current Branch
-        let branchRes = runGit(args: ["branch", "--show-current"], inDirectory: dirPath)
-        let branch = branchRes.isSuccess ? branchRes.output.trimmingCharacters(in: .whitespacesAndNewlines) : "main"
+        do {
+            let repo = try GitRepository.open(at: dirPath)
+            let branch = repo.currentBranchName() ?? "main"
+            let (ahead, _) = repo.aheadBehind()
 
-        // 2. Uncommitted changes (porcelain)
-        let statusRes = runGit(args: ["status", "--porcelain"], inDirectory: dirPath)
-        let hasChanges = statusRes.isSuccess && !statusRes.output.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-
-        // 3. Last commit message
-        let logRes = runGit(args: ["log", "-1", "--pretty=%B"], inDirectory: dirPath)
-        let lastMsg = logRes.isSuccess ? logRes.output.trimmingCharacters(in: .whitespacesAndNewlines) : nil
-
-        // 4. Unpushed commits count
-        let unpushedRes = runGit(args: ["rev-list", "@{u}..HEAD", "--count"], inDirectory: dirPath)
-        let unpushedCount = unpushedRes.isSuccess ? (Int(unpushedRes.output.trimmingCharacters(in: .whitespacesAndNewlines)) ?? 0) : 0
-
-        return GitSyncStatus(
-            isGitRepo: true,
-            currentBranch: branch.isEmpty ? "main" : branch,
-            hasUncommittedChanges: hasChanges,
-            unpushedCommitCount: unpushedCount,
-            lastSyncDate: Date(),
-            lastCommitMessage: lastMsg,
-            errorMessage: nil
-        )
-    }
-
-    public static func initRepository(inDirectory dirPath: String, defaultBranch: String = "main") -> GitCommandResult {
-        let res = runGit(args: ["init", "-b", defaultBranch], inDirectory: dirPath)
-        if !res.isSuccess {
-            // Fallback for older git versions without -b flag
-            _ = runGit(args: ["init"], inDirectory: dirPath)
-            return runGit(args: ["checkout", "-b", defaultBranch], inDirectory: dirPath)
+            return GitSyncStatus(
+                isGitRepo: true,
+                currentBranch: branch.isEmpty ? "main" : branch,
+                hasUncommittedChanges: try repo.hasUncommittedChanges(),
+                unpushedCommitCount: ahead,
+                lastSyncDate: Date(),
+                lastCommitMessage: repo.headCommitMessage(),
+                errorMessage: nil
+            )
+        } catch {
+            return GitSyncStatus(isGitRepo: true, errorMessage: String(describing: error))
         }
-        return res
     }
 
-    public static func isRepository(atDirectory dirPath: String) -> Bool {
-        guard !dirPath.isEmpty else { return false }
-        let gitDir = URL(fileURLWithPath: dirPath).appendingPathComponent(".git")
-        return FileManager.default.fileExists(atPath: gitDir.path)
+    // MARK: - Repository setup
+
+    public static func initRepository(
+        inDirectory dirPath: String,
+        defaultBranch: String = "main"
+    ) -> GitOperationResult {
+        do {
+            _ = try GitRepository.create(at: dirPath, initialBranch: defaultBranch)
+            return .success("Initialised empty Git repository in \(dirPath)")
+        } catch {
+            return .failure(error)
+        }
     }
 
-    public static func setRemote(url: String, inDirectory dirPath: String, remoteName: String = "origin") -> GitCommandResult {
-        _ = runGit(args: ["remote", "remove", remoteName], inDirectory: dirPath)
-        return runGit(args: ["remote", "add", remoteName, url], inDirectory: dirPath)
+    public static func setRemote(
+        url: String,
+        inDirectory dirPath: String,
+        remoteName: String = defaultRemoteName
+    ) -> GitOperationResult {
+        do {
+            let repo = try GitRepository.open(at: dirPath)
+            try repo.setRemote(named: remoteName, url: url)
+            return .success("Remote \(remoteName) set to \(url)")
+        } catch {
+            return .failure(error)
+        }
     }
 
     /// Removing a remote that was never added is not an error worth surfacing,
     /// so the result is only useful for diagnostics.
     @discardableResult
-    public static func removeRemote(inDirectory dirPath: String, remoteName: String = "origin") -> GitCommandResult {
-        runGit(args: ["remote", "remove", remoteName], inDirectory: dirPath)
+    public static func removeRemote(
+        inDirectory dirPath: String,
+        remoteName: String = defaultRemoteName
+    ) -> GitOperationResult {
+        do {
+            let repo = try GitRepository.open(at: dirPath)
+            return repo.removeRemote(named: remoteName)
+                ? .success("Removed remote \(remoteName)")
+                : .failure(message: "No remote named \(remoteName)")
+        } catch {
+            return .failure(error)
+        }
     }
+
+    public static func remoteUrl(
+        inDirectory dirPath: String,
+        remoteName: String = defaultRemoteName
+    ) -> String? {
+        guard let repo = try? GitRepository.open(at: dirPath) else { return nil }
+        return repo.remoteUrl(named: remoteName)
+    }
+
+    // MARK: - Committing
 
     public static func commitAll(
         message: String,
         inDirectory dirPath: String,
         authorName: String = "",
         authorEmail: String = ""
-    ) -> GitCommandResult {
-        // Set local author if provided
-        if !authorName.isEmpty {
-            _ = runGit(args: ["config", "user.name", authorName], inDirectory: dirPath)
-        }
-        if !authorEmail.isEmpty {
-            _ = runGit(args: ["config", "user.email", authorEmail], inDirectory: dirPath)
-        }
+    ) -> GitOperationResult {
+        do {
+            let repo = try GitRepository.open(at: dirPath)
+            try repo.stageAll()
 
-        // Add all files
-        let addRes = runGit(args: ["add", "-A"], inDirectory: dirPath)
-        guard addRes.isSuccess else { return addRes }
+            let commitMessage = message.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                ? "Update API Workspace"
+                : message
 
-        let commitMsg = message.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? "Update API Workspace" : message
-        return runGit(args: ["commit", "-m", commitMsg], inDirectory: dirPath)
+            guard let commitId = try repo.commitStagedChanges(
+                message: commitMessage,
+                authorName: authorName,
+                authorEmail: authorEmail
+            ) else {
+                return .success("nothing to commit, working tree clean")
+            }
+            return .success("Committed \(String(commitId.prefix(7))): \(commitMessage)")
+        } catch {
+            return .failure(error)
+        }
     }
+
+    // MARK: - Network operations
 
     public static func push(
         inDirectory dirPath: String,
-        remoteName: String = "origin",
-        branch: String = "main"
-    ) -> GitCommandResult {
-        runGit(args: ["push", "-u", remoteName, branch], inDirectory: dirPath)
+        remoteName: String = defaultRemoteName,
+        branch: String = "main",
+        credentials: GitCredentials? = nil
+    ) -> GitOperationResult {
+        do {
+            let repo = try GitRepository.open(at: dirPath)
+            let resolved = credentials ?? storedCredentials(for: repo, remoteName: remoteName)
+            try repo.push(remoteName: remoteName, branch: branch, credentials: resolved)
+            return .success("Pushed \(branch) to \(remoteName)")
+        } catch {
+            return .failure(error)
+        }
     }
 
+    public static func fetch(
+        inDirectory dirPath: String,
+        remoteName: String = defaultRemoteName,
+        branch: String = "main",
+        credentials: GitCredentials? = nil
+    ) -> GitOperationResult {
+        do {
+            let repo = try GitRepository.open(at: dirPath)
+            let resolved = credentials ?? storedCredentials(for: repo, remoteName: remoteName)
+            try repo.fetch(remoteName: remoteName, branch: branch, credentials: resolved)
+            return .success("Fetched \(remoteName)/\(branch)")
+        } catch {
+            return .failure(error)
+        }
+    }
+
+    /// Fetches and integrates the remote branch. Conflicts are reported rather
+    /// than left in the working tree — the merge is rolled back first.
     public static func pull(
         inDirectory dirPath: String,
-        remoteName: String = "origin",
-        branch: String = "main"
-    ) -> GitCommandResult {
-        runGit(args: ["pull", "--rebase", remoteName, branch], inDirectory: dirPath)
+        remoteName: String = defaultRemoteName,
+        branch: String = "main",
+        authorName: String = "",
+        authorEmail: String = "",
+        credentials: GitCredentials? = nil
+    ) -> GitOperationResult {
+        do {
+            let repo = try GitRepository.open(at: dirPath)
+            let resolved = credentials ?? storedCredentials(for: repo, remoteName: remoteName)
+            let outcome = try repo.pull(
+                remoteName: remoteName,
+                branch: branch,
+                credentials: resolved,
+                authorName: authorName,
+                authorEmail: authorEmail
+            )
+
+            switch outcome {
+            case .upToDate:
+                return .success("Already up to date")
+            case .fastForwarded:
+                return .success("Fast-forwarded \(branch) to \(remoteName)/\(branch)")
+            case .merged:
+                return .success("Merged \(remoteName)/\(branch) into \(branch)")
+            case .conflicted(let paths):
+                let list = paths.isEmpty ? "" : ": \(paths.joined(separator: ", "))"
+                return .failure(
+                    message: "The remote changed the same files you did\(list). "
+                        + "Nothing was changed locally — push your version or discard it, then pull again."
+                )
+            }
+        } catch {
+            return .failure(error)
+        }
     }
 
     public static func clone(
         repoUrl: String,
         destination: String,
-        branch: String? = nil
-    ) -> GitCommandResult {
-        var args = ["clone"]
-        if let b = branch, !b.isEmpty {
-            args.append(contentsOf: ["-b", b])
+        branch: String? = nil,
+        credentials: GitCredentials? = nil
+    ) -> GitOperationResult {
+        do {
+            let resolved = credentials ?? GitCredentialStore.load(forRemoteUrl: repoUrl)
+            _ = try GitRepository.clone(
+                url: repoUrl,
+                into: destination,
+                branch: branch,
+                credentials: resolved
+            )
+            return .success("Cloned \(repoUrl) into \(destination)")
+        } catch {
+            return .failure(error)
         }
-        args.append(contentsOf: [repoUrl, destination])
-        return runGit(args: args, inDirectory: FileManager.default.temporaryDirectory.path)
+    }
+
+    private static func storedCredentials(
+        for repo: GitRepository,
+        remoteName: String
+    ) -> GitCredentials? {
+        guard let url = repo.remoteUrl(named: remoteName) else { return nil }
+        return GitCredentialStore.load(forRemoteUrl: url)
     }
 }

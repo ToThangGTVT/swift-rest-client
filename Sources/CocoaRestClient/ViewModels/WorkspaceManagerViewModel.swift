@@ -161,6 +161,45 @@ public final class WorkspaceManagerViewModel: ObservableObject {
         return true
     }
 
+    // MARK: - Remote Credentials
+
+    /// libgit2 has no access to `git-credential-osxkeychain`, so HTTPS remotes
+    /// authenticate with a username and personal access token this app stores in
+    /// its own keychain, keyed by host.
+    public func storedCredentials(forRemoteUrl url: String) -> GitCredentials? {
+        GitCredentialStore.load(forRemoteUrl: url)
+    }
+
+    public func hasStoredCredentials(forRemoteUrl url: String) -> Bool {
+        GitCredentialStore.hasCredentials(forRemoteUrl: url)
+    }
+
+    /// An empty token clears whatever was stored for that host.
+    @discardableResult
+    public func saveCredentials(username: String, token: String, forRemoteUrl url: String) -> Bool {
+        let trimmedUser = username.trimmingCharacters(in: .whitespacesAndNewlines)
+        let trimmedToken = token.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        guard let host = GitCredentialStore.account(forRemoteUrl: url) else {
+            report("That repository URL has no host to sign in to.", .error)
+            return false
+        }
+
+        if trimmedToken.isEmpty {
+            GitCredentialStore.delete(forRemoteUrl: url)
+            report("Removed the saved access token for \(host).", .warning)
+            return true
+        }
+
+        let saved = GitCredentialStore.save(
+            GitCredentials(username: trimmedUser, secret: trimmedToken),
+            forRemoteUrl: url
+        )
+        report(saved ? "Saved the access token for \(host)." : "Could not save the access token.",
+               saved ? .success : .error)
+        return saved
+    }
+
     public func saveActiveWorkspaceData() {
         store.saveCollections(SavedRequestsViewModel.shared.rootFolder, for: activeWorkspace)
         store.saveEnvironments(EnvironmentViewModel.shared.environments, for: activeWorkspace)
@@ -323,7 +362,9 @@ public final class WorkspaceManagerViewModel: ObservableObject {
 
         let pullRes = GitSyncService.pull(
             inDirectory: activeWorkspace.directoryPath,
-            branch: activeWorkspace.gitBranch
+            branch: activeWorkspace.gitBranch,
+            authorName: activeWorkspace.gitAuthorName,
+            authorEmail: activeWorkspace.gitAuthorEmail
         )
 
         isSyncing = false
