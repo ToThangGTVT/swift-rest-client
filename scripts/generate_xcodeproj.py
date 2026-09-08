@@ -444,6 +444,27 @@ def main():
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
+				SWIFT_INCLUDE_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Vendor/libgit2.xcframework/macos-arm64_x86_64/Headers",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Vendor/libgit2.xcframework/macos-arm64_x86_64/Headers",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Vendor/libgit2.xcframework/macos-arm64_x86_64",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-lgit2",
+					"-liconv",
+					"-framework",
+					"Security",
+					"-framework",
+					"CoreFoundation",
+				);
 			}};
 			name = Debug;
 		}};
@@ -466,6 +487,27 @@ def main():
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
+				SWIFT_INCLUDE_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Vendor/libgit2.xcframework/macos-arm64_x86_64/Headers",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Vendor/libgit2.xcframework/macos-arm64_x86_64/Headers",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Vendor/libgit2.xcframework/macos-arm64_x86_64",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-lgit2",
+					"-liconv",
+					"-framework",
+					"Security",
+					"-framework",
+					"CoreFoundation",
+				);
 			}};
 			name = Release;
 		}};

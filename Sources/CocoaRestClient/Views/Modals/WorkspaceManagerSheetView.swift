@@ -30,6 +30,9 @@ public struct WorkspaceManagerSheetView: View {
     @State private var branchInput: String = ""
     @State private var authorNameInput: String = ""
     @State private var authorEmailInput: String = ""
+    @State private var tokenInput: String = ""
+    @State private var usernameInput: String = ""
+    @State private var hasStoredToken: Bool = false
     @State private var showingAdvanced: Bool = false
 
     @State private var commitMessage: String = "Update API workspace"
@@ -308,6 +311,9 @@ public struct WorkspaceManagerSheetView: View {
                 TextField("https://github.com/my-org/api-specs.git", text: $repoUrlInput)
                     .textFieldStyle(.roundedBorder)
                     .font(.system(size: 13))
+                    .onChange(of: repoUrlInput) { newUrl in
+                        updateStoredTokenStatus(for: newUrl)
+                    }
                 Text("Leave this empty to keep the workspace on this Mac only.")
                     .font(.system(size: 11))
                     .foregroundColor(.secondary)
@@ -323,13 +329,77 @@ public struct WorkspaceManagerSheetView: View {
                     .frame(width: 220)
             }
 
+            // Authentication section (Personal Access Token)
+            let trimmedRepoUrl = repoUrlInput.trimmingCharacters(in: .whitespacesAndNewlines)
+            if !trimmedRepoUrl.isEmpty {
+                VStack(alignment: .leading, spacing: 6) {
+                    HStack {
+                        Text("Personal Access Token (PAT)")
+                            .font(.system(size: 12))
+                            .foregroundColor(.secondary)
+                        Spacer()
+                        if hasStoredToken {
+                            HStack(spacing: 4) {
+                                Image(systemName: "key.fill")
+                                    .foregroundColor(.green)
+                                    .font(.system(size: 10))
+                                Text("Saved in Keychain")
+                                    .font(.system(size: 11, weight: .medium))
+                                    .foregroundColor(.green)
+                            }
+                        }
+                    }
+
+                    if hasStoredToken {
+                        HStack(spacing: 8) {
+                            SecureField("Enter new token to replace existing...", text: $tokenInput)
+                                .textFieldStyle(.roundedBorder)
+                                .font(.system(size: 13))
+
+                            Button(role: .destructive) {
+                                wsManagerVM.clearCredentials(forRemoteUrl: trimmedRepoUrl)
+                                hasStoredToken = false
+                                tokenInput = ""
+                                usernameInput = ""
+                            } label: {
+                                Text("Clear Token")
+                            }
+                            .buttonStyle(.bordered)
+                            .font(.system(size: 11))
+                            .help("Remove saved token from macOS Keychain")
+                        }
+
+                        if !usernameInput.isEmpty {
+                            Text("Account: \(usernameInput)")
+                                .font(.system(size: 11))
+                                .foregroundColor(.secondary)
+                        }
+                    } else {
+                        HStack(spacing: 8) {
+                            TextField("Username (optional)", text: $usernameInput)
+                                .textFieldStyle(.roundedBorder)
+                                .font(.system(size: 13))
+                                .frame(width: 140)
+
+                            SecureField("ghp_... or access token", text: $tokenInput)
+                                .textFieldStyle(.roundedBorder)
+                                .font(.system(size: 13))
+                        }
+                        Text("Stored securely in macOS Keychain. Required for private repositories.")
+                            .font(.system(size: 11))
+                            .foregroundColor(.secondary)
+                    }
+                }
+                .padding(.vertical, 2)
+            }
+
             DisclosureGroup(isExpanded: $showingAdvanced) {
                 HStack(spacing: 12) {
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Name on commits")
                             .font(.system(size: 12))
                             .foregroundColor(.secondary)
-                        TextField("John Doe", text: $authorNameInput)
+                        TextField(WorkspaceManagerViewModel.defaultAuthorName, text: $authorNameInput)
                             .textFieldStyle(.roundedBorder)
                             .font(.system(size: 13))
                     }
@@ -337,7 +407,7 @@ public struct WorkspaceManagerSheetView: View {
                         Text("Email on commits")
                             .font(.system(size: 12))
                             .foregroundColor(.secondary)
-                        TextField("john@example.com", text: $authorEmailInput)
+                        TextField(WorkspaceManagerViewModel.defaultAuthorEmail, text: $authorEmailInput)
                             .textFieldStyle(.roundedBorder)
                             .font(.system(size: 13))
                     }
@@ -356,8 +426,11 @@ public struct WorkspaceManagerSheetView: View {
                         remoteUrl: repoUrlInput,
                         branch: branchInput,
                         authorName: authorNameInput,
-                        authorEmail: authorEmailInput
+                        authorEmail: authorEmailInput,
+                        token: tokenInput.isEmpty ? nil : tokenInput,
+                        username: usernameInput.isEmpty ? nil : usernameInput
                     )
+                    loadRepoFields()
                 }
                 .buttonStyle(.borderedProminent)
                 .disabled(!hasRepoEdits(for: ws))
@@ -547,16 +620,31 @@ public struct WorkspaceManagerSheetView: View {
         branchInput = ws.gitBranch
         authorNameInput = ws.gitAuthorName
         authorEmailInput = ws.gitAuthorEmail
-        showingAdvanced = !ws.gitAuthorName.isEmpty || !ws.gitAuthorEmail.isEmpty
+        updateStoredTokenStatus(for: ws.gitRemoteUrl)
+        tokenInput = ""
+        showingAdvanced = !ws.gitAuthorName.isEmpty || !ws.gitAuthorEmail.isEmpty || hasStoredToken
+    }
+
+    private func updateStoredTokenStatus(for url: String) {
+        let creds = wsManagerVM.storedCredentials(forRemoteUrl: url)
+        hasStoredToken = creds != nil && !creds!.secret.isEmpty
+        if hasStoredToken {
+            usernameInput = creds?.username ?? ""
+        }
     }
 
     private func hasRepoEdits(for ws: WorkspaceModel) -> Bool {
         let url = repoUrlInput.trimmingCharacters(in: .whitespacesAndNewlines)
         let branch = branchInput.trimmingCharacters(in: .whitespacesAndNewlines)
+        let originalCreds = wsManagerVM.storedCredentials(forRemoteUrl: ws.gitRemoteUrl)
+        let usernameChanged = usernameInput.trimmingCharacters(in: .whitespacesAndNewlines) != (originalCreds?.username ?? "")
+
         return url != ws.gitRemoteUrl
             || (branch.isEmpty ? "main" : branch) != ws.gitBranch
             || authorNameInput.trimmingCharacters(in: .whitespacesAndNewlines) != ws.gitAuthorName
             || authorEmailInput.trimmingCharacters(in: .whitespacesAndNewlines) != ws.gitAuthorEmail
+            || !tokenInput.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+            || (usernameChanged && !url.isEmpty)
     }
 
     private func saveButtonTitle(for ws: WorkspaceModel) -> String {

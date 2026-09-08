@@ -99,6 +99,18 @@ public final class WorkspaceManagerViewModel: ObservableObject {
         syncSeverity = severity
     }
 
+    // MARK: - Default Author Identity
+
+    public static var defaultAuthorName: String {
+        let full = NSFullUserName()
+        return full.isEmpty ? NSUserName() : full
+    }
+
+    public static var defaultAuthorEmail: String {
+        let user = NSUserName().lowercased()
+        return user.isEmpty ? "developer@local" : "\(user)@local"
+    }
+
     // MARK: - Repository Settings
 
     /// Single entry point for "this workspace syncs to this repository".
@@ -110,7 +122,9 @@ public final class WorkspaceManagerViewModel: ObservableObject {
         remoteUrl: String,
         branch: String,
         authorName: String,
-        authorEmail: String
+        authorEmail: String,
+        token: String? = nil,
+        username: String? = nil
     ) -> Bool {
         guard let idx = workspaces.firstIndex(where: { $0.id == workspaceId }) else { return false }
 
@@ -130,6 +144,12 @@ public final class WorkspaceManagerViewModel: ObservableObject {
         }
         store.saveWorkspaces(workspaces)
         store.saveWorkspaceManifest(ws)
+
+        // Save or update credentials in Keychain if a token is provided
+        if let token = token?.trimmingCharacters(in: .whitespacesAndNewlines), !token.isEmpty, !url.isEmpty {
+            let user = username?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+            _ = saveCredentials(username: user, token: token, forRemoteUrl: url)
+        }
 
         guard !url.isEmpty else {
             GitSyncService.removeRemote(inDirectory: ws.directoryPath)
@@ -200,6 +220,17 @@ public final class WorkspaceManagerViewModel: ObservableObject {
         return saved
     }
 
+    @discardableResult
+    public func clearCredentials(forRemoteUrl url: String) -> Bool {
+        guard let host = GitCredentialStore.account(forRemoteUrl: url) else {
+            report("That repository URL has no host to sign in to.", .error)
+            return false
+        }
+        let deleted = GitCredentialStore.delete(forRemoteUrl: url)
+        report("Removed the saved access token for \(host).", .warning)
+        return deleted
+    }
+
     public func saveActiveWorkspaceData() {
         store.saveCollections(SavedRequestsViewModel.shared.rootFolder, for: activeWorkspace)
         store.saveEnvironments(EnvironmentViewModel.shared.environments, for: activeWorkspace)
@@ -263,16 +294,35 @@ public final class WorkspaceManagerViewModel: ObservableObject {
     public func cloneWorkspace(
         repoUrl: String,
         targetDirectory: String? = nil,
-        branch: String? = nil
+        branch: String? = nil,
+        token: String? = nil,
+        username: String? = nil,
+        authorName: String = "",
+        authorEmail: String = ""
     ) async -> Bool {
         isSyncing = true
         syncStatusMessage = "Cloning repository..."
         syncSeverity = .success
 
+        let trimmedToken = token?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        let trimmedUser = username?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        var explicitCredentials: GitCredentials? = nil
+
+        if !trimmedToken.isEmpty {
+            let creds = GitCredentials(username: trimmedUser, secret: trimmedToken)
+            explicitCredentials = creds
+            _ = GitCredentialStore.save(creds, forRemoteUrl: repoUrl)
+        }
+
         let repoName = URL(string: repoUrl)?.deletingPathExtension().lastPathComponent ?? "Cloned Workspace"
         let destPath = targetDirectory ?? store.defaultWorkspacesRootDirectory.appendingPathComponent(repoName, isDirectory: true).path
 
-        let cloneRes = GitSyncService.clone(repoUrl: repoUrl, destination: destPath, branch: branch)
+        let cloneRes = GitSyncService.clone(
+            repoUrl: repoUrl,
+            destination: destPath,
+            branch: branch,
+            credentials: explicitCredentials
+        )
 
         isSyncing = false
         if cloneRes.isSuccess {
@@ -281,7 +331,9 @@ public final class WorkspaceManagerViewModel: ObservableObject {
                 description: "Cloned from \(repoUrl)",
                 directoryPath: destPath,
                 gitRemoteUrl: repoUrl,
-                gitBranch: branch ?? "main"
+                gitBranch: branch ?? "main",
+                gitAuthorName: authorName.trimmingCharacters(in: .whitespacesAndNewlines),
+                gitAuthorEmail: authorEmail.trimmingCharacters(in: .whitespacesAndNewlines)
             )
             store.saveWorkspaceManifest(workspace)
 
