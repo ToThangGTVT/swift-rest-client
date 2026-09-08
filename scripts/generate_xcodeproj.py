@@ -26,6 +26,12 @@ def main():
     schemes_dir = os.path.join(xcodeproj_dir, "xcshareddata", "xcschemes")
     os.makedirs(schemes_dir, exist_ok=True)
 
+    # Signing. Xcode's Organizer refuses to distribute an ad-hoc ("-") signed
+    # archive and tells you to assign a team, so the app target is generated with
+    # a real identity and the team that owns it. Set DEVELOPMENT_TEAM in the
+    # environment to generate the project for a different account.
+    development_team = os.environ.get("DEVELOPMENT_TEAM", "J299H8YWF8")
+
     # We will build file references and build files
     file_refs = {}      # rel_path -> id
     build_files = {}    # rel_path -> id
@@ -546,17 +552,19 @@ def main():
 			buildSettings = {{
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Resources/CocoaRestClient.entitlements";
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = {development_team};
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "Resources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.restlesscode.CocoaRestClient;
+				PRODUCT_BUNDLE_IDENTIFIER = com.utc.rest.api;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 			}};
 			name = Debug;
@@ -566,17 +574,19 @@ def main():
 			buildSettings = {{
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Resources/CocoaRestClient.entitlements";
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = {development_team};
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "Resources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.restlesscode.CocoaRestClient;
+				PRODUCT_BUNDLE_IDENTIFIER = com.utc.rest.api;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 			}};
 			name = Release;

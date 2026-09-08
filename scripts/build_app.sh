@@ -21,7 +21,7 @@ fi
 
 # Copy Info.plist. It is authored for Xcode, so the build-setting placeholders
 # it contains have to be expanded by hand here.
-BUNDLE_ID="${BUNDLE_ID:-com.utc.rest.client}"
+BUNDLE_ID="${BUNDLE_ID:-com.utc.rest.api}"
 if [ -f "Resources/Info.plist" ]; then
     cp "Resources/Info.plist" "$APP_DIR/Contents/Info.plist"
     /usr/libexec/PlistBuddy -c "Set :CFBundleIdentifier $BUNDLE_ID" \
