@@ -54,6 +54,19 @@ public struct GitError: Error, CustomStringConvertible {
     public var isAuthenticationFailure: Bool {
         code == GIT_EAUTH.rawValue || code == GIT_ECERTIFICATE.rawValue
     }
+
+    /// A push the remote rejected because its branch has commits HEAD lacks.
+    ///
+    /// libgit2 words this two ways — one for when the remote commit is missing
+    /// from the local object database, one for when it is present but is not an
+    /// ancestor — and flags both with `GIT_ENONFASTFORWARD`, so the code is what
+    /// gets checked. The strings only serve as a fallback for the case where a
+    /// wrapping layer keeps the message but loses the code.
+    public var isNonFastForward: Bool {
+        if code == GIT_ENONFASTFORWARD.rawValue { return true }
+        let normalized = message.lowercased().replacingOccurrences(of: "-", with: "")
+        return normalized.contains("nonfastforward") || normalized.contains("not present locally")
+    }
 }
 
 /// Turns a libgit2 return code into a Swift error, capturing the message while

@@ -101,6 +101,28 @@ public struct WorkspaceManagerSheetView: View {
         } message: {
             Text("This removes the workspace from CocoaRestClient. The folder and its Git repository stay on disk.")
         }
+        .alert(
+            "Both sides changed the same files",
+            isPresented: Binding(
+                get: { wsManagerVM.pendingConflictPaths != nil },
+                set: { if !$0 { wsManagerVM.pendingConflictPaths = nil } }
+            )
+        ) {
+            Button("Keep My Version") { wsManagerVM.resolveConflict(keeping: .local) }
+            Button("Use Repository Version") { wsManagerVM.resolveConflict(keeping: .remote) }
+            Button("Cancel", role: .cancel) { wsManagerVM.dismissConflict() }
+        } message: {
+            Text(conflictAlertMessage)
+        }
+    }
+
+    private var conflictAlertMessage: String {
+        let paths = wsManagerVM.pendingConflictPaths ?? []
+        let list = paths.isEmpty ? "These files" : paths.joined(separator: ", ")
+        return "\(list) changed both here and in the repository, so they cannot be merged "
+            + "automatically. Pick the version to keep — the other side's changes to those files "
+            + "are dropped, and the result is pushed so both ends match again. "
+            + "Nothing has been changed yet."
     }
 
     // MARK: - Header
@@ -682,18 +704,33 @@ public struct WorkspaceManagerSheetView: View {
             )
         }
 
-        let pending = status.hasUncommittedChanges || status.unpushedCommitCount > 0
-        if pending {
-            var parts: [String] = []
-            if status.hasUncommittedChanges { parts.append("unsaved edits") }
-            if status.unpushedCommitCount > 0 {
-                parts.append("\(status.unpushedCommitCount) commit\(status.unpushedCommitCount == 1 ? "" : "s") not pushed")
-            }
+        func commits(_ count: Int) -> String {
+            "\(count) commit\(count == 1 ? "" : "s")"
+        }
+
+        var parts: [String] = []
+        if status.behindCommitCount > 0 { parts.append("\(commits(status.behindCommitCount)) behind") }
+        if status.hasUncommittedChanges { parts.append("unsaved edits") }
+        if status.unpushedCommitCount > 0 { parts.append("\(commits(status.unpushedCommitCount)) not pushed") }
+        let detail = "\(parts.joined(separator: ", ")) · \(ws.gitRemoteUrl) · \(status.currentBranch)"
+
+        // Being behind comes first: the remote has commits this branch lacks, so
+        // a push is rejected as non-fast-forward until they are pulled in.
+        if status.behindCommitCount > 0 {
+            return SyncSummary(
+                icon: "exclamationmark.arrow.triangle.2.circlepath",
+                color: .red,
+                headline: "Get Latest before pushing",
+                detail: detail
+            )
+        }
+
+        if status.hasUncommittedChanges || status.unpushedCommitCount > 0 {
             return SyncSummary(
                 icon: "arrow.up.circle",
                 color: .orange,
                 headline: "Changes waiting to be pushed",
-                detail: "\(parts.joined(separator: ", ")) · \(ws.gitRemoteUrl) · \(status.currentBranch)"
+                detail: detail
             )
         }
 

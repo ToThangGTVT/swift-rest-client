@@ -49,13 +49,39 @@ A lightweight, modern, native macOS REST client built entirely with **Swift 6**,
 
 ## 🛠️ Hướng dẫn Mở & Build Ứng dụng (Xcode macOS App)
 
+### 0. Chuẩn bị môi trường (BẮT BUỘC khi vừa clone)
+
+Ứng dụng chạy trong **App Sandbox** nên không thể gọi `/usr/bin/git`; toàn bộ tác vụ Git đi qua thư viện **libgit2** được biên dịch tĩnh và đóng gói thành XCFramework. Thư mục `Vendor/` bị gitignore (không nằm trong repo), nên sau khi clone bạn phải build nó **một lần duy nhất**. Nếu bỏ qua bước này, Xcode sẽ báo lỗi:
+
+```
+No such module 'Clibgit2'
+```
+
+**Yêu cầu:** macOS 13.0+, Xcode 15+ (Swift 6) và `cmake`.
+
+```bash
+brew install cmake
+```
+
+```bash
+./scripts/build_libgit2.sh
+```
+
+Script sẽ tải mã nguồn libgit2, build cho cả `arm64` + `x86_64` rồi tạo ra `Vendor/libgit2.xcframework` (mất vài phút cho lần đầu). Các lần sau script tự phát hiện đã build xong và bỏ qua; nếu muốn build lại từ đầu:
+
+```bash
+FORCE_REBUILD=1 ./scripts/build_libgit2.sh
+```
+
+> Có thể chọn phiên bản khác qua biến `LIBGIT2_VERSION` (mặc định `1.9.7`).
+
 ### 1. Mở trực tiếp bằng Xcode (Khuyên dùng)
 Bạn chỉ cần mở tệp dự án Xcode:
 ```bash
 open CocoaRestClient.xcodeproj
 ```
 * Nhấn **`Cmd + R`** để chạy trực tiếp ứng dụng macOS.
-* Nhấn **`Cmd + U`** để chạy toàn bộ 30 bài kiểm thử Unit Tests.
+* Nhấn **`Cmd + U`** để chạy toàn bộ 54 bài kiểm thử Unit Tests.
 
 ### 2. Build & Test qua Command Line (xcodebuild)
 ```bash
@@ -71,6 +97,8 @@ xcodebuild -project CocoaRestClient.xcodeproj -scheme CocoaRestClient -configura
 ./scripts/build_app.sh
 ```
 File ứng dụng hoàn chỉnh sẽ được đóng gói tại: `build/CocoaRestClient.app`.
+
+> ⚠️ **Lưu ý:** script này hiện vẫn build bằng SwiftPM (`swift build`) trong khi repo không còn `Package.swift`, nên nó sẽ dừng với lỗi `Could not find Package.swift`. Trong lúc chờ script được cập nhật, hãy dùng `xcodebuild` ở **mục 2** để build bản Release.
 
 ---
 

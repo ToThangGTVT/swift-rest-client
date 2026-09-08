@@ -32,6 +32,11 @@ public final class WorkspaceManagerViewModel: ObservableObject {
     @Published public var showingWorkspaceManagerSheet: Bool = false
     @Published public var showingCloneWorkspaceSheet: Bool = false
 
+    /// Files both sides changed during the last pull. Non-nil means the pull
+    /// stopped and is waiting for the user to pick a side; the workspace on disk
+    /// is untouched until they do.
+    @Published public var pendingConflictPaths: [String]?
+
     private let store = WorkspaceStore.shared
 
     public init() {
@@ -421,19 +426,77 @@ public final class WorkspaceManagerViewModel: ObservableObject {
 
         isSyncing = false
         if pullRes.isSuccess {
-            // Reload updated files into UI
-            let folder = store.loadCollections(for: activeWorkspace)
-            SavedRequestsViewModel.shared.rootFolder = folder
-
-            let envs = store.loadEnvironments(for: activeWorkspace)
-            EnvironmentViewModel.shared.environments = envs
-
+            reloadWorkspaceDataIntoUI()
             report("Pulled the latest changes from the repository.", .success)
+        } else if !pullRes.conflictingPaths.isEmpty {
+            // Nothing was merged, so instead of reporting a dead end the user is
+            // asked which side to keep and the pull is replayed with that answer.
+            pendingConflictPaths = pullRes.conflictingPaths
         } else {
             report("Pull failed: \(pullRes.error.isEmpty ? pullRes.output : pullRes.error)", .error)
         }
 
         refreshGitStatus()
+    }
+
+    /// Replays the pull that stopped at a conflict, this time letting one side
+    /// win, and sends the resulting merge on so both ends match again.
+    public func resolveConflict(keeping favor: GitMergeFavor) {
+        guard !activeWorkspace.directoryPath.isEmpty && activeWorkspace.isGitConfigured else { return }
+        pendingConflictPaths = nil
+        isSyncing = true
+        syncStatusMessage = favor == .local
+            ? "Keeping your version..."
+            : "Taking the version from the repository..."
+        syncSeverity = .success
+
+        let mergeRes = GitSyncService.pull(
+            inDirectory: activeWorkspace.directoryPath,
+            branch: activeWorkspace.gitBranch,
+            authorName: activeWorkspace.gitAuthorName,
+            authorEmail: activeWorkspace.gitAuthorEmail,
+            favoring: favor
+        )
+
+        guard mergeRes.isSuccess else {
+            isSyncing = false
+            report("Could not resolve the conflict: \(mergeRes.error)", .error)
+            refreshGitStatus()
+            return
+        }
+
+        reloadWorkspaceDataIntoUI()
+
+        // The merge commit only exists locally at this point, so the branch is
+        // still ahead; pushing it is what actually ends the divergence.
+        let pushRes = GitSyncService.push(
+            inDirectory: activeWorkspace.directoryPath,
+            branch: activeWorkspace.gitBranch
+        )
+        isSyncing = false
+
+        if pushRes.isSuccess {
+            report(
+                favor == .local
+                    ? "Kept your version and pushed it to the repository."
+                    : "Took the repository's version and pushed the merge.",
+                .success
+            )
+        } else {
+            report("Merged locally, but the push failed: \(pushRes.error)", .warning)
+        }
+
+        refreshGitStatus()
+    }
+
+    public func dismissConflict() {
+        pendingConflictPaths = nil
+        report("Pull cancelled — nothing in this workspace was changed.", .warning)
+    }
+
+    private func reloadWorkspaceDataIntoUI() {
+        SavedRequestsViewModel.shared.rootFolder = store.loadCollections(for: activeWorkspace)
+        EnvironmentViewModel.shared.environments = store.loadEnvironments(for: activeWorkspace)
     }
 
     public func openDirectoryInFinder() {

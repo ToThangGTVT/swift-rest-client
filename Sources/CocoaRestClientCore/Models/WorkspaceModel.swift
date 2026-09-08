@@ -10,6 +10,11 @@ public struct GitSyncStatus: Codable, Sendable, Equatable {
     public var currentBranch: String
     public var hasUncommittedChanges: Bool
     public var unpushedCommitCount: Int
+    /// Commits on the upstream branch that HEAD does not have. A push with a
+    /// non-zero value here is rejected as non-fast-forward, so the UI warns
+    /// about it instead of letting the push fail. Only as fresh as the last
+    /// fetch — `getStatus` deliberately stays offline.
+    public var behindCommitCount: Int
     public var lastSyncDate: Date?
     public var lastCommitMessage: String?
     public var errorMessage: String?
@@ -19,6 +24,7 @@ public struct GitSyncStatus: Codable, Sendable, Equatable {
         currentBranch: String = "main",
         hasUncommittedChanges: Bool = false,
         unpushedCommitCount: Int = 0,
+        behindCommitCount: Int = 0,
         lastSyncDate: Date? = nil,
         lastCommitMessage: String? = nil,
         errorMessage: String? = nil
@@ -27,6 +33,7 @@ public struct GitSyncStatus: Codable, Sendable, Equatable {
         self.currentBranch = currentBranch
         self.hasUncommittedChanges = hasUncommittedChanges
         self.unpushedCommitCount = unpushedCommitCount
+        self.behindCommitCount = behindCommitCount
         self.lastSyncDate = lastSyncDate
         self.lastCommitMessage = lastCommitMessage
         self.errorMessage = errorMessage

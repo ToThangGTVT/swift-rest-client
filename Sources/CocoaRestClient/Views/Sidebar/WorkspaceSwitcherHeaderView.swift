@@ -68,8 +68,14 @@ public struct WorkspaceSwitcherHeaderView: View {
                         .foregroundColor(.secondary)
                         .lineLimit(1)
 
-                    // Status Indicator
-                    if wsManagerVM.gitStatus.hasUncommittedChanges {
+                    // Status Indicator. Behind wins over the other states: a
+                    // push is rejected while the remote has commits we lack.
+                    if wsManagerVM.gitStatus.behindCommitCount > 0 {
+                        Circle()
+                            .fill(Color.red)
+                            .frame(width: 6, height: 6)
+                            .help("\(wsManagerVM.gitStatus.behindCommitCount) commit(s) behind \(wsManagerVM.gitStatus.currentBranch) — Get Latest before pushing")
+                    } else if wsManagerVM.gitStatus.hasUncommittedChanges {
                         Circle()
                             .fill(Color.orange)
                             .frame(width: 6, height: 6)

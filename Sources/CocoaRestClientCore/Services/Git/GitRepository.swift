@@ -14,6 +14,16 @@ public enum GitPullOutcome: Sendable, Equatable {
     case conflicted(paths: [String])
 }
 
+/// Which side wins when a pull finds both sides changed the same file.
+public enum GitMergeFavor: Sendable, Equatable {
+    /// Stop and report the conflicting paths, changing nothing.
+    case reportConflict
+    /// Keep the version in this workspace.
+    case local
+    /// Take the version from the remote.
+    case remote
+}
+
 /// Authentication state for a single network operation.
 ///
 /// libgit2 asks for credentials through a C callback, which cannot capture
@@ -409,7 +419,8 @@ final class GitRepository {
         branch: String,
         credentials: GitCredentials?,
         authorName: String,
-        authorEmail: String
+        authorEmail: String,
+        favoring favor: GitMergeFavor = .reportConflict
     ) throws -> GitPullOutcome {
         try fetch(remoteName: remoteName, branch: branch, credentials: credentials)
 
@@ -447,7 +458,22 @@ final class GitRepository {
         }
 
         return try performMerge(heads: &heads, authorName: authorName, authorEmail: authorEmail,
-                                remoteName: remoteName, branch: branch)
+                                remoteName: remoteName, branch: branch, favoring: favor)
+    }
+
+    /// Throws away a half-applied merge: the index conflicts and the conflict
+    /// markers `git_merge` wrote into the tracked files both go away.
+    private func discardMergeInProgress() throws {
+        guard let head = lookupHeadCommit() else { return }
+        defer { git_commit_free(head) }
+
+        var checkoutOptions = git_checkout_options()
+        try gitTry("Discard merge") {
+            git_checkout_options_init(&checkoutOptions, UInt32(GIT_CHECKOUT_OPTIONS_VERSION))
+        }
+        try gitTry("Discard merge") {
+            git_reset(pointer, head, GIT_RESET_HARD, &checkoutOptions)
+        }
     }
 
     private func fastForward(to oid: git_oid, branch: String) throws {
@@ -492,10 +518,21 @@ final class GitRepository {
         authorName: String,
         authorEmail: String,
         remoteName: String,
-        branch: String
+        branch: String,
+        favoring favor: GitMergeFavor
     ) throws -> GitPullOutcome {
         var mergeOptions = git_merge_options()
         try gitTry("Merge") { git_merge_options_init(&mergeOptions, UInt32(GIT_MERGE_OPTIONS_VERSION)) }
+
+        // Letting libgit2 pick the winning side per file resolves the conflict
+        // inside the merge itself, so the result is an ordinary merge commit
+        // that the remote accepts as a fast-forward. Force-pushing, the other
+        // way out of a divergence, would drop the other side's commits.
+        switch favor {
+        case .reportConflict: break
+        case .local: mergeOptions.file_favor = GIT_MERGE_FILE_FAVOR_OURS
+        case .remote: mergeOptions.file_favor = GIT_MERGE_FILE_FAVOR_THEIRS
+        }
 
         var checkoutOptions = git_checkout_options()
         try gitTry("Merge") {
@@ -514,7 +551,13 @@ final class GitRepository {
 
         if git_index_has_conflicts(index) != 0 {
             let paths = conflictPaths(in: index)
-            // Leave the workspace exactly as it was rather than half-merged.
+            // `git_merge` ran with GIT_CHECKOUT_ALLOW_CONFLICTS, so by now it has
+            // written conflict markers into the working tree and conflict entries
+            // into the index. State cleanup alone only drops MERGE_HEAD and would
+            // leave those behind — for this app that means handing the UI JSON
+            // files it can no longer parse. Reset to HEAD so the workspace really
+            // is untouched, which is what the caller reports.
+            try discardMergeInProgress()
             git_repository_state_cleanup(pointer)
             return .conflicted(paths: paths)
         }
@@ -541,9 +584,15 @@ final class GitRepository {
 
         var parents: [OpaquePointer?] = [localParent, remoteParent]
         var commitOid = git_oid()
+        let subject: String
+        switch favor {
+        case .reportConflict: subject = "Merge \(remoteName)/\(branch)"
+        case .local: subject = "Merge \(remoteName)/\(branch), keeping the local version"
+        case .remote: subject = "Merge \(remoteName)/\(branch), taking the remote version"
+        }
         try gitTry("Create merge commit") {
             git_commit_create(&commitOid, pointer, "HEAD", signature, signature, nil,
-                              "Merge \(remoteName)/\(branch)", tree, parents.count, &parents)
+                              subject, tree, parents.count, &parents)
         }
 
         git_repository_state_cleanup(pointer)

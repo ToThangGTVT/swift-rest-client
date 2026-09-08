@@ -10,11 +10,20 @@ public struct GitOperationResult: Sendable {
     public let isSuccess: Bool
     public let output: String
     public let error: String
+    /// Files both sides changed, when that is why the operation stopped. The
+    /// caller can offer to keep one side instead of parsing `error` for paths.
+    public let conflictingPaths: [String]
 
-    public init(isSuccess: Bool, output: String = "", error: String = "") {
+    public init(
+        isSuccess: Bool,
+        output: String = "",
+        error: String = "",
+        conflictingPaths: [String] = []
+    ) {
         self.isSuccess = isSuccess
         self.output = output
         self.error = error
+        self.conflictingPaths = conflictingPaths
     }
 
     static func success(_ output: String = "") -> GitOperationResult {
@@ -25,8 +34,8 @@ public struct GitOperationResult: Sendable {
         GitOperationResult(isSuccess: false, error: String(describing: error))
     }
 
-    static func failure(message: String) -> GitOperationResult {
-        GitOperationResult(isSuccess: false, error: message)
+    static func failure(message: String, conflictingPaths: [String] = []) -> GitOperationResult {
+        GitOperationResult(isSuccess: false, error: message, conflictingPaths: conflictingPaths)
     }
 }
 
@@ -55,13 +64,16 @@ public struct GitSyncService: Sendable {
         do {
             let repo = try GitRepository.open(at: dirPath)
             let branch = repo.currentBranchName() ?? "main"
-            let (ahead, _) = repo.aheadBehind()
+            // No fetch here: this runs synchronously from the UI on every
+            // workspace refresh, so it reports what the last fetch recorded.
+            let (ahead, behind) = repo.aheadBehind()
 
             return GitSyncStatus(
                 isGitRepo: true,
                 currentBranch: branch.isEmpty ? "main" : branch,
                 hasUncommittedChanges: try repo.hasUncommittedChanges(),
                 unpushedCommitCount: ahead,
+                behindCommitCount: behind,
                 lastSyncDate: Date(),
                 lastCommitMessage: repo.headCommitMessage(),
                 errorMessage: nil
@@ -161,11 +173,30 @@ public struct GitSyncService: Sendable {
         branch: String = "main",
         credentials: GitCredentials? = nil
     ) -> GitOperationResult {
+        let repo: GitRepository
         do {
-            let repo = try GitRepository.open(at: dirPath)
-            let resolved = credentials ?? storedCredentials(for: repo, remoteName: remoteName)
+            repo = try GitRepository.open(at: dirPath)
+        } catch {
+            return .failure(error)
+        }
+
+        let resolved = credentials ?? storedCredentials(for: repo, remoteName: remoteName)
+        do {
             try repo.push(remoteName: remoteName, branch: branch, credentials: resolved)
             return .success("Pushed \(branch) to \(remoteName)")
+        } catch let error as GitError where error.isNonFastForward {
+            // The remote moved on. Fetching updates the remote-tracking ref, so
+            // the status panel can show how far behind the branch is instead of
+            // still claiming it is only ahead.
+            try? repo.fetch(remoteName: remoteName, branch: branch, credentials: resolved)
+            let behind = repo.aheadBehind().behind
+            let amount = behind > 0
+                ? "\(behind) commit\(behind == 1 ? "" : "s")"
+                : "commits"
+            return .failure(
+                message: "\(remoteName)/\(branch) has \(amount) that you do not have yet. "
+                    + "Press \"Get Latest\" to bring them in, then push again."
+            )
         } catch {
             return .failure(error)
         }
@@ -195,7 +226,8 @@ public struct GitSyncService: Sendable {
         branch: String = "main",
         authorName: String = "",
         authorEmail: String = "",
-        credentials: GitCredentials? = nil
+        credentials: GitCredentials? = nil,
+        favoring favor: GitMergeFavor = .reportConflict
     ) -> GitOperationResult {
         do {
             let repo = try GitRepository.open(at: dirPath)
@@ -205,7 +237,8 @@ public struct GitSyncService: Sendable {
                 branch: branch,
                 credentials: resolved,
                 authorName: authorName,
-                authorEmail: authorEmail
+                authorEmail: authorEmail,
+                favoring: favor
             )
 
             switch outcome {
@@ -214,12 +247,25 @@ public struct GitSyncService: Sendable {
             case .fastForwarded:
                 return .success("Fast-forwarded \(branch) to \(remoteName)/\(branch)")
             case .merged:
-                return .success("Merged \(remoteName)/\(branch) into \(branch)")
+                switch favor {
+                case .reportConflict:
+                    return .success("Merged \(remoteName)/\(branch) into \(branch)")
+                case .local:
+                    return .success("Kept your version and merged \(remoteName)/\(branch)")
+                case .remote:
+                    return .success("Took the \(remoteName)/\(branch) version")
+                }
             case .conflicted(let paths):
                 let list = paths.isEmpty ? "" : ": \(paths.joined(separator: ", "))"
+                // Pushing is not one of the options here: the branch has
+                // diverged, so the push would be rejected as non-fast-forward.
+                // One side has to be given up, and neither the merge nor that
+                // choice is something this app can do yet.
                 return .failure(
                     message: "The remote changed the same files you did\(list). "
-                        + "Nothing was changed locally — push your version or discard it, then pull again."
+                        + "Your workspace was left untouched — keep your version or take the "
+                        + "repository's to continue.",
+                    conflictingPaths: paths
                 )
             }
         } catch {
