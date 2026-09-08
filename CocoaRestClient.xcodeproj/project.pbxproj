@@ -7,184 +7,184 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		33C5736D0DCD4D30B0643FC5 /* libCocoaRestClientCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B6FEC9FE3F542F99D70235B /* libCocoaRestClientCore.a */; };
-		F8086A5F141E4DBBA4E04783 /* libCocoaRestClientCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B6FEC9FE3F542F99D70235B /* libCocoaRestClientCore.a */; };
+		00106366C4DA4676A1F5D676 /* libCocoaRestClientCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D53F80CC6B446D298BA05AF /* libCocoaRestClientCore.a */; };
+		7173AD4B3D6A4D41A75AF869 /* libCocoaRestClientCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D53F80CC6B446D298BA05AF /* libCocoaRestClientCore.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		70096FB9CF6B4E0AA4B4CEBA /* PBXContainerItemProxy */ = {
+		3EF392ABDB6249A0B8CDFCC1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 815A185D0FF84E6ABAD23008 /* Project object */;
+			containerPortal = 16C4EE5BA1B841BFBC274C6C /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 83AB485FB08043C5B4227B33;
+			remoteGlobalIDString = BA4B0A67A240423AA10B3A5A;
 			remoteInfo = CocoaRestClientCore;
 		};
-		D1C2106111B54FD2B666ABFF /* PBXContainerItemProxy */ = {
+		87AB8A4E4ED84FF6A1BBD521 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 815A185D0FF84E6ABAD23008 /* Project object */;
+			containerPortal = 16C4EE5BA1B841BFBC274C6C /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 83AB485FB08043C5B4227B33;
+			remoteGlobalIDString = BA4B0A67A240423AA10B3A5A;
 			remoteInfo = CocoaRestClientCore;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1CEF3DE9BDE64B9E8F748FA0 /* CocoaRestClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CocoaRestClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		56CA0FA1CD0E4EB6A7343134 /* CocoaRestClientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CocoaRestClientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		6B6FEC9FE3F542F99D70235B /* libCocoaRestClientCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCocoaRestClientCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		28ED4B4290F54ED8879A99A2 /* CocoaRestClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CocoaRestClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4D53F80CC6B446D298BA05AF /* libCocoaRestClientCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCocoaRestClientCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		67B1A2F17F334730AA2667E1 /* CocoaRestClientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CocoaRestClientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		A7FF1A25305013870079BCEB /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		A7FF1B0A305014B00079BCEB /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				AppIcon.icns,
 				Assets.xcassets,
 			);
-			target = 13FD045D7F2D4E3B854389A3 /* CocoaRestClient */;
+			target = 84A7EA911A914D92B1794C1A /* CocoaRestClient */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		A7FF19A13050137A0079BCEB /* CocoaRestClient */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); name = CocoaRestClient; path = Sources/CocoaRestClient; sourceTree = "<group>"; };
-		A7FF19F73050137F0079BCEB /* CocoaRestClientCore */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); name = CocoaRestClientCore; path = Sources/CocoaRestClientCore; sourceTree = "<group>"; };
-		A7FF1A22305013860079BCEB /* Resources */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (A7FF1A25305013870079BCEB /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Resources; sourceTree = "<group>"; };
-		A7FF1A3A305013890079BCEB /* CocoaRestClientTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); name = CocoaRestClientTests; path = Tests/CocoaRestClientTests; sourceTree = "<group>"; };
+		A7FF1A85305014A80079BCEB /* CocoaRestClient */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); name = CocoaRestClient; path = Sources/CocoaRestClient; sourceTree = "<group>"; };
+		A7FF1ADB305014AB0079BCEB /* CocoaRestClientCore */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); name = CocoaRestClientCore; path = Sources/CocoaRestClientCore; sourceTree = "<group>"; };
+		A7FF1B07305014AF0079BCEB /* Resources */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (A7FF1B0A305014B00079BCEB /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Resources; sourceTree = "<group>"; };
+		A7FF1B1F305014B70079BCEB /* CocoaRestClientTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); name = CocoaRestClientTests; path = Tests/CocoaRestClientTests; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		28E7DAD15EA9445E8043C33E /* Frameworks */ = {
+		14772CCEB0B445CAB915AB4E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				33C5736D0DCD4D30B0643FC5 /* libCocoaRestClientCore.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		65E95DD0677946B180678A9C /* Frameworks */ = {
+		4D8294CD9AF0487C86582002 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8086A5F141E4DBBA4E04783 /* libCocoaRestClientCore.a in Frameworks */,
+				7173AD4B3D6A4D41A75AF869 /* libCocoaRestClientCore.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		ADAAD53B318C45CCA0DE3856 /* Frameworks */ = {
+		E7D9025B6A4F46839CB2BAEE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00106366C4DA4676A1F5D676 /* libCocoaRestClientCore.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3583DE826F7B4F3EB096F122 = {
+		4033096C71344157AA28AC9D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A7FF19A13050137A0079BCEB /* CocoaRestClient */,
-				A7FF19F73050137F0079BCEB /* CocoaRestClientCore */,
-				A7FF1A22305013860079BCEB /* Resources */,
-				A7FF1A3A305013890079BCEB /* CocoaRestClientTests */,
-				7A68801684824A57BE3782AA /* Products */,
-			);
-			sourceTree = "<group>";
-		};
-		7A68801684824A57BE3782AA /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				1CEF3DE9BDE64B9E8F748FA0 /* CocoaRestClient.app */,
-				6B6FEC9FE3F542F99D70235B /* libCocoaRestClientCore.a */,
-				56CA0FA1CD0E4EB6A7343134 /* CocoaRestClientTests.xctest */,
+				28ED4B4290F54ED8879A99A2 /* CocoaRestClient.app */,
+				4D53F80CC6B446D298BA05AF /* libCocoaRestClientCore.a */,
+				67B1A2F17F334730AA2667E1 /* CocoaRestClientTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		C5FF6A3D7B7640E4BB71C610 = {
+			isa = PBXGroup;
+			children = (
+				A7FF1A85305014A80079BCEB /* CocoaRestClient */,
+				A7FF1ADB305014AB0079BCEB /* CocoaRestClientCore */,
+				A7FF1B07305014AF0079BCEB /* Resources */,
+				A7FF1B1F305014B70079BCEB /* CocoaRestClientTests */,
+				4033096C71344157AA28AC9D /* Products */,
+			);
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		13FD045D7F2D4E3B854389A3 /* CocoaRestClient */ = {
+		1E23674BB5A3459ABA5D0D27 /* CocoaRestClientTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = EB5F6FF46552466FBE474798 /* Build configuration list for PBXNativeTarget "CocoaRestClient" */;
+			buildConfigurationList = 539E7341B8B0467880B70D81 /* Build configuration list for PBXNativeTarget "CocoaRestClientTests" */;
 			buildPhases = (
-				2D332D89772F4485AE2BC207 /* Sources */,
-				65E95DD0677946B180678A9C /* Frameworks */,
-				CD67A6602CA245BE83AFF891 /* Resources */,
+				93ECF37AA40446A9861373E4 /* Sources */,
+				E7D9025B6A4F46839CB2BAEE /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				4B92AE4B34E3409DABB2885B /* PBXTargetDependency */,
+				D7A7B1771C3643BBBCE79FB2 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				A7FF19A13050137A0079BCEB /* CocoaRestClient */,
-			);
-			name = CocoaRestClient;
-			productName = CocoaRestClient;
-			productReference = 1CEF3DE9BDE64B9E8F748FA0 /* CocoaRestClient.app */;
-			productType = "com.apple.product-type.application";
-		};
-		83AB485FB08043C5B4227B33 /* CocoaRestClientCore */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = DE175A6A5F6B4AF69AAD965B /* Build configuration list for PBXNativeTarget "CocoaRestClientCore" */;
-			buildPhases = (
-				B88872CC7B22432AA355F58E /* Sources */,
-				ADAAD53B318C45CCA0DE3856 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				A7FF19F73050137F0079BCEB /* CocoaRestClientCore */,
-			);
-			name = CocoaRestClientCore;
-			productName = CocoaRestClientCore;
-			productReference = 6B6FEC9FE3F542F99D70235B /* libCocoaRestClientCore.a */;
-			productType = "com.apple.product-type.library.static";
-		};
-		8CEBCF18FD2840A28B711642 /* CocoaRestClientTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 9CA3100825984FE7B82EA78A /* Build configuration list for PBXNativeTarget "CocoaRestClientTests" */;
-			buildPhases = (
-				2AA57914438D4F4D8F9B1327 /* Sources */,
-				28E7DAD15EA9445E8043C33E /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				9D43DBF6A7644325AE3A5141 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				A7FF1A3A305013890079BCEB /* CocoaRestClientTests */,
+				A7FF1B1F305014B70079BCEB /* CocoaRestClientTests */,
 			);
 			name = CocoaRestClientTests;
 			productName = CocoaRestClientTests;
-			productReference = 56CA0FA1CD0E4EB6A7343134 /* CocoaRestClientTests.xctest */;
+			productReference = 67B1A2F17F334730AA2667E1 /* CocoaRestClientTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		84A7EA911A914D92B1794C1A /* CocoaRestClient */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6B704128DEDF4B44B550BE79 /* Build configuration list for PBXNativeTarget "CocoaRestClient" */;
+			buildPhases = (
+				2CD6FF65217E4286A89B42DF /* Sources */,
+				4D8294CD9AF0487C86582002 /* Frameworks */,
+				4785866BF49D498BB01D0FDF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C6B81ACA6C8E492182B7087A /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				A7FF1A85305014A80079BCEB /* CocoaRestClient */,
+			);
+			name = CocoaRestClient;
+			productName = CocoaRestClient;
+			productReference = 28ED4B4290F54ED8879A99A2 /* CocoaRestClient.app */;
+			productType = "com.apple.product-type.application";
+		};
+		BA4B0A67A240423AA10B3A5A /* CocoaRestClientCore */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 746B03FD95C642A7A341BED5 /* Build configuration list for PBXNativeTarget "CocoaRestClientCore" */;
+			buildPhases = (
+				5288F4981A6247EF99373B85 /* Sources */,
+				14772CCEB0B445CAB915AB4E /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				A7FF1ADB305014AB0079BCEB /* CocoaRestClientCore */,
+			);
+			name = CocoaRestClientCore;
+			productName = CocoaRestClientCore;
+			productReference = 4D53F80CC6B446D298BA05AF /* libCocoaRestClientCore.a */;
+			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		815A185D0FF84E6ABAD23008 /* Project object */ = {
+		16C4EE5BA1B841BFBC274C6C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1500;
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
-					13FD045D7F2D4E3B854389A3 = {
+					1E23674BB5A3459ABA5D0D27 = {
 						CreatedOnToolsVersion = 15.0;
 					};
-					83AB485FB08043C5B4227B33 = {
+					84A7EA911A914D92B1794C1A = {
 						CreatedOnToolsVersion = 15.0;
 					};
-					8CEBCF18FD2840A28B711642 = {
+					BA4B0A67A240423AA10B3A5A = {
 						CreatedOnToolsVersion = 15.0;
 					};
 				};
 			};
-			buildConfigurationList = CA8384C6A0064E8ABEB3FEBE /* Build configuration list for PBXProject "CocoaRestClient" */;
+			buildConfigurationList = 7F10851D8D7F43C29594D1E7 /* Build configuration list for PBXProject "CocoaRestClient" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -192,20 +192,20 @@
 				en,
 				Base,
 			);
-			mainGroup = 3583DE826F7B4F3EB096F122;
-			productRefGroup = 7A68801684824A57BE3782AA /* Products */;
+			mainGroup = C5FF6A3D7B7640E4BB71C610;
+			productRefGroup = 4033096C71344157AA28AC9D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				83AB485FB08043C5B4227B33 /* CocoaRestClientCore */,
-				13FD045D7F2D4E3B854389A3 /* CocoaRestClient */,
-				8CEBCF18FD2840A28B711642 /* CocoaRestClientTests */,
+				BA4B0A67A240423AA10B3A5A /* CocoaRestClientCore */,
+				84A7EA911A914D92B1794C1A /* CocoaRestClient */,
+				1E23674BB5A3459ABA5D0D27 /* CocoaRestClientTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		CD67A6602CA245BE83AFF891 /* Resources */ = {
+		4785866BF49D498BB01D0FDF /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -215,21 +215,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		2AA57914438D4F4D8F9B1327 /* Sources */ = {
+		2CD6FF65217E4286A89B42DF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		2D332D89772F4485AE2BC207 /* Sources */ = {
+		5288F4981A6247EF99373B85 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B88872CC7B22432AA355F58E /* Sources */ = {
+		93ECF37AA40446A9861373E4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -239,134 +239,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		4B92AE4B34E3409DABB2885B /* PBXTargetDependency */ = {
+		C6B81ACA6C8E492182B7087A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 83AB485FB08043C5B4227B33 /* CocoaRestClientCore */;
-			targetProxy = D1C2106111B54FD2B666ABFF /* PBXContainerItemProxy */;
+			target = BA4B0A67A240423AA10B3A5A /* CocoaRestClientCore */;
+			targetProxy = 87AB8A4E4ED84FF6A1BBD521 /* PBXContainerItemProxy */;
 		};
-		9D43DBF6A7644325AE3A5141 /* PBXTargetDependency */ = {
+		D7A7B1771C3643BBBCE79FB2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 83AB485FB08043C5B4227B33 /* CocoaRestClientCore */;
-			targetProxy = 70096FB9CF6B4E0AA4B4CEBA /* PBXContainerItemProxy */;
+			target = BA4B0A67A240423AA10B3A5A /* CocoaRestClientCore */;
+			targetProxy = 3EF392ABDB6249A0B8CDFCC1 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		2E1BD86EB71E4B6FBABCC00B /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				DEFINES_MODULE = YES;
-				EXECUTABLE_PREFIX = lib;
-				MACH_O_TYPE = staticlib;
-				PRODUCT_BUNDLE_IDENTIFIER = org.restlesscode.CocoaRestClientCore;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		3D9B881217154545AAEB8CEC /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				ENABLE_HARDENED_RUNTIME = NO;
-				GENERATE_INFOPLIST_FILE = YES;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				MACH_O_TYPE = mh_bundle;
-				OTHER_CODE_SIGN_FLAGS = "--deep";
-				PRODUCT_BUNDLE_IDENTIFIER = org.restlesscode.CocoaRestClientTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Release;
-		};
-		3DDAD8E0EBEC4B8A9ACCC704 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_OPTIMIZATION_LEVEL = s;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Vendor/libgit2.xcframework/macos-arm64_x86_64/Headers",
-				);
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Vendor/libgit2.xcframework/macos-arm64_x86_64",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MTL_FAST_MATH = YES;
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-lgit2",
-					"-liconv",
-					"-framework",
-					Security,
-					"-framework",
-					CoreFoundation,
-				);
-				SDKROOT = macosx;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_INCLUDE_PATHS = "$(inherited) $(PROJECT_DIR)/Vendor/libgit2.xcframework/macos-arm64_x86_64/Headers";
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
-		4A9034E735E24416976A8B10 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				ENABLE_HARDENED_RUNTIME = YES;
-				INFOPLIST_FILE = Resources/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.restlesscode.CocoaRestClient;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		84CD15D9E816473FA556DB67 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				ENABLE_HARDENED_RUNTIME = YES;
-				INFOPLIST_FILE = Resources/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.restlesscode.CocoaRestClient;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
-		B94AB239E51B4697BF4299E9 /* Debug */ = {
+		09A3BB9E59774B29BBE01435 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -413,21 +299,7 @@
 			};
 			name = Debug;
 		};
-		DBEB500352304EE78C82412B /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				DEFINES_MODULE = YES;
-				EXECUTABLE_PREFIX = lib;
-				MACH_O_TYPE = staticlib;
-				PRODUCT_BUNDLE_IDENTIFIER = org.restlesscode.CocoaRestClientCore;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
-		E04BE4DA6C8847B3B350D639 /* Debug */ = {
+		0C8ED430205B409CB51985DF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "-";
@@ -449,46 +321,176 @@
 			};
 			name = Debug;
 		};
+		670C515DB4984A9CBFF408E8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_OPTIMIZATION_LEVEL = s;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Vendor/libgit2.xcframework/macos-arm64_x86_64/Headers",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Vendor/libgit2.xcframework/macos-arm64_x86_64",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-lgit2",
+					"-liconv",
+					"-framework",
+					Security,
+					"-framework",
+					CoreFoundation,
+				);
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_INCLUDE_PATHS = "$(inherited) $(PROJECT_DIR)/Vendor/libgit2.xcframework/macos-arm64_x86_64/Headers";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		6F933A82368A40CF9875C6E5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				EXECUTABLE_PREFIX = lib;
+				MACH_O_TYPE = staticlib;
+				PRODUCT_BUNDLE_IDENTIFIER = org.restlesscode.CocoaRestClientCore;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		90D1B79DEADF42A39AB1BFA4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				EXECUTABLE_PREFIX = lib;
+				MACH_O_TYPE = staticlib;
+				PRODUCT_BUNDLE_IDENTIFIER = org.restlesscode.CocoaRestClientCore;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		9BBB262120394171A2A758ED /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACH_O_TYPE = mh_bundle;
+				OTHER_CODE_SIGN_FLAGS = "--deep";
+				PRODUCT_BUNDLE_IDENTIFIER = org.restlesscode.CocoaRestClientTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+		E2BAA306CEFF4A51B0BC630C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Resources/CocoaRestClient.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.restlesscode.CocoaRestClient;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		EA07992218FB43809C00AFBE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Resources/CocoaRestClient.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.restlesscode.CocoaRestClient;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		9CA3100825984FE7B82EA78A /* Build configuration list for PBXNativeTarget "CocoaRestClientTests" */ = {
+		539E7341B8B0467880B70D81 /* Build configuration list for PBXNativeTarget "CocoaRestClientTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				E04BE4DA6C8847B3B350D639 /* Debug */,
-				3D9B881217154545AAEB8CEC /* Release */,
+				0C8ED430205B409CB51985DF /* Debug */,
+				9BBB262120394171A2A758ED /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CA8384C6A0064E8ABEB3FEBE /* Build configuration list for PBXProject "CocoaRestClient" */ = {
+		6B704128DEDF4B44B550BE79 /* Build configuration list for PBXNativeTarget "CocoaRestClient" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				B94AB239E51B4697BF4299E9 /* Debug */,
-				3DDAD8E0EBEC4B8A9ACCC704 /* Release */,
+				EA07992218FB43809C00AFBE /* Debug */,
+				E2BAA306CEFF4A51B0BC630C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DE175A6A5F6B4AF69AAD965B /* Build configuration list for PBXNativeTarget "CocoaRestClientCore" */ = {
+		746B03FD95C642A7A341BED5 /* Build configuration list for PBXNativeTarget "CocoaRestClientCore" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2E1BD86EB71E4B6FBABCC00B /* Debug */,
-				DBEB500352304EE78C82412B /* Release */,
+				90D1B79DEADF42A39AB1BFA4 /* Debug */,
+				6F933A82368A40CF9875C6E5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		EB5F6FF46552466FBE474798 /* Build configuration list for PBXNativeTarget "CocoaRestClient" */ = {
+		7F10851D8D7F43C29594D1E7 /* Build configuration list for PBXProject "CocoaRestClient" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				4A9034E735E24416976A8B10 /* Debug */,
-				84CD15D9E816473FA556DB67 /* Release */,
+				09A3BB9E59774B29BBE01435 /* Debug */,
+				670C515DB4984A9CBFF408E8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 815A185D0FF84E6ABAD23008 /* Project object */;
+	rootObject = 16C4EE5BA1B841BFBC274C6C /* Project object */;
 }

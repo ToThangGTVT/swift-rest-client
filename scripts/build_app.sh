@@ -28,6 +28,8 @@ if [ -f "Resources/Info.plist" ]; then
         "$APP_DIR/Contents/Info.plist"
 fi
 
+ENTITLEMENTS="Resources/CocoaRestClient.entitlements"
+
 # Sign with the Hardened Runtime enabled. Notarization rejects any bundle
 # without it, so --options runtime is applied even for ad-hoc local builds.
 if [ -z "$SIGN_IDENTITY" ]; then
@@ -40,12 +42,15 @@ fi
 if [ -n "$SIGN_IDENTITY" ]; then
     echo "==> Signing with: $SIGN_IDENTITY"
     codesign --force --options runtime --timestamp \
+        --entitlements "$ENTITLEMENTS" \
         --sign "$SIGN_IDENTITY" "$APP_DIR"
 else
     echo "==> WARNING: no 'Developer ID Application' identity found."
     echo "    Signing ad-hoc — the bundle runs locally but CANNOT be notarized."
     echo "    Set SIGN_IDENTITY=\"Developer ID Application: ...\" to sign for distribution."
-    codesign --force --options runtime --sign - "$APP_DIR"
+    codesign --force --options runtime \
+        --entitlements "$ENTITLEMENTS" \
+        --sign - "$APP_DIR"
 fi
 
 codesign --display --verbose=2 "$APP_DIR" 2>&1 | grep -E "Identifier|flags|Authority" || true

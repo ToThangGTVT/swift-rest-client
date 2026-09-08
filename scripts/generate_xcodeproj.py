@@ -15,6 +15,8 @@ def get_file_type(path):
         return "image.icns"
     elif ext == ".plist":
         return "text.plist.xml"
+    elif ext == ".entitlements":
+        return "text.plist.entitlements"
     return "text"
 
 def main():
@@ -543,6 +545,7 @@ def main():
 			isa = XCBuildConfiguration;
 			buildSettings = {{
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Resources/CocoaRestClient.entitlements";
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -562,6 +565,7 @@ def main():
 			isa = XCBuildConfiguration;
 			buildSettings = {{
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Resources/CocoaRestClient.entitlements";
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
